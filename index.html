@@ -1,620 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>RETEC SP | Caçambas e Gestão de Resíduos</title>
-		<meta name="description" content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
-		<link rel="canonical" href="https://retecsp.com.br/">
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="style.css">
-		<link rel="preload" as="image" href="img/hero.webp">
-		<link rel="preconnect" href="https://kit.fontawesome.com">
-		<link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
-		<script defer src="https://kit.fontawesome.com/ca3c4a97cf.js" crossorigin="anonymous"></script>
-		<!-- JSON-LD FAQ e LocalBusiness -->
-		<script type="application/ld+json">
-		{
-			"@context":"https://schema.org",
-			"@graph":[
-				{
-					"@type":"LocalBusiness",
-					"@id":"https://retecsp.com.br/#business",
-					"url":"https://retecsp.com.br",
-					"name":"RETEC SP",
-					"telephone":"+551137122416",
-					"address":{
-						"@type":"PostalAddress",
-						"streetAddress":"Av. das Nações Unidas, 99",
-						"postalCode":"06233-200",
-						"addressLocality":"Osasco",
-						"addressRegion":"SP",
-						"addressCountry":"BR"
-					},
-					"areaServed":[
-						{"@type":"City","name":"São Paulo"},
-						{"@type":"City","name":"Osasco"},
-						{"@type":"City","name":"Barueri"},
-						{"@type":"City","name":"Santana de Parnaíba"}
-					]
-				},
-				{
-					"@type":"FAQPage",
-					"@id":"https://retecsp.com.br/#faq",
-					"mainEntity":[
-						{
-							"@type":"Question",
-							"name":"O descarte é legalizado?",
-							"acceptedAnswer":{"@type":"Answer","text":"Sim. A RETEC SP realiza a coleta e destinação ambiental correta dos resíduos de construção seguindo as normas ambientais."}
-						},
-						{
-							"@type":"Question",
-							"name":"O descarte irregular de entulho pode gerar multa?",
-							"acceptedAnswer":{"@type":"Answer","text":"Sim. O descarte irregular de resíduos pode gerar multas e penalidades conforme legislação municipal e ambiental."}
-						},
-						{
-							"@type":"Question",
-							"name":"A RETEC SP emite nota fiscal e documentação ambiental?",
-							"acceptedAnswer":{"@type":"Answer","text":"Sim. A RETEC SP emite nota fiscal e realiza a destinação ambiental adequada dos resíduos conforme exigido pelos órgãos ambientais."}
-						},
-						{
-							"@type":"Question",
-							"name":"Posso levar multa por causa da caçamba ou do entulho?",
-							"acceptedAnswer":{"@type":"Answer","text":"Multas podem ocorrer quando o descarte de entulho é feito de forma irregular ou quando as regras municipais não são respeitadas."}
-						},
-						{
-							"@type":"Question",
-							"name":"O preço da caçamba muda depois que ela é retirada?",
-							"acceptedAnswer":{"@type":"Answer","text":"Não. O valor da locação é informado previamente no orçamento. Alterações podem ocorrer apenas em casos específicos como excesso de peso ou mistura de resíduos proibidos."}
-						},
-						{
-							"@type":"Question",
-							"name":"Quais as formas de pagamento?",
-							"acceptedAnswer":{"@type":"Answer","text":"Aceitamos diversas formas de pagamento como Pix, boleto bancário e cartões de crédito."}
-						}
-					]
-				}
-			]
-		}
-		</script>
-	</head>
-	<body>
-	<!-- HEADER -->
-	<header>
-     <div class="container header-container">
-		<a href="#home" class="logo">RETEC SP</a>
-			<div class="menu-toggle" id="mobile-menu">
-			<span></span><span></span><span></span>
-			</div>
-		<nav id="nav-menu">
-			<ul>
-				<li><a href="#home">Home</a></li>
-				<li><a href="#sobre">Quem Somos</a></li>
-				<li><a href="#areas">Áreas</a></li>
-				<li><a href="#logistica">Logística</a></li>
-				<li><a href="#guia">Guia</a></li>
-				<li><a href="/como-calcular-entulho-obra.html">Calculadora</a></li>
-				<li><a href="#form-wrapper" class="btn-nav">Orçamento</a></li>
-			</ul>
-		</nav>
-	 </div>	
-	</header>
-	<!-- HERO -->
-	<section class="hero" id="home">
-    <div class="container hero-container">
-        <div class="hero-content">
-            <div class="hero-badge">Mais de 20 anos de experiência</div>
-            <h1>Aluguel de Caçambas em São Paulo, Osasco e Barueri</h1>
-            <p class="hero-sub">Atendimento rápido para obras, reformas e empresas com destinação ambiental correta.</p>
-            <a href="https://wa.me/551137122416" class="btn-hero">Solicitar Caçamba <span>pelo WhatsApp</span></a>
-            
-            <div class="hero-trust">
-                <span>✔ Descarte 100% legalizado</span>
-                <span>✔ Atendimento rápido</span> 
-                <div class="hero-rating">
-                    <span>✔ Mais de 3 mil avaliações</span>
-                    <div class="rating-stars">
-                        <span class="rating-number">Nota 4.8</span>
-                        <span class="stars">★★★★★</span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETEC SP | Caçambas e Gestão de Resíduos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {--p-blue:#1e2b44;--a-cyan:#00adef;--a-green:#2ecc71;--white:#fff;}
+        * {margin:0;padding:0;box-sizing:border-box;}
+        
+        /* Ajuste para Ocupar Tela Única */
+        body {
+            font-family:'Inter',sans-serif;
+            color:var(--white);
+            height: 100vh; /* Altura exata da tela */
+            display:flex;
+            flex-direction:column;
+            background:linear-gradient(rgba(30,43,68,0.85),rgba(30,43,68,0.85)),url('img/hero.webp') center/cover no-repeat;
+            overflow: hidden; /* Remove rolagem */
+        }
+
+        header {padding: 2vh 0; text-align:center; flex-shrink: 0;}
+        .logo img {height:clamp(40px, 5vh, 55px); filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));}
+
+        main {flex:1; display:flex; align-items:center; padding: 0;}
+        .container {max-width:1200px; margin:0 auto; padding:0 5%; width:100%;}
+        .content-grid {display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items: center;}
+
+        /* Text Side */
+        .text-side h1 {font-size:clamp(1.8rem, 3.8vw, 2.8rem); font-weight:800; line-height:1.1; margin-bottom:15px;}
+        .h-cyan {color:var(--a-cyan);}
+        .text-side p {font-size:clamp(0.9rem, 1.2vw, 1.1rem); opacity:0.9; line-height:1.4; margin-bottom:3vh;}
+
+        .left-info-stack {display:flex; flex-direction:column; gap:15px;}
+        
+        /* Banner Engenheiro Refinado */
+        .eng-banner-left {
+            display: flex; align-items: center; gap: 15px;
+            background: rgba(0,173,239,0.1);
+            border: 1px solid rgba(0,173,239,0.3);
+            border-radius: 12px; padding: 15px; max-width: 450px;
+        }
+        .eng-banner-left svg {width: 32px; height: 32px; fill: var(--white); flex-shrink: 0;}
+        .eng-banner-text {font-size: 0.85rem; line-height: 1.3; }
+        .eng-banner-text .highlight {color: var(--a-cyan); font-weight: 800; display: block;}
+
+        /* Hero Trust Box Harmonizado */
+        .hero-trust-box {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            padding: 15px; background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(5px); border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1); max-width: 450px;
+        }
+        .trust-item {display:flex; align-items:center; gap:8px; font-size:0.85rem; font-weight: 500;}
+        .trust-full {grid-column: span 2; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;}
+        .rating-badge {background:var(--a-cyan); padding:2px 6px; border-radius:4px; font-weight:700; font-size:0.75rem;}
+        .stars-gold {color:#ffcc00; font-size: 0.8rem;}
+
+        /* Formulário */
+        .glass-box {background:rgba(255,255,255,0.08); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.15); border-radius:24px; padding:clamp(20px, 4vh, 35px); box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+        .field-group {margin-bottom:15px;}
+        .field-group label {display:block; font-size:0.65rem; font-weight:800; text-transform:uppercase; margin-bottom:5px; color:var(--a-cyan);}
+        .field-group input, .field-group select {width:100%; padding:12px; border-radius:10px; border:none; background:#fff; color:var(--p-blue); font-weight:600; outline:none;}
+        .btn-whatsapp {width:100%; background:var(--a-green); color:white; border:none; padding:15px; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:0.3s;}
+        .btn-whatsapp:hover {transform:translateY(-2px); filter:brightness(1.1);}
+        .security-note {font-size:0.65rem; opacity:0.6; margin-top:12px; text-align:center;}
+        
+        footer {padding: 1.5vh 0; text-align:center; font-size:0.75rem; opacity:0.5; background:rgba(0,0,0,0.2); flex-shrink: 0;}
+        
+        @media (max-width:992px) {
+            body {height: auto; overflow: auto;}
+            .content-grid {grid-template-columns:1fr; text-align:center; padding-bottom: 40px;}
+            .left-info-stack, .hero-trust-box, .eng-banner-left {margin: 0 auto;}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container"><div class="logo"><img src="img/Retecsp-Logo-branco.webp" alt="Retec SP"></div></div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="content-grid">
+            <div class="text-side">
+                <h1>Novo site em construção, mas as <span class="h-cyan">locações seguem 24h!</span></h1>
+                <p>Atendimento rápido para obras, reformas e empresas.</p>
+                
+                <div class="left-info-stack">
+                    <div class="eng-banner-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg>
+                        <div class="eng-banner-text">
+                            <span class="highlight">CONDIÇÕES EXCLUSIVAS PARA ENGENHEIROS</span>
+                            Nossa equipe está pronta para negociar o melhor valor para sua obra!
+                        </div>
+                    </div>
+
+                    <div class="hero-trust-box">
+                        <div class="trust-item">✔ Aterro Próprio</div>
+                        <div class="trust-item">✔ Preço e Agilidade</div>
+                        <div class="trust-item">✔ Atendimento Imediato</div>
+                        <div class="trust-item">✔ Destinação 100% Legal</div>
+                        <div class="trust-full">
+                            <span>Mais de 3 mil avaliações</span>
+                            <div><span class="rating-badge">4.8</span> <span class="stars-gold">★★★★★</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="form-side">
+                <div class="glass-box">
+                    <h3 style="text-align:center;margin-bottom:20px; font-weight: 700;">Solicitar Orçamento</h3>
+                    <div class="field-group">
+                        <label>Tamanho da Caçamba</label>
+                        <select id="tipoCacamba">
+                            <option value="4m3 (Padrao)">Caçamba 4m³ (Padrão)</option>
+                            <option value="26m3 (Industrial)">Caçamba 26m³ (Industrial)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Bairro da Entrega</label>
+                        <input type="text" id="bairroInput" placeholder="Ex: Itaim Bibi...">
+                    </div>
+                    <button class="btn-whatsapp" onclick="enviarWhatsApp()">PEDIR PELO WHATSAPP</button>
+                    <div class="security-note">
+                        🔒 Canal Oficial: (11) 3712-2416<br>
+                        Pagamentos apenas após agendamento.
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="hero-calc-box">
-            <div class="glass-calc">
-                <h4><i class="fas fa-calculator"></i> Calculadora de Entulho</h4>
-                <p class="calc-hint">Simule a quantidade para sua obra</p>
-                
-                <div class="calc-fields">
-                    <div class="field-group">
-                        <label>Área da Obra (m²)</label>
-                        <input type="number" id="hero-area" placeholder="Ex: 50">
-                    </div>
-                    <div class="field-group">
-                        <label>Tipo de Reforma</label>
-                        <select id="hero-tipo">
-                            <option value="leve">Leve (Pisos/Azulejos)</option>
-                            <option value="media">Média (Paredes)</option>
-                            <option value="pesada">Demolição Pesada</option>
-                        </select>
-                    </div>
-                </div>
-				
-              <button id="hero-btn" class="btn-enviar" type="button"><i class="fas fa-calculator"></i> Calcular</button>
-			  <button id="hero-reset" class="btn-reset hidden" type="button" ><i class="fas fa-undo"></i> Nova simulação</button>
-                <div id="hero-res-box" class="res-glass" style="display:none;">
-                    <div class="res-content">
-					<div class="res-main">
-					<span id="hero-vol">0</span> m³
-					</div>
-					<span class="res-label">Volume estimado de entulho</span>
-					<div id="hero-qtd" class="res-recomendacao"></div>
-					<span class="res-label">
-					Resultado estimado automaticamente com base nos dados informados. Envie sua simulação para que a equipe RETEC SP confirme a melhor caçamba para sua obra.
-					</span>
-					<div class="calc-trust">
-					<i class="fas fa-check-circle"></i>
-					Resposta rápida • Atendimento sem compromisso
-					</div>
-					<div class="calc-action">
-					<a id="hero-whatsapp" class="btn-whats" target="_blank">
-						<i class="fab fa-whatsapp"></i> Agilizar meu atendimento
-					</a>
-					</div>
-                </div>
-			</div>
-		    <a href="/como-calcular-entulho-obra.html" class="btn-calc-info">
-			<i class="fas fa-info-circle"></i>
-			Como calcular a quantidade de entulho
-			</a>
-        </div>
-		
-    </div> 
-</section>
-	<!-- COMO FUNCIONA -->
-	<section class="how-it-works" id="como-funciona">
-	 <div class="container">
-		<h2>Como Funciona a Locação de Caçambas</h2>
-		<p class="how-subtitle">O processo é rápido, seguro e 100% legalizado. Atendemos São Paulo, Osasco, Barueri e Santana de Parnaíba.</p>
-		<div class="steps-container">
-			<div class="step-card"><div class="step-number">1</div><h3>Solicite um Orçamento</h3><p>Informe região, tipo de resíduo e prazo. Resposta rápida da equipe.</p></div>
-			<div class="step-card"><div class="step-number">2</div><h3>Entrega da Caçamba</h3><p>Entrega no local combinado com pontualidade e frota própria.</p></div>
-			<div class="step-card"><div class="step-number">3</div><h3>Uso Durante a Obra</h3><p>Caçamba disponível conforme prazo, descartando resíduos com segurança.</p></div>
-			<div class="step-card"><div class="step-number">4</div><h3>Retirada e Destinação</h3><p>Resíduos encaminhados para triagem licenciada com destinação ambiental correta.</p></div>
-		</div>
-	 </div>
-	</section>
-	
-	<!-- FEATURES -->
-	<section class="features" id="diferenciais">
-  <div class="container">
-
-    <h2 class="section-title">Por que escolher a RETECSP?</h2>
-    <p class="section-subtitle">
-      Atendimento rápido, logística eficiente e destinação ambiental correta dos resíduos.
-    </p>
-
-    <div class="features-grid">
-
-      <div class="feature-card">
-        <i class="fas fa-truck"></i>
-        <h3>Entrega Rápida</h3>
-        <p>Frota própria garantindo agilidade na entrega e retirada das caçambas.</p>
-      </div>
-
-      <div class="feature-card">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Empresa Regularizada</h3>
-        <p>Atendimento dentro das normas ambientais e transporte licenciado.</p>
-      </div>
-
-      <div class="feature-card">
-        <i class="fas fa-map-marked-alt"></i>
-        <h3>Atendimento Regional</h3>
-        <p>Atendemos São Paulo, Osasco, Barueri e Santana de Parnaíba.</p>
-      </div>
-
-      <div class="feature-card">
-        <i class="fas fa-recycle"></i>
-        <h3>Destinação Correta</h3>
-        <p>Resíduos encaminhados para triagem e descarte ambiental adequado.</p>
-      </div>
-
     </div>
-  </div>
-</section>
-	<!-- SOBRE -->
-	<section class="about" id="sobre">
-		<div class="container">
-			<h2 class="section-title">Sobre a RETECSP</h2>
-			<p>Especialistas em locação de caçambas e gestão de resíduos sólidos. Destinação 100% legalizada e atendimento personalizado.</p>
-			<div class="about-grid">
-				<div class="about-item">Segurança</div>
-				<div class="about-item">Agilidade</div>
-				<div class="about-item">Legalidade</div>
-				<div class="about-item">Sustentabilidade</div>
-			</div>
-		</div>
-	</section>
-	<!-- AREAS -->
-	<section class="areas-section" id="areas">
-	  <div class="container">
-		<h2 class="section-title">Áreas de Atendimento</h2>
-		<div class="areas-container">
-		  
-		  <!-- Coluna de cidades -->
-		  <div class="city-grid">
-			<a href="aluguel-cacamba-osasco.html" class="city-card">
-			  <div>
-				<h4 class="city-name">Osasco</h4>
-				<span class="city-subtitle">Sede Próxima - Melhores condições <i class="fas fa-arrow-right"></i></span>
-			  </div>
-			</a>
-			<a href="aluguel-cacamba-alphaville.html" class="city-card">
-			  <div>
-				<h4 class="city-name">Barueri / Alphaville</h4>
-				<span class="city-subtitle">Logística para condomínios <i class="fas fa-arrow-right"></i></span>
-			  </div>
-			</a>
-			<a href="aluguel-cacamba-santana-de-parnaiba.html" class="city-card">
-			  <div>
-				<h4 class="city-name">Santana de Parnaíba</h4>
-				<span class="city-subtitle">Atendimento rápido e eficiente <i class="fas fa-arrow-right"></i></span>
-			  </div>
-			</a>
-			<a href="aluguel-cacamba-sao-paulo.html" class="city-card">
-			  <div>
-				<h4 class="city-name">São Paulo</h4>
-				<span class="city-subtitle">Zonas Oeste, Sul e Centro <i class="fas fa-arrow-right"></i></span>
-			  </div>
-			</a>
-		  </div>
-
-		  <!-- Coluna do mapa -->
-		  <div class="map-wrapper">
-			<a href="https://www.google.com/maps/search/?api=1&query=RETEC+SP+Osasco+Av+das+Nacoes+Unidas+99" target="_blank" rel="noopener" class="map-link">
-			  <img src="img/retecsp-no-google-maps.webp" alt="Mapa de atendimento RETEC SP em São Paulo e Osasco" loading="lazy">
-			  <div class="map-button-overlay">
-				<i class="fas fa-map-marker-alt"></i> Abrir Mapa Interativo
-			  </div>
-			</a>
-		  </div>
-
-		</div>
-	  </div>
-	</section>
-	<!-- LOGÍSTICA -->
-	<section class="logistics" id="logistica">
-	 <div class="container">
-		<h2 class="section-title">Logística e Destinação</h2>
-		<div class="logistics-grid">
-			<div class="logistic-card">
-				<div class="region">São Paulo</div>
-				<div class="logistic-info"><span class="logistic-label">Prazo</span><span class="logistic-value">24-48h</span></div>
-				<div class="logistic-info"><span class="logistic-label">Tipo</span><span class="logistic-value">Resíduos de obra</span></div>
-			</div>
-			<div class="logistic-card">
-				<div class="region">Osasco</div>
-				<div class="logistic-info"><span class="logistic-label">Prazo</span><span class="logistic-value">24h</span></div>
-				<div class="logistic-info"><span class="logistic-label">Tipo</span><span class="logistic-value">Resíduos gerais</span></div>
-			</div>
-			<div class="logistic-card">
-				<div class="region">Barueri/Alphaville</div>
-				<div class="logistic-info"><span class="logistic-label">Prazo</span><span class="logistic-value">24-48h</span></div>
-				<div class="logistic-info"><span class="logistic-label">Tipo</span><span class="logistic-value">Resíduos recicláveis</span></div>
-			</div>
-		</div>
-	 </div>	
-	</section>
-	<!-- GUIA DESCARTE -->
-	<section class="guide-section" id="guia">
-	  <div class="container">
-		<div class="guide-header">
-			<h2 class="section-title">O que pode e o que não pode colocar na caçamba</h2>
-			<p class="guide-sub">
-			Separar corretamente os resíduos evita multas e garante destinação ambiental adequada.
-			</p>
-			</div>
-			<div class="guide">
-			<div class="guide-box ok">
-				<h4><i class="fas fa-check-circle"></i> Permitidos</h4>
-				<p>Alvenaria, madeira, ferro e terra.</p>
-			</div>
-			<div class="guide-box warn">
-				<h4><i class="fas fa-exclamation-triangle"></i> Sob Consulta</h4>
-				<p>Gesso, Drywall e Poda.</p>
-			</div>
-			<div class="guide-box no">
-				<h4><i class="fas fa-times-circle"></i> Proibidos</h4>
-				<p>Lixo doméstico, químicos e pneus.</p>
-			</div>
-		</div>
-	   </div>
-	</section>
-	<section class="faq-section">
-		<div class="container">
-			<div class="faq-form-grid">
-			    <!-- FAQ -->
-	            <section class="faq">
-					<h2>Perguntas Frequentes</h2>
-					<div class="faq-item">
-					<button class="faq-btn" aria-expanded="false">O descarte é legalizado?<i class="fas fa-chevron-down"></i></button>
-					<div class="faq-answer"><p>Sim. A RETEC SP realiza a coleta e destinação ambiental correta dos resíduos de construção seguindo as normas ambientais.</p></div>
-					</div>
-					<div class="faq-item">
-						<button class="faq-btn" aria-expanded="false">O descarte irregular de entulho pode gerar multa?<i class="fas fa-chevron-down"></i></button>
-						<div class="faq-answer"><p>Sim. O descarte irregular de resíduos pode gerar multas e penalidades conforme legislação municipal e ambiental.</p></div>
-					</div>
-					<div class="faq-item">
-						<button class="faq-btn" aria-expanded="false">A RETEC SP emite nota fiscal e documentação ambiental?<i class="fas fa-chevron-down"></i></button>
-						<div class="faq-answer"><p>Sim. A RETEC SP emite nota fiscal e realiza a destinação ambiental adequada dos resíduos conforme exigido pelos órgãos ambientais.</p></div>
-					</div>
-					<div class="faq-item">
-						<button class="faq-btn" aria-expanded="false">Posso levar multa por causa da caçamba ou do entulho?<i class="fas fa-chevron-down"></i></button>
-						<div class="faq-answer"><p>Multas podem ocorrer quando o descarte de entulho é feito de forma irregular ou quando as regras municipais não são respeitadas.</p></div>
-					</div>
-					<div class="faq-item">
-						<button class="faq-btn" aria-expanded="false">O preço da caçamba muda depois que ela é retirada?<i class="fas fa-chevron-down"></i></button>
-						<div class="faq-answer"><p>Não. O valor da locação é informado previamente no orçamento. Alterações podem ocorrer apenas em casos específicos como excesso de peso ou mistura de resíduos proibidos.</p></div>
-					</div>
-					<div class="faq-item">
-						<button class="faq-btn" aria-expanded="false">Quais as formas de pagamento?<i class="fas fa-chevron-down"></i></button>
-						<div class="faq-answer"><p>Aceitamos diversas formas de pagamento como Pix, boleto bancário e cartões de crédito.</p></div>
-					</div>
-				</section>
-				 <!-- Form -->
-	            <section class="form-wrapper">
-					<h2>Como podemos ajudar?</h2>
-					<form class="form-container" id="form-orcamento-form">
-					<select id="regiao" required>
-						<option value="">Selecione o setor</option>
-						<option>Financeiro</option>
-						<option>Comercial</option>
-						<option>Residencial</option>
-					</select>
-					<input type="text" placeholder="Nome completo" required>
-					<input type="email" placeholder="E-mail" required>
-					<input type="tel" placeholder="Telefone/WhatsApp" required>
-					<textarea placeholder="Detalhes da solicitação" rows="5" required></textarea>
-					<div class="lgpd-consent">
-						<input type="checkbox" id="consentimento" name="consentimento" required style="width: auto; margin-top: 3px;">
-						<label for="consentimento">
-							Estou de acordo em fornecer meus dados para que a RETEC SP entre em contato para fins de orçamento, conforme a <a href="politica-de-privacidade.html" target="_blank" style="text-decoration: underline; color: var(--primary-blue);">Política de Privacidade</a>.
-						</label>
-					</div>
-					<button type="submit" class="btn-enviar">Enviar</button>
-					</form>
-				</section>
-			</div>
-		</div>		
-	</section>
-    <a href="https://wa.me/551137122416" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-	<!-- RODAPÉ -->
-	<footer>
-	 <div class="container">
-		<div class="footer-grid">
-			<div>
-				<h4 style="color:white">RETEC SP</h4>
-				<p>Referência em gestão sustentável na Grande São Paulo. Atendimento humanizado e focado em resultados.</p>
-				<p style="margin-top:10px;"><i class="fas fa-check"></i> Licença CETESB | Aterro Próprio</p>
-			</div>
-			<div class="footer-contact">
-				<h4>Fale Conosco</h4>
-				<p><i class="fab fa-whatsapp"></i> (11) 3712-2416</p>
-				<p><i class="far fa-envelope"></i> contato@retecsp.com.br</p>
-				<p><i class="fas fa-map-marker-alt"></i> Av. das Nações Unidas, 99 - Osasco/SP</p>
-			</div>
-			<div>
-				<h4>Social</h4>
-				<a href="#" style="color:white; text-decoration:none; margin-right:15px;">Instagram</a>
-				<a href="#" style="color:white; text-decoration:none;">LinkedIn</a>
-			</div>
-		</div>
-		<div class="footer-bottom">
-			<p>© <span id="year"></span> RETEC - Todos os direitos reservados. Destinação 100% Legalizada.</p>
-		</div>
-	 </div>	
-	</footer>
-		<script>
-			document.addEventListener("DOMContentLoaded", function(){
-
-			/* MENU MOBILE */
-
-			const menuToggle = document.getElementById('mobile-menu');
-			const navMenu = document.getElementById('nav-menu');
-
-			if(menuToggle && navMenu){
-				menuToggle.addEventListener('click', ()=>{
-					navMenu.classList.toggle('active');
-					menuToggle.classList.toggle('active');
-				});
-			}
-
-
-			/* FAQ INTERATIVO */
-
-			const faqItems = document.querySelectorAll('.faq-item');
-
-			faqItems.forEach(item=>{
-				const btn = item.querySelector('.faq-btn');
-
-				if(btn){
-					btn.addEventListener('click', ()=>{
-						item.classList.toggle('active');
-					});
-				}
-			});
-
-
-			/* ANO ATUAL */
-
-			const year = document.getElementById('year');
-			if(year){
-				year.textContent = new Date().getFullYear();
-			}
-
-
-			/* WHATSAPP FLOAT */
-
-			const btnHero = document.querySelector('.btn-hero');
-			const whatsappFloat = document.querySelector('.whatsapp-float');
-
-			if(btnHero && whatsappFloat){
-
-				const observer = new IntersectionObserver((entries)=>{
-					entries.forEach(entry=>{
-						if(!entry.isIntersecting){
-							whatsappFloat.classList.add('show');
-						}else{
-							whatsappFloat.classList.remove('show');
-						}
-					});
-				},{threshold:0});
-
-				observer.observe(btnHero);
-
-			}
-
-
-			/* =========================
-			   CALCULADORA DE ENTULHO
-			========================= */
-
-			const areaInput = document.getElementById("hero-area");
-			const tipoInput = document.getElementById("hero-tipo");
-			const btnCalcular = document.getElementById("hero-btn");
-			const btnReset = document.getElementById("hero-reset");
-
-			const resultadoBox = document.getElementById("hero-res-box");
-			const volumeSpan = document.getElementById("hero-vol");
-			const recomendacao = document.getElementById("hero-qtd");
-			const linkWhatsapp = document.getElementById("hero-whatsapp");
-
-			const telefone = "551137122416";
-
-
-			function calcularMelhorCombo(volume){
-
-			let melhor = null;
-
-			for(let a=0; a<=Math.ceil(volume/7)+2; a++){
-			for(let b=0; b<=Math.ceil(volume/5)+2; b++){
-			for(let c=0; c<=Math.ceil(volume/3)+2; c++){
-
-			const total = a*7 + b*5 + c*3;
-
-			if(total >= volume){
-
-			const sobra = total - volume;
-			const qtd = a + b + c;
-
-			const combo = {
-			c7:a,
-			c5:b,
-			c3:c,
-			sobra:sobra,
-			qtd:qtd
-			};
-
-			if(
-			!melhor ||
-			combo.sobra < melhor.sobra ||
-			(combo.sobra === melhor.sobra && combo.qtd < melhor.qtd)
-			){
-			melhor = combo;
-			}
-
-			}
-
-			}
-			}
-			}
-
-			return melhor;
-
-			}
-
-
-			/* CALCULAR */
-
-			if(btnCalcular){
-
-			btnCalcular.addEventListener("click", function(){
-
-			const area = parseFloat(areaInput.value);
-			const tipo = tipoInput.value;
-
-			if(!area || area <= 0){
-			alert("Informe a área da obra.");
-			return;
-			}
-
-			let fator = 0.05;
-
-			if(tipo === "media") fator = 0.08;
-			if(tipo === "pesada") fator = 0.12;
-
-			const volume = area * fator;
-
-			const resultado = calcularMelhorCombo(volume);
-
-			volumeSpan.textContent = volume.toFixed(1);
-
-			let texto = "Recomendação: ";
-
-			if(resultado.c7) texto += `${resultado.c7} caçamba(s) de 7m³ `;
-			if(resultado.c5) texto += `${resultado.c5} caçamba(s) de 5m³ `;
-			if(resultado.c3) texto += `${resultado.c3} caçamba(s) de 3m³`;
-
-			recomendacao.textContent = texto;
-
-			resultadoBox.style.display = "block";
-
-			if(btnReset){
-			btnReset.style.display = "inline-flex";
-			}
-
-			const mensagem =
-			`Olá! Fiz uma simulação de entulho no site.\n\n`+
-			`Área da obra: ${area}m²\n`+
-			`Tipo de reforma: ${tipo}\n`+
-			`Volume estimado: ${volume.toFixed(1)} m³\n\n`+
-			`${texto}`;
-
-			linkWhatsapp.href =
-			"https://wa.me/" + telefone +
-			"?text=" + encodeURIComponent(mensagem);
-
-			});
-
-			}
-
-
-			/* RESET */
-
-			if(btnReset){
-
-			btnReset.addEventListener("click", function(){
-
-			areaInput.value = "";
-			tipoInput.value = "leve";
-
-			volumeSpan.textContent = "0";
-			recomendacao.textContent = "";
-
-			resultadoBox.style.display = "none";
-			btnReset.style.display = "none";
-
-			areaInput.focus();
-
-			});
-
-			}
-
-			});
-		</script>
-	</body>
+</main>
+
+<footer><p>&copy; 2026 RETEC SP - Todos os direitos reservados. Destinação 100% Legalizada.</p></footer>
+
+<script>
+const _0x1a2b=['\x76\x61\x6c\x75\x65','\x62\x61\x69\x72\x72\x6f\x49\x6e\x70\x75\x74','\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64','\x74\x69\x70\x6f\x43\x61\x63\x61\x6d\x62\x61'];
+function enviarWhatsApp(){
+    const b=document[_0x1a2b[2]](_0x1a2b[1])[_0x1a2b[0]];
+    const c=document[_0x1a2b[2]](_0x1a2b[3])[_0x1a2b[0]];
+    if(!b){alert('Por favor, digite o bairro.');return;}
+    const m=encodeURIComponent(`Ola Retec! Gostaria de um orcamento:\nCacamba: ${c}\nBairro: ${b}`);
+    window.open(`https://wa.me/551137122416?text=${m}`,`_blank`);
+}
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.onkeydown=function(e){if(e.keyCode==123||(e.ctrlKey&&e.shiftKey&&(e.keyCode==73||e.keyCode==74||e.keyCode==67))||(e.ctrlKey&&e.keyCode==85))return false;};
+</script>
+</body>
 </html>
