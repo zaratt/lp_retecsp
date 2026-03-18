@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETEC SP | Caçambas e Gestão de Resíduos</title>
+    <meta name="description" content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1e2b44;
+            --accent-cyan: #00adef;
+            --accent-green: #2ecc71;
+            --white: #ffffff;
+        }
+
+        /* 1. AJUSTE DE TELA CHEIA (Notebooks) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--white);
+            min-height: 100vh; /* Altura total da tela */
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(rgba(30, 43, 68, 0.9), rgba(30, 43, 68, 0.9)), 
+                        url('img/hero.webp') center/cover no-repeat fixed;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; width: 100%; }
+
+        header { padding: 25px 0 10px; text-align: center; }
+        .logo img { height: 48px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+
+        /* 2. CONTEÚDO ELÁSTICO */
+        main { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            padding: 20px 0; 
+        }
+
+        .content-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 50px; 
+            align-items: flex-end; /* Alinhamento pela base line */
+        }
+
+        /* TEXTO E HERO */
+        .text-side h1 { 
+            font-size: clamp(1.8rem, 4vw, 2.6rem); 
+            font-weight: 800; 
+            line-height: 1.1; 
+            margin-bottom: 15px; 
+        }
+        .highlight-cyan { color: var(--accent-cyan); }
+        .text-side p { font-size: 1.05rem; opacity: 0.9; line-height: 1.4; margin-bottom: 20px; }
+
+        /* BOX DE PROVA SOCIAL (Estilo Imagem) */
+        .hero-trust-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-cyan);
+            max-width: fit-content;
+        }
+        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+        .divider { height: 1px; background: rgba(255, 255, 255, 0.1); width: 100%; }
+        .rating-badge { background: var(--accent-cyan); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; }
+        .stars-gold { color: #ffcc00; letter-spacing: 2px; }
+
+        /* FORMULÁRIO */
+        .glass-box { 
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 24px; 
+            padding: 35px; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); 
+        }
+        .field-group { margin-bottom: 18px; }
+        .field-group label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; color: var(--accent-cyan); }
+        .field-group input, .field-group select { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #fff; color: var(--primary-blue); font-weight: 600; }
+        
+        .btn-whatsapp { 
+            width: 100%; background: var(--accent-green); color: white; border: none; padding: 18px; 
+            border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; 
+            align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* 3. FOOTER FIXO NO FIM */
+        footer { 
+            padding: 20px 0; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            opacity: 0.6;
+            background: rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 992px) {
+            .content-grid { grid-template-columns: 1fr; text-align: center; align-items: center; }
+            .hero-trust-box { margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo"><img src="img/LOGO-Retecsp-Branco.webp" alt="Retec SP"></div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="content-grid">
+            <div class="text-side">
+                <h1>Novo site em construção, mas as <span class="highlight-cyan">locações seguem 24h!</span></h1>
+                <p>Atendimento rápido para obras, reformas e empresas com destinação ambiental correta.</p>
+            
+                <div class="hero-trust-box">
+                    <div class="trust-item">✔ Descarte 100% legalizado</div>
+                    <div class="trust-item">✔ Atendimento rápido</div>
+                    <div class="divider"></div>
+                    <div class="trust-item">✔ Mais de 3 mil avaliações</div>
+                    <div class="trust-item">
+                        <span class="rating-badge">Nota 4.8</span>
+                        <span class="stars-gold">★★★★★</span>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="form-side">
+                <div class="glass-box">
+                    <h3 style="text-align:center; margin-bottom:20px">Solicitar Orçamento</h3>
+                    <div class="field-group">
+                        <label for="tipoCacamba">Tamanho da Caçamba</label>
+                        <select id="tipoCacamba" name="tipoCacamba">
+                            <option value="4m³ (Padrão)">Caçamba 4m³ (Padrão)</option>
+                            <option value="26m³ (Industrial)">Caçamba 26m³ (Industrial)</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="bairroInput">Bairro da Entrega</label>
+                        <input type="text" id="bairroInput" name="bairroInput" placeholder="Ex: Itaim Bibi, Pinheiros...">
+                    </div>
+                    <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+                        PEDIR PELO WHATSAPP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 RETEC SP - Todos os direitos reservados. Destinação 100% Legalizada.</p>
+</footer>
+
+<script>
+    function enviarWhatsApp() {
+        const bairro = document.getElementById('bairroInput').value;
+        const cacamba = document.getElementById('tipoCacamba').value;
+        if (!bairro) { alert("Digite o bairro."); return; }
+        const mensagem = encodeURIComponent(`Olá Retec! Orçamento para:\n ${cacamba}\n Bairro: ${bairro}`);
+        window.open(`https://wa.me/551137122416?text=${mensagem}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
