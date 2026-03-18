@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description"
+        content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
+    <link rel="canonical" href="https://www.retecsp.com.br/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>RETEC SP | Aluguel de Caçambas e Gestão de Resíduos</title>
+    <!-- JSON-LD FAQ e LocalBusiness -->
+    <script type="application/ld+json">
+    {
+        "@context":"https://schema.org",
+        "@graph":[
+            {
+                "@type":"LocalBusiness",
+                "@id":"https://retecsp.com.br/#business",
+                "url":"https://retecsp.com.br",
+                "name":"RETEC SP",
+                "telephone":"+551137122416",
+                "address":{
+                    "@type":"PostalAddress",
+                    "streetAddress":"Av. das Nações Unidas, 99",
+                    "postalCode":"06233-200",
+                    "addressLocality":"Osasco",
+                    "addressRegion":"SP",
+                    "addressCountry":"BR"
+                },
+                "areaServed":[
+                    {"@type":"City","name":"São Paulo"},
+                    {"@type":"City","name":"Osasco"},
+                    {"@type":"City","name":"Barueri"},
+                    {"@type":"City","name":"Santana de Parnaíba"}
+                ]
+            }
+        </script>
+    <style>
+        :root {
+            --p-blue: #1e2b44;
+            --a-cyan: #f7da3b;
+            --a-green: #2ecc71;
+            --white: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ajuste para Ocupar Tela Única */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--white);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* IMAGEM BASE */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('img/hero.webp') center/cover no-repeat;
+            z-index: 0;
+        }
+
+        /* OVERLAY INTELIGENTE */
+        body::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg,
+                    rgba(30, 43, 68, 0.95) 0%,
+                    rgba(30, 43, 68, 0.85) 35%,
+                    rgba(30, 43, 68, 0.55) 65%,
+                    rgba(30, 43, 68, 0.2) 100%);
+            z-index: 1;
+        }
+
+        header,
+        main,
+        footer {
+            position: relative;
+            z-index: 2;
+            top: 20px;
+            left: 0;
+            width: 100%;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            background: rgba(255, 255, 255, 0.959);
+            padding: 10px 22px;
+            border-radius: 14px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo img {
+            height: 42px;
+            filter: none;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            width: 100%;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* Text Side */
+        .text-side h1 {
+            font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .h-cyan {
+            color: var(--a-cyan);
+        }
+
+        .text-side p {
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            opacity: 0.9;
+            line-height: 1.4;
+            margin-bottom: 3vh;
+        }
+
+        .left-info-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Banner Engenheiro Refinado */
+        .eng-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 173, 239, 0.1);
+            border: 1px solid rgba(0, 173, 239, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 450px;
+        }
+
+        .eng-banner-left svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--white);
+            flex-shrink: 0;
+        }
+
+        .eng-banner-text {
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .eng-banner-text .highlight {
+            color: var(--a-cyan);
+            font-weight: 800;
+            display: block;
+        }
+
+        /* Hero Trust Box Harmonizado */
+        .hero-trust-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .trust-full {
+            grid-column: span 2;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-badge {
+            background: #ffcc00;
+            color: #1e2b44;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .stars-gold {
+            color: #ffcc00;
+            font-size: 0.8rem;
+        }
+
+        /* Formulário */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: clamp(20px, 4vh, 35px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .field-group {
+            margin-bottom: 15px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: var(--a-cyan);
+        }
+
+        .field-group input,
+        .field-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: #fff;
+            color: var(--p-blue);
+            font-weight: 600;
+            outline: none;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background: var(--a-green);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .security-note {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        footer {
+            padding: 1.5vh 0;
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            background: rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        @media (max-width:992px) {
+            body {
+                height: auto;
+                overflow: auto;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-bottom: 40px;
+            }
+
+            .left-info-stack,
+            .hero-trust-box,
+            .eng-banner-left {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><img src="img/Logo-Retecsp-azul.webp" alt="Retec SP"></div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="content-grid">
+                <div class="text-side">
+                    <h1>Novo site em construção, mas as <span class="h-cyan">locações seguem 24h!</span></h1>
+                    <p>Atendimento rápido para obras, reformas e empresas.</p>
+                    <div class="left-info-stack">
+                        <div class="eng-banner-left">
+                            <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                <path
+                                    d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z" />
+                            </svg>
+                            <div class="eng-banner-text">
+                                <span class="highlight">CONDIÇÕES EXCLUSIVAS PARA ENGENHEIROS, ARQUITETOS E
+                                    CONSTRUTORAS</span>
+                                Nossa equipe está pronta para negociar o melhor valor para sua obra!
+                            </div>
+                        </div>
+                        <div class="hero-trust-box">
+                            <div class="trust-item">✔ Aterro Próprio</div>
+                            <div class="trust-item">✔ Preço e Agilidade</div>
+                            <div class="trust-item">✔ Atendimento Imediato</div>
+                            <div class="trust-item">✔ Destinação 100% Legal</div>
+                            <div class="trust-full">
+                                <span>Mais de 3 mil avaliações</span>
+                                <div><span class="rating-badge">4.8</span> <span class="stars-gold">★★★★★</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-side">
+                    <div class="glass-box">
+                        <h3 style="text-align:center;margin-bottom:20px; font-weight: 700;">Solicitar Orçamento</h3>
+                        <div class="field-group">
+                            <label>Tamanho da Caçamba</label>
+                            <select id="tipoCacamba">
+                                <option value="4m3 (Padrao)">Caçamba 4m³ (Padrão)</option>
+                                <option value="26m3 (Industrial)">Caçamba 26m³ (Industrial)</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label>Bairro da Entrega</label>
+                            <input type="text" id="bairroInput" placeholder="Ex: Itaim Bibi...">
+                        </div>
+                        <button class="btn-whatsapp" onclick="enviarWhatsApp()">PEDIR PELO WHATSAPP</button>
+                        <div class="security-note">
+                            🔒 Canal Oficial: (11) 3712-2416<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 RETEC SP - Todos os direitos reservados. Destinação 100% Legalizada.</p>
+    </footer>
+
+    <script>
+        const _0x1a2b = ['\x76\x61\x6c\x75\x65', '\x62\x61\x69\x72\x72\x6f\x49\x6e\x70\x75\x74', '\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64', '\x74\x69\x70\x6f\x43\x61\x63\x61\x6d\x62\x61'];
+        function enviarWhatsApp() {
+            const b = document[_0x1a2b[2]](_0x1a2b[1])[_0x1a2b[0]];
+            const c = document[_0x1a2b[2]](_0x1a2b[3])[_0x1a2b[0]];
+            if (!b) { alert('Por favor, digite o bairro.'); return; }
+            const m = encodeURIComponent(`Ola Retec! Gostaria de um orcamento:\nCacamba: ${c}\nBairro: ${b}`);
+            window.open(`https://wa.me/551137122416?text=${m}`, `_blank`);
+        }
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function (e) { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false; };
+    </script>
+</body>
+
+</html>
