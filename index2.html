@@ -4,12 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>RETEC SP | Caçambas e Gestão de Resíduos</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
+	<link rel="canonical" href="https://www.retecsp.com.br/">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>RETEC SP | Aluguel de Caçambas e Gestão de Resíduos</title>
+    <!-- JSON-LD FAQ e LocalBusiness -->
+    <script type="application/ld+json">
+    {
+        "@context":"https://schema.org",
+        "@graph":[
+            {
+                "@type":"LocalBusiness",
+                "@id":"https://retecsp.com.br/#business",
+                "url":"https://retecsp.com.br",
+                "name":"RETEC SP",
+                "telephone":"+551137122416",
+                "address":{
+                    "@type":"PostalAddress",
+                    "streetAddress":"Av. das Nações Unidas, 99",
+                    "postalCode":"06233-200",
+                    "addressLocality":"Osasco",
+                    "addressRegion":"SP",
+                    "addressCountry":"BR"
+                },
+                "areaServed":[
+                    {"@type":"City","name":"São Paulo"},
+                    {"@type":"City","name":"Osasco"},
+                    {"@type":"City","name":"Barueri"},
+                    {"@type":"City","name":"Santana de Parnaíba"}
+                ]
+            }
+        </script>            
     <style>
-        :root {--p-blue:#1e2b44;--a-cyan:#00adef;--a-green:#2ecc71;--white:#fff;}
+        :root {--p-blue:#1e2b44;--a-cyan:#f7da3b;--a-green:#2ecc71;--white:#fff;}
         * {margin:0;padding:0;box-sizing:border-box;}
         
         /* Ajuste para Ocupar Tela Única */
@@ -57,7 +86,7 @@
         }
         .trust-item {display:flex; align-items:center; gap:8px; font-size:0.85rem; font-weight: 500;}
         .trust-full {grid-column: span 2; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;}
-        .rating-badge {background:var(--a-cyan); padding:2px 6px; border-radius:4px; font-weight:700; font-size:0.75rem;}
+        .rating-badge {background:#ffcc00; color:#1e2b44; padding:2px 6px; border-radius:4px; font-weight:700; font-size:0.75rem;}
         .stars-gold {color:#ffcc00; font-size: 0.8rem;}
 
         /* Formulário */
