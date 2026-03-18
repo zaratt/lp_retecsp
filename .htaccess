@@ -1,0 +1,63 @@
+# ============================================
+# SEGURANÇA HTTPS - FORÇA CONEXÃO SEGURA
+# ============================================
+
+# 1. REDIRECIONAR HTTP PARA HTTPS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ============================================
+# HEADERS DE SEGURANÇA
+# ============================================
+
+# 2. HSTS - Força navegador usar HTTPS por 1 ano
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # 3. Content-Security-Policy - Bloqueia recursos HTTP e inseguros
+    Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://wa.me; frame-src 'self' https:;"
+    
+    # 4. X-Content-Type-Options - Evita MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # 5. X-Frame-Options - Proteção contra Clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # 6. X-XSS-Protection - Proteção contra XSS
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # 7. Referrer-Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ============================================
+# COMPRESSÃO E CACHE
+# ============================================
+
+# 8. Compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml text/javascript application/javascript application/json
+</IfModule>
+
+# 9. Cache para arquivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 7 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType text/css "access plus 30 days"
+    ExpiresByType application/javascript "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ============================================
+# MELHORIAS DE PERFORMANCE
+# ============================================
+
+# 10. Ativar KeepAlive
+<IfModule mod_http.c>
+    KeepAlive On
+    KeepAliveTimeout 15
+</IfModule>
