@@ -1,10 +1,15 @@
 # ============================================
-# SEGURANÇA HTTPS - FORÇA CONEXÃO SEGURA
+# REDIRECIONAMENTO DOMÍNIO ERRADO → DOMÍNIO CORRETO (301)
 # ============================================
-
-# 1. REDIRECIONAR HTTP PARA HTTPS
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # 1. Redireciona TODO o domínio antigo (com ou sem www) para o novo domínio
+    #    Mantém a URL exata (ex: /pagina → /pagina)
+    RewriteCond %{HTTP_HOST} ^(www\.)?reteccacambas\.com\.br$ [NC]
+    RewriteRule ^(.*)$ https://retecsp.com.br/$1 [L,R=301]
+
+    # 2. Força HTTPS no domínio correto (só entra aqui se for o domínio novo)
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
