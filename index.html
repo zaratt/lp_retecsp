@@ -53,13 +53,15 @@
 }
 
 body {
-    font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Roboto', 'Inter', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
     color: var(--white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
     text-rendering: optimizeLegibility;
+    font-synthesis: none;
+    background-color: #1e2b44;
 }
 
 h1, .subtitle, .badge, .form-box {
@@ -67,8 +69,21 @@ h1, .subtitle, .badge, .form-box {
 }
 
 h1 {
-    min-height: 4.4rem;
+    min-height: 4.2rem;
+    margin-bottom: 0.7rem;
+    font-weight: 800;
 }
+
+.form-box {
+    min-height: 260px;
+}
+
+@media (max-width: 900px) {
+    h1 {
+        min-height: 4rem;
+    }
+}
+
 
 /* BACKGROUND */
 body::before {
