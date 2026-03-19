@@ -367,19 +367,19 @@
                 </div>
                 <div class="form-side">
                     <div class="glass-box">
-                        <h3 style="text-align:center;margin-bottom:20px; font-weight: 700;">Solicitar Orçamento</h3>
+                        <h2 style="text-align:center;margin-bottom:20px; font-weight: 700;">Solicitar Orçamento</h2>
                         <div class="field-group">
-                            <label>Tamanho da Caçamba</label>
-                            <select id="tipoCacamba">
+                            <label for="tipoCacamba">Tamanho da Caçamba</label>
+                            <select id="tipoCacamba" name="tipoCacamba">
                                 <option value="4m3 (Padrao)">Caçamba 4m³ (Padrão)</option>
                                 <option value="26m3 (Industrial)">Caçamba 26m³ (Industrial)</option>
                             </select>
                         </div>
                         <div class="field-group">
-                            <label>Bairro da Entrega</label>
-                            <input type="text" id="bairroInput" placeholder="Ex: Itaim Bibi...">
+                            <label for="bairroInput">Bairro da Entrega</label>
+                           <input type="text" id="bairroInput" name="bairro" autocomplete="address-level2">
                         </div>
-                        <button class="btn-whatsapp" onclick="enviarWhatsApp()">PEDIR PELO WHATSAPP</button>
+                        <button class="btn-whatsapp" onclick="enviarWhatsApp()" aria-label="Enviar pedido de orçamento pelo WhatsApp">PEDIR PELO WHATSAPP</button>
                         <div class="security-note">
                             🔒 Canal Oficial: (11) 3712-2416<br>
                         </div>
