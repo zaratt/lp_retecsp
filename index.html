@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta name="description"content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
-    <link rel="canonical" href="https://www.retecsp.com.br/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>RETEC SP | Aluguel de Caçambas e Gestão de Resíduos</title>
-    <!-- JSON-LD FAQ e LocalBusiness -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Aluguel de caçambas em São Paulo com aterro próprio. Destinação legal com CTR/MTR. Mais de 20 anos atendendo grandes obras.">
+<link rel="canonical" href="https://www.retecsp.com.br/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</noscript>
+<title>RETEC | Aluguel de Caçambas em São Paulo</title>
+    <!-- JSON-LD LocalBusiness -->
     <script type="application/ld+json">
     {
         "@context":"https://schema.org",
@@ -38,373 +39,392 @@
                 ]
             }
         </script>
-    <style>
-        :root {
-            --p-blue: #1e2b44;
-            --a-cyan: #f7da3b;
-            --a-green: #2ecc71;
-            --white: #fff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Ajuste para Ocupar Tela Única */
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--white);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* IMAGEM BASE */
-        body::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: url('img/hero.webp') center/cover no-repeat;
-            z-index: 0;
-        }
-
-        /* OVERLAY INTELIGENTE */
-        body::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(100deg,
-                    rgba(30, 43, 68, 0.95) 0%,
-                    rgba(30, 43, 68, 0.85) 35%,
-                    rgba(30, 43, 68, 0.55) 65%,
-                    rgba(30, 43, 68, 0.2) 100%);
-            z-index: 1;
-        }
-
-        header,
-        main,
-        footer {
-            position: relative;
-            z-index: 2;
-            top: 20px;
-            left: 0;
-            width: 100%;
-        }
-
-        .logo {
-    display:inline-block;
-    padding:0;
-    background:none;
-    box-shadow:none;
+<style>
+:root {
+    --blue: #1e2b44;
+    --gold: #d6b030;
+    --gold-light: #cfbc5a;
+    --green: #2ecc71;
+    --white: #fff;
+    --prata: #858897;
 }
 
-       .logo img {
-    width:180px;
-    height:auto;
-    display:block;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 0;
-        }
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5%;
-            width: 100%;
-        }
+/* BACKGROUND */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('img/hero.webp') center/cover no-repeat;
+    z-index: 0;
+}
 
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
+body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg,
+        rgba(30, 43, 68, 0.95) 0%,
+        rgba(30, 43, 68, 0.85) 40%,
+        rgba(30, 43, 68, 0.6) 70%,
+        rgba(30, 43, 68, 0.3) 100%);
+    z-index: 1;
+}
 
-        /* Text Side */
-        .text-side h1 {
-            font-size: clamp(1.8rem, 3.8vw, 2.8rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 15px;
-        }
+header,
+main,
+footer {
+    position: relative;
+    z-index: 2;
+}
 
-        .h-cyan {
-            color: var(--a-cyan);
-        }
+/* HEADER */
+header.container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20px;
+    width: 100%;
+    margin: 0 auto;
+    padding-inline: 5%;
+}
 
-        .text-side p {
-            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-            opacity: 0.9;
-            line-height: 1.4;
-            margin-bottom: 3vh;
-        }
+/* LOGO */
+.logo {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 260px;
+}
 
-        .left-info-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+.logo img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
 
-        /* Banner Engenheiro Refinado */
-        .eng-banner-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0, 173, 239, 0.1);
-            border: 1px solid rgba(0, 173, 239, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            max-width: 450px;
-        }
+img.logo-desktop {
+    display: block;
+    width: 220px;
+}
 
-        .eng-banner-left svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--white);
-            flex-shrink: 0;
-        }
+img.logo-mobile {
+    display: none;
+}
 
-        .eng-banner-text {
-            font-size: 0.85rem;
-            line-height: 1.3;
-        }
+/* LAYOUT */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 5%;
+}
 
-        .eng-banner-text .highlight {
-            color: var(--a-cyan);
-            font-weight: 800;
-            display: block;
-        }
+.content {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    text-align: left;
+}
 
-        /* Hero Trust Box Harmonizado */
-        .hero-trust-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(5px);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 450px;
-        }
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
 
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
+.trust {
+    margin-top: 0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 14px;
+    padding: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
 
-        .trust-full {
-            grid-column: span 2;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.trust .rating {
+    justify-content: center;
+}
 
-        .rating-badge {
-            background: #ffcc00;
-            color: #1e2b44;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 0.75rem;
-        }
+/* BADGE */
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--prata);
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
 
-        .stars-gold {
-            color: #ffcc00;
-            font-size: 0.8rem;
-        }
+/* TEXT */
+h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
 
-        /* Formulário */
-        .glass-box {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: clamp(20px, 4vh, 35px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        }
+.subtitle {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
 
-        .field-group {
-            margin-bottom: 15px;
-        }
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
 
-        .field-group label {
-            display: block;
-            font-size: 0.65rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            color: var(--a-cyan);
-        }
+/* BOX */
+.eng-box {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    border: 1px solid var(--prata);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.03);
+}
 
-        .field-group input,
-        .field-group select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: none;
-            background: #fff;
-            color: var(--p-blue);
-            font-weight: 600;
-            outline: none;
-        }
+.eng-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--white);
+    flex-shrink: 0;
+}
 
-        .btn-whatsapp {
-            width: 100%;
-            background: var(--a-green);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
+/* TRUST */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+}
 
-        .btn-whatsapp:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
+.rating-badge {
+    background: var(--gold);
+    color: #1e2b44;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+}
 
-        .security-note {
-            font-size: 0.65rem;
-            opacity: 0.6;
-            margin-top: 12px;
-            text-align: center;
-        }
+.stars svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--gold);
+}
 
-        footer {
-            padding: 1.5vh 0;
-            text-align: center;
-            font-size: 0.75rem;
-            opacity: 0.5;
-            background: rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
-        }
+/* FORM */
+.form-box {
+    background: rgba(30, 43, 68, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--prata);
+    border-radius: 20px;
+    padding: 25px;
+}
 
-        @media (max-width:992px) {
-            body {
-                height: auto;
-                overflow: auto;
-            }
+.form-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-            .content-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding-bottom: 40px;
-            }
+.field {
+    margin-bottom: 12px;
+}
 
-            .left-info-stack,
-            .hero-trust-box,
-            .eng-banner-left {
-                margin: 0 auto;
-            }
-        }
-    </style>
+.field label {
+    font-size: 11px;
+    margin-bottom: 4px;
+    color: var(--gold-light);
+    display: block;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+.btn {
+    width: 100%;
+    background: var(--green);
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.note {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.secure {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 6px;
+    color: var(--gold-light);
+}
+
+/* FOOTER */
+footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 12px;
+    padding: 20px;
+    opacity: 0.7;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+
+    header.container {
+        justify-content: center;
+        padding-top: 20px;
+    }
+
+    .logo {
+        justify-content: center;
+    }
+
+    img.logo-desktop {
+        display: none;
+    }
+
+    img.logo-mobile {
+        display: block;
+        width: 180px;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+        text-align: left;
+        gap: 30px;
+    }
+
+    .eng-box {
+        justify-content: center;
+    }
+
+    .rating {
+        justify-content: center;
+    }
+
+    .trust {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+</style>
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-<img 
-  src="img/logo-Retec-360.webp"
-  srcset="img/logo-Retec-180.webp 180w, img/logo-Retec-360.webp 360w"
-  sizes="(max-width: 768px) 180px, 360px"
-  width="180"
-  fetchpriority="high"
-  alt="Retec SP - aluguel de caçambas"
->            </div>
-        </div>
-    </header>
-    <main>
-        <div class="container">
-            <div class="content-grid">
-                <div class="text-side">
-                    <h1>Novo site em construção, mas as <span class="h-cyan">locações seguem 24h!</span></h1>
-                    <p>Atendimento rápido para obras, reformas e empresas.</p>
-                    <div class="left-info-stack">
-                        <div class="eng-banner-left">
-                            <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                <path
-                                    d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z" />
-                            </svg>
-                            <div class="eng-banner-text">
-                                <span class="highlight">CONDIÇÕES EXCLUSIVAS PARA ENGENHEIROS, ARQUITETOS E
-                                    CONSTRUTORAS</span>
-                                Nossa equipe está pronta para negociar o melhor valor para sua obra!
-                            </div>
-                        </div>
-                        <div class="hero-trust-box">
-                            <div class="trust-item">✔ Aterro Próprio</div>
-                            <div class="trust-item">✔ Preço e Agilidade</div>
-                            <div class="trust-item">✔ Atendimento Imediato</div>
-                            <div class="trust-item">✔ Destinação 100% Legal</div>
-                            <div class="trust-full">
-                                <span>Mais de 3 mil avaliações</span>
-                                <div><span class="rating-badge">4.8</span> <span class="stars-gold">★★★★★</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-side">
-                    <div class="glass-box">
-                        <h2 style="text-align:center;margin-bottom:20px; font-weight: 700;">Solicitar Orçamento</h2>
-                        <div class="field-group">
-                            <label for="tipoCacamba">Tamanho da Caçamba</label>
-                            <select id="tipoCacamba" name="tipoCacamba">
-                                <option value="4m3 (Padrao)">Caçamba 4m³ (Padrão)</option>
-                                <option value="26m3 (Industrial)">Caçamba 26m³ (Industrial)</option>
-                            </select>
-                        </div>
-                        <div class="field-group">
-                            <label for="bairroInput">Bairro da Entrega</label>
-                           <input type="text" id="bairroInput" name="bairro" autocomplete="address-level2">
-                        </div>
-                        <button class="btn-whatsapp" onclick="enviarWhatsApp()" aria-label="Enviar pedido de orçamento pelo WhatsApp">PEDIR PELO WHATSAPP</button>
-                        <div class="security-note">
-                            🔒 Canal Oficial: (11) 3712-2416<br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+<header class="container">
+    <div class="logo">
+        <img src="img/logo-Retec-360.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-desktop">
+        <img src="img/logo-Retec-180.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-mobile">
+    </div>
+</header>
 
-    <footer>
-        <p>&copy; 2026 RETEC SP - Todos os direitos reservados. Destinação 100% Legalizada.</p>
-    </footer>
+<main class="container">
+<div class="content">
 
-    <script>
-        const _0x1a2b = ['\x76\x61\x6c\x75\x65', '\x62\x61\x69\x72\x72\x6f\x49\x6e\x70\x75\x74', '\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64', '\x74\x69\x70\x6f\x43\x61\x63\x61\x6d\x62\x61'];
-        function enviarWhatsApp() {
-            const b = document[_0x1a2b[2]](_0x1a2b[1])[_0x1a2b[0]];
-            const c = document[_0x1a2b[2]](_0x1a2b[3])[_0x1a2b[0]];
-            if (!b) { alert('Por favor, digite o bairro.'); return; }
-            const m = encodeURIComponent(`Ola Retec! Gostaria de um orcamento:\nCacamba: ${c}\nBairro: ${b}`);
-            window.open(`https://wa.me/551137122416?text=${m}`, `_blank`);
-        }
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function (e) { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false; };
-    </script>
+<!-- TEXTO -->
+<div>
+<div class="badge">Novo Site em Breve</div>
+<h1>Líder em Aluguel de Caçambas em São Paulo</h1>
+<p class="subtitle">Atendemos São Paulo, Osasco, Barueri e região.</p>
+<div class="list">
+<span>✔ Aterro próprio (melhor custo)</span>
+<span>✔ Certificação ambiental (CETESB / IBAMA)</span>
+<span>✔ Emissão de CTR / MTR</span>
+<span>✔ Entrega rápida</span>
+<span>✔ Operação 24h</span>
+</div>
+<div class="eng-box">
+<div class="eng-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg></div>
+<div><strong style="color:var(--gold-light)">Condições exclusivas</strong><br>para engenheiros, arquitetos e construtoras.<br>Negociação direta com nossa equipe.</div>
+</div>
+</div>
+
+<!-- FORM + TRUST -->
+<div class="form-column">
+<div class="form-box">
+<h2>Solicitar Orçamento</h2>
+<div class="field"><label for="tipo">Tamanho da Caçamba</label><select id="tipo"><option>4m³ (Estacionárias)</option><option>26m³ (Roll on Roll of)</option></select></div>
+<div class="field"><label for="bairro">Bairro</label><input type="text" id="bairro" placeholder="Ex: Moema"></div>
+<button class="btn" onclick="enviar()">SOLICITAR ORÇAMENTO IMEDIATO</button>
+<div class="note">Resposta em poucos minutos</div>
+<div class="secure">🔒 Canal oficial: (11) 3712-2416</div>
+</div>
+
+<div class="trust">
+<div>Mais de 20 anos atendendo grandes obras em São Paulo</div>
+<div class="rating">
+<span>Mais de 3.000 avaliações</span>
+<div class="rating-badge">4.8</div>
+<div class="stars"><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<footer>
+2026 RETEC — Pensou Caçamba, Pensou RETEC — Líder em aluguel de caçambas e gestão de resíduos
+</footer>
+
+<script>
+function enviar(){
+const bairro=document.getElementById('bairro').value;
+const tipo=document.getElementById('tipo').value;
+
+if(!bairro){
+alert('Digite o bairro');
+return;
+}
+
+const msg=encodeURIComponent(`Olá, gostaria de orçamento:\nCaçamba: ${tipo}\nBairro: ${bairro}`);
+window.open(`https://wa.me/551137122416?text=${msg}`,'_blank');
+}
+</script>
+
 </body>
-
 </html>
