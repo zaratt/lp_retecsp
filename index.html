@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta name="description"
-        content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
+    <meta name="description"content="Locação de caçambas e gestão de resíduos em São Paulo, Osasco, Barueri e Alphaville. Destinação legalizada com CTR/MTR e mais de 20 anos de experiência.">
     <link rel="canonical" href="https://www.retecsp.com.br/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,21 +96,17 @@
         }
 
         .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+    display:inline-block;
+    padding:0;
+    background:none;
+    box-shadow:none;
+}
 
-            background: rgba(255, 255, 255, 0.959);
-            padding: 10px 22px;
-            border-radius: 14px;
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .logo img {
-            height: 42px;
-            filter: none;
-        }
+       .logo img {
+    width:180px;
+    height:auto;
+    display:block;
+}
 
         main {
             flex: 1;
@@ -329,7 +324,15 @@
 <body>
     <header>
         <div class="container">
-            <div class="logo"><img src="img/Logo-Retecsp-azul.webp" alt="Retec SP"></div>
+            <div class="logo">
+<img 
+  src="img/logo-Retec-360.webp"
+  srcset="img/logo-Retec-180.webp 180w, img/logo-Retec-360.webp 360w"
+  sizes="(max-width: 768px) 180px, 360px"
+  width="180"
+  fetchpriority="high"
+  alt="Retec SP - aluguel de caçambas"
+>            </div>
         </div>
     </header>
     <main>
