@@ -5,12 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Aluguel de caçambas em São Paulo com aterro próprio. Destinação legal com CTR/MTR. Mais de 20 anos atendendo grandes obras.">
 <link rel="canonical" href="https://www.retecsp.com.br/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-</noscript>
+<!-- Using system font stack for faster loading and zero third-party font delays -->
 <title>RETEC | Aluguel de Caçambas em São Paulo</title>
     <!-- JSON-LD LocalBusiness -->
     <script type="application/ld+json">
@@ -58,12 +53,21 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
+    text-rendering: optimizeLegibility;
+}
+
+h1, .subtitle, .badge, .form-box {
+    line-height: 1.3;
+}
+
+h1 {
+    min-height: 4.4rem;
 }
 
 /* BACKGROUND */
@@ -480,8 +484,8 @@ footer {
 <body>
 <header class="container">
     <div class="logo">
-        <img src="img/logo-Retec-360.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-desktop" width="220" height="74">
-        <img src="img/logo-Retec-180.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-mobile" width="180" height="60">
+        <img src="img/logo-Retec-360.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-desktop">
+        <img src="img/logo-Retec-180.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-mobile">
     </div>
 </header>
 
