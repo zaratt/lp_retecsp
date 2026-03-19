@@ -129,24 +129,40 @@ img.logo-mobile {
 
 /* LAYOUT */
 .container {
-    max-width: 1200px;
+    width: min(94%, 1200px);
     margin: 0 auto;
-    padding: 20px 5%;
+    padding: 20px 0 24px;
 }
 
 .content {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 40px;
-    align-items: start;
+    grid-template-columns: 1fr;
+    gap: 24px;
     text-align: left;
 }
 
-.form-column {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+.left-top, .left-bottom, .right-top, .right-bottom {
+    width: 100%;
 }
+
+@media (min-width: 980px) {
+    .content {
+        grid-template-columns: 1.2fr 1fr;
+        grid-template-areas:
+            "left-top right-top"
+            "left-bottom right-bottom";
+        gap: 24px;
+        align-items: start;
+    }
+    .left-top { grid-area: left-top; }
+    .right-top { grid-area: right-top; }
+    .left-bottom { grid-area: left-bottom; }
+    .right-bottom { grid-area: right-bottom; }
+}
+
+.left-bottom, .right-bottom { align-self: start; }
+
+.form-column { display: none; }
 
 .trust {
     margin-top: 0;
@@ -177,15 +193,18 @@ img.logo-mobile {
 
 /* TEXT */
 h1 {
-    font-size: clamp(28px, 4vw, 42px);
+    font-size: clamp(28px, 6vw, 54px);
     font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 15px;
+    line-height: 1.15;
+    margin-bottom: 14px;
 }
 
 .subtitle {
+    font-size: clamp(14px, 2.4vw, 22px);
     margin-bottom: 20px;
     opacity: 0.9;
+    max-width: 95%;
+    letter-spacing: 0.1px;
 }
 
 .list {
@@ -193,25 +212,69 @@ h1 {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: clamp(13px, 2.4vw, 16px);
+}
+
+.eng-box div {
+    font-size: clamp(12px, 2.1vw, 15px);
+}
+
+.trust {
+    font-size: clamp(12px, 2vw, 14px);
+}
+
+.badge {
+    font-size: clamp(11px, 2vw, 13px);
 }
 
 /* BOX */
 .eng-box {
     display: flex;
-    gap: 12px;
-    padding: 15px;
-    border: 1px solid var(--prata);
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-.eng-icon svg {
-    width: 28px;
-    height: 28px;
+.eng-box .eng-icon {
+    flex: 0 0 auto;
+    min-width: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eng-box .eng-icon svg {
+    width: 20px;
+    height: 20px;
     fill: var(--white);
-    flex-shrink: 0;
+}
+
+.eng-box div {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    font-size: clamp(12px, 2vw, 14px);
+    line-height: 1.3;
+    text-align: left;
+}
+
+@media (max-width: 900px) {
+    .eng-box {
+        justify-content: flex-start;
+        text-align: left;
+        padding: 12px;
+    }
+    .eng-box div {
+        width: 100%;
+        min-width: 0;
+    }
 }
 
 /* TRUST */
@@ -220,6 +283,10 @@ h1 {
     align-items: center;
     gap: 8px;
     margin-top: 5px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .rating-badge {
@@ -336,21 +403,74 @@ footer {
     .content {
         grid-template-columns: 1fr;
         text-align: left;
-        gap: 30px;
+        gap: 24px;
+    }
+
+    .badge,
+    h1,
+    .subtitle {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .badge {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 10px;
+    }
+
+    h1 {
+        font-size: clamp(30px, 7vw, 48px);
+    }
+
+    .subtitle {
+        font-size: clamp(14px, 3vw, 20px);
+        max-width: 90%;
     }
 
     .eng-box {
         justify-content: center;
+        padding: 12px;
     }
 
     .rating {
         justify-content: center;
+        flex-wrap: nowrap;
+        white-space: nowrap;
     }
 
     .trust {
         text-align: center;
         margin-top: 10px;
     }
+
+    .stars {
+        display: inline-flex;
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+}
+
+@media (max-width: 420px) {
+    header.container { padding-top: 14px; }
+    .logo { max-width: 180px; }
+    img.logo-mobile { width: 150px; }
+    .form-box { padding: 14px; }
+    .field input, .field select { padding: 10px; }
+    .btn { padding: 14px; }
+    h1 { font-size: 1.8rem; }
+    .subtitle { font-size: 14px; }
+    .list { gap: 6px; font-size: 13px; }
+    .content { gap: 16px; }
+    .trust { font-size: 12px; padding: 12px; }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+    h1 { font-size: clamp(34px, 5.2vw, 48px); }
+    .subtitle { font-size: clamp(15px, 2vw, 20px); max-width: 85%; margin: 0 auto; }
+    .eng-box div { font-size: clamp(14px, 2vw, 17px); }
+    .form-box { padding: 18px; }
+    .content { gap: 20px; }
 }
 </style>
 </head>
@@ -366,8 +486,7 @@ footer {
 <main class="container">
 <div class="content">
 
-<!-- TEXTO -->
-<div>
+<div class="left-top">
 <div class="badge">Novo Site em Breve</div>
 <h1>Líder em Aluguel de Caçambas em São Paulo</h1>
 <p class="subtitle">Atendemos São Paulo, Osasco, Barueri e região.</p>
@@ -378,14 +497,9 @@ footer {
 <span>✔ Entrega rápida</span>
 <span>✔ Operação 24h</span>
 </div>
-<div class="eng-box">
-<div class="eng-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg></div>
-<div><strong style="color:var(--gold-light)">Condições exclusivas</strong><br>para engenheiros, arquitetos e construtoras.<br>Negociação direta com nossa equipe.</div>
-</div>
 </div>
 
-<!-- FORM + TRUST -->
-<div class="form-column">
+<div class="right-top">
 <div class="form-box">
 <h2>Solicitar Orçamento</h2>
 <div class="field"><label for="tipo">Tamanho da Caçamba</label><select id="tipo"><option>4m³ (Estacionárias)</option><option>26m³ (Roll on Roll of)</option></select></div>
@@ -394,7 +508,16 @@ footer {
 <div class="note">Resposta em poucos minutos</div>
 <div class="secure">🔒 Canal oficial: (11) 3712-2416</div>
 </div>
+</div>
 
+<div class="left-bottom">
+<div class="eng-box">
+<div><span class="eng-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg></span>
+    <strong style="color:var(--gold-light)">CONDIÇÕES EXCLUSIVAS</strong> para engenheiros, arquitetos e construtoras. Negociação direta com nossa equipe.</div>
+</div>
+</div>
+
+<div class="right-bottom">
 <div class="trust">
 <div>Mais de 20 anos atendendo grandes obras em São Paulo</div>
 <div class="rating">
@@ -404,6 +527,7 @@ footer {
 </div>
 </div>
 </div>
+
 </div>
 </main>
 
