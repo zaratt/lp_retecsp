@@ -5,13 +5,14 @@
     RewriteEngine On
     RewriteBase /
 
-    # Redireciona qualquer acesso ao domínio antigo (com ou sem www) para o novo
+    # 1. REDIRECIONAMENTO DIRETO DO DOMÍNIO ANTIGO → NOVO (PRIORIDADE MÁXIMA)
     RewriteCond %{HTTP_HOST} ^(www\.)?reteccacambas\.com\.br$ [NC]
-    RewriteRule ^(.*)$ https://retecsp.com.br/$1 [R=301,L]
+    RewriteRule ^(.*)$ https://www.retecsp.com.br/$1 [R=301,L]
 
-    # Força HTTPS em todos os acessos (inclui o novo domínio)
+    # 2. FORÇAR HTTPS APENAS NO DOMÍNIO NOVO
+    RewriteCond %{HTTP_HOST} ^(www\.)?retecsp\.com\.br$ [NC]
     RewriteCond %{HTTPS} off
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteRule ^ https://www.retecsp.com.br%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 # ============================================
