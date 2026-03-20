@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Aluguel de caçambas em São Paulo com aterro próprio. Destinação legal com CTR/MTR. Mais de 20 anos atendendo grandes obras.">
-<link rel="canonical" href="https://www.retecsp.com.br/">
-<link rel="preload" as="image" href="img/hero.webp">
-<!-- Using system font stack for faster loading and zero third-party font delays -->
-<title>RETEC | Aluguel de Caçambas em São Paulo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Aluguel de caçambas em São Paulo com aterro próprio. Destinação legal com CTR/MTR. Mais de 20 anos atendendo grandes obras.">
+    <link rel="canonical" href="https://www.retecsp.com.br/">
+    <link rel="preload" as="image" href="img/hero.webp">
+    <!-- Using system font stack for faster loading and zero third-party font delays -->
+    <title>RETEC | Aluguel de Caçambas em São Paulo</title>
     <!-- JSON-LD LocalBusiness -->
     <script type="application/ld+json">
     {
@@ -37,545 +39,662 @@
         ]
     }
     </script>
-<style>
-:root {
-    --blue: #1e2b44;
-    --gold: #d6b030;
-    --gold-light: #cfbc5a;
-    --green: #2ecc71;
-    --white: #fff;
-    --prata: #858897;
-}
+    <style>
+        :root {
+            --blue: #1e2b44;
+            --gold: #d6b030;
+            --gold-light: #cfbc5a;
+            --green: #2ecc71;
+            --white: #fff;
+            --prata: #858897;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Roboto', 'Inter', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
-    color: var(--white);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    text-rendering: optimizeLegibility;
-    font-synthesis: none;
-    background-color: #1e2b44;
-    background-image: linear-gradient(100deg, rgba(30, 43, 68, 0.95) 0%, rgba(30, 43, 68, 0.85) 40%, rgba(30, 43, 68, 0.6) 70%, rgba(30, 43, 68, 0.3) 100%), url('img/hero.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
+        body {
+            font-family: 'Roboto', 'Inter', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-rendering: optimizeLegibility;
+            font-synthesis: none;
+            background-color: #1e2b44;
+        }
 
-h1, .subtitle, .badge, .form-box {
-    line-height: 1.3;
-}
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            will-change: transform;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            z-index: 0;
+        }
 
-h1 {
-    min-height: 4.2rem;
-    margin-bottom: 0.7rem;
-    font-weight: 800;
-}
+        h1,
+        .subtitle,
+        .badge,
+        .form-box {
+            line-height: 1.3;
+        }
 
-.form-box {
-    min-height: 260px;
-}
+        h1 {
+            min-height: 4.2rem;
+            margin-bottom: 0.7rem;
+            font-weight: 800;
+        }
 
-@media (max-width: 900px) {
-    h1 {
-        min-height: 4rem;
-    }
-}
+        .form-box {
+            min-height: 260px;
+        }
+
+        @media (max-width: 900px) {
+            h1 {
+                min-height: 4rem;
+            }
+        }
 
 
-/* BACKGROUND */
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: none;
-    z-index: 0;
-}
+        /* BACKGROUND */
+        body::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg,
+                    rgba(30, 43, 68, 0.95) 0%,
+                    rgba(30, 43, 68, 0.85) 40%,
+                    rgba(30, 43, 68, 0.6) 70%,
+                    rgba(30, 43, 68, 0.3) 100%);
+            z-index: 1;
+        }
 
-body::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(100deg,
-        rgba(30, 43, 68, 0.95) 0%,
-        rgba(30, 43, 68, 0.85) 40%,
-        rgba(30, 43, 68, 0.6) 70%,
-        rgba(30, 43, 68, 0.3) 100%);
-    z-index: 1;
-}
+        header,
+        main,
+        footer {
+            position: relative;
+            z-index: 2;
+        }
 
-header,
-main,
-footer {
-    position: relative;
-    z-index: 2;
-}
+        /* HEADER */
+        header.container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+            width: 100%;
+            margin: 0 auto;
+            padding-inline: 5%;
+        }
 
-/* HEADER */
-header.container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 20px;
-    width: 100%;
-    margin: 0 auto;
-    padding-inline: 5%;
-}
+        /* LOGO */
+        .logo {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 260px;
+        }
 
-/* LOGO */
-.logo {
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    max-width: 260px;
-}
+        .logo img {
+            display: block;
+            height: auto;
+            max-width: 100%;
+        }
 
-.logo img {
-    display: block;
-    height: auto;
-    max-width: 100%;
-}
+        img.logo-desktop {
+            display: block;
+            width: 220px;
+        }
 
-img.logo-desktop {
-    display: block;
-    width: 220px;
-}
+        img.logo-mobile {
+            display: none;
+        }
 
-img.logo-mobile {
-    display: none;
-}
+        /* LAYOUT */
+        .container {
+            width: min(94%, 1200px);
+            margin: 0 auto;
+            padding: 20px 0 24px;
+        }
 
-/* LAYOUT */
-.container {
-    width: min(94%, 1200px);
-    margin: 0 auto;
-    padding: 20px 0 24px;
-}
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            text-align: left;
+        }
 
-.content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    text-align: left;
-}
+        .left-top,
+        .left-bottom,
+        .right-top,
+        .right-bottom {
+            width: 100%;
+        }
 
-.left-top, .left-bottom, .right-top, .right-bottom {
-    width: 100%;
-}
+        @media (max-width: 768px) {
 
-@media (min-width: 980px) {
-    .content {
-        grid-template-columns: 1.2fr 1fr;
-        grid-template-areas:
-            "left-top right-top"
-            "left-bottom right-bottom";
-        gap: 24px;
-        align-items: start;
-    }
-    .left-top { grid-area: left-top; }
-    .right-top { grid-area: right-top; }
-    .left-bottom { grid-area: left-bottom; }
-    .right-bottom { grid-area: right-bottom; }
-}
+            .eng-box,
+            .form-box,
+            .trust {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+        }
 
-.left-bottom, .right-bottom { align-self: start; }
+        @media (min-width: 980px) {
+            .content {
+                grid-template-columns: 1.2fr 1fr;
+                grid-template-areas:
+                    "left-top right-top"
+                    "left-bottom right-bottom";
+                gap: 24px;
+                align-items: start;
+            }
 
-.form-column { display: none; }
+            .left-top {
+                grid-area: left-top;
+            }
 
-.trust {
-    margin-top: 0;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 14px;
-    padding: 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
+            .right-top {
+                grid-area: right-top;
+            }
 
-.trust .rating {
-    justify-content: center;
-}
+            .left-bottom {
+                grid-area: left-bottom;
+            }
 
-/* BADGE */
-.badge {
-    display: inline-block;
-    padding: 6px 14px;
-    border: 1px solid var(--prata);
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 10px;
-}
+            .right-bottom {
+                grid-area: right-bottom;
+            }
+        }
 
-/* TEXT */
-h1 {
-    font-size: clamp(28px, 6vw, 54px);
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 14px;
-}
+        .left-bottom,
+        .right-bottom {
+            align-self: start;
+        }
 
-.subtitle {
-    font-size: clamp(14px, 2.4vw, 22px);
-    margin-bottom: 20px;
-    opacity: 0.9;
-    max-width: 95%;
-    letter-spacing: 0.1px;
-}
+        .form-column {
+            display: none;
+        }
 
-.list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-    font-size: clamp(13px, 2.4vw, 16px);
-}
+        .trust {
+            margin-top: 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 14px;
+            padding: 14px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
 
-.eng-box div {
-    font-size: clamp(12px, 2.1vw, 15px);
-}
+        .trust .rating {
+            justify-content: center;
+        }
 
-.trust {
-    font-size: clamp(12px, 2vw, 14px);
-}
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border: 1px solid var(--prata);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
 
-.badge {
-    font-size: clamp(11px, 2vw, 13px);
-}
+        /* TEXT */
+        h1 {
+            font-size: clamp(28px, 6vw, 54px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
 
-/* BOX */
-.eng-box {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 10px;
-    padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
+        .subtitle {
+            font-size: clamp(14px, 2.4vw, 22px);
+            margin-bottom: 20px;
+            opacity: 0.9;
+            max-width: 95%;
+            letter-spacing: 0.1px;
+        }
 
-.eng-box .eng-icon {
-    flex: 0 0 auto;
-    min-width: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: clamp(13px, 2.4vw, 16px);
+        }
 
-.eng-box .eng-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--white);
-}
+        .eng-box div {
+            font-size: clamp(12px, 2.1vw, 15px);
+        }
 
-.eng-box div {
-    flex: 1 1 0;
-    min-width: 0;
-    width: 100%;
-    font-size: clamp(12px, 2vw, 14px);
-    line-height: 1.3;
-    text-align: left;
-}
+        .trust {
+            font-size: clamp(12px, 2vw, 14px);
+        }
 
-@media (max-width: 900px) {
-    .eng-box {
-        justify-content: flex-start;
-        text-align: left;
-        padding: 12px;
-    }
-    .eng-box div {
-        width: 100%;
-        min-width: 0;
-    }
-}
+        .badge {
+            font-size: clamp(11px, 2vw, 13px);
+        }
 
-/* TRUST */
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 5px;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
+        /* BOX */
+        .eng-box {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
 
-.rating-badge {
-    background: var(--gold);
-    color: #1e2b44;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-weight: 700;
-}
+        .eng-box .eng-icon {
+            flex: 0 0 auto;
+            min-width: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.stars svg {
-    width: 14px;
-    height: 14px;
-    fill: var(--gold);
-}
+        .eng-box .eng-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--white);
+        }
 
-/* FORM */
-.form-box {
-    background: rgba(30, 43, 68, 0.75);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--prata);
-    border-radius: 20px;
-    padding: 25px;
-}
+        .eng-box div {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 100%;
+            font-size: clamp(12px, 2vw, 14px);
+            line-height: 1.3;
+            text-align: left;
+        }
 
-.form-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        @media (max-width: 900px) {
+            .eng-box {
+                justify-content: flex-start;
+                text-align: left;
+                padding: 12px;
+            }
 
-.field {
-    margin-bottom: 12px;
-}
+            .eng-box div {
+                width: 100%;
+                min-width: 0;
+            }
+        }
 
-.field label {
-    font-size: 11px;
-    margin-bottom: 4px;
-    color: var(--gold-light);
-    display: block;
-}
+        /* TRUST */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
 
-.field input,
-.field select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    font-family: inherit;
-}
+        .rating-badge {
+            background: var(--gold);
+            color: #1e2b44;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
 
-.btn {
-    width: 100%;
-    background: var(--green);
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    transition: .3s;
-    margin-top: 10px;
-}
+        .stars svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--gold);
+        }
 
-.btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
+        /* FORM */
+        .form-box {
+            background: rgba(30, 43, 68, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--prata);
+            border-radius: 20px;
+            padding: 25px;
+        }
 
-.note {
-    font-size: 11px;
-    text-align: center;
-    margin-top: 10px;
-    opacity: 0.7;
-}
+        .form-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.secure {
-    font-size: 11px;
-    text-align: center;
-    margin-top: 6px;
-    color: var(--gold-light);
-}
+        .field {
+            margin-bottom: 12px;
+        }
 
-/* FOOTER */
-footer {
-    margin-top: auto;
-    text-align: center;
-    font-size: 12px;
-    padding: 20px;
-    opacity: 0.7;
-}
+        .field label {
+            font-size: 11px;
+            margin-bottom: 4px;
+            color: var(--gold-light);
+            display: block;
+        }
 
-/* MOBILE */
-@media (max-width: 900px) {
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-family: inherit;
+        }
 
-    header.container {
-        justify-content: center;
-        padding-top: 20px;
-    }
+        .btn {
+            width: 100%;
+            background: var(--green);
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            color: #fff;
+            cursor: pointer;
+            transition: .3s;
+            margin-top: 10px;
+        }
 
-    .logo {
-        justify-content: center;
-    }
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
 
-    img.logo-desktop {
-        display: none;
-    }
+        .note {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
 
-    img.logo-mobile {
-        display: block;
-        width: 180px;
-    }
+        .secure {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 6px;
+            color: var(--gold-light);
+        }
 
-    .content {
-        grid-template-columns: 1fr;
-        text-align: left;
-        gap: 24px;
-    }
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 12px;
+            padding: 20px;
+            opacity: 0.7;
+        }
 
-    .badge,
-    h1,
-    .subtitle {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .badge {
-        display: block;
-        width: fit-content;
-        margin: 0 auto 10px;
-    }
+        /* MOBILE */
+        @media (max-width: 900px) {
 
-    h1 {
-        font-size: clamp(30px, 7vw, 48px);
-    }
+            header.container {
+                justify-content: center;
+                padding-top: 20px;
+            }
 
-    .subtitle {
-        font-size: clamp(14px, 3vw, 20px);
-        max-width: 90%;
-    }
+            .logo {
+                justify-content: center;
+            }
 
-    .eng-box {
-        justify-content: center;
-        padding: 12px;
-    }
+            img.logo-desktop {
+                display: none;
+            }
 
-    .rating {
-        justify-content: center;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-    }
+            img.logo-mobile {
+                display: block;
+                width: 180px;
+            }
 
-    .trust {
-        text-align: center;
-        margin-top: 10px;
-    }
+            .content {
+                grid-template-columns: 1fr;
+                text-align: left;
+                gap: 24px;
+            }
 
-    .stars {
-        display: inline-flex;
-        gap: 4px;
-        flex-wrap: nowrap;
-    }
-}
+            .badge,
+            h1,
+            .subtitle {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
 
-@media (max-width: 420px) {
-    header.container { padding-top: 14px; }
-    .logo { max-width: 180px; }
-    img.logo-mobile { width: 150px; }
-    .form-box { padding: 14px; }
-    .field input, .field select { padding: 10px; }
-    .btn { padding: 14px; }
-    h1 { font-size: 1.8rem; }
-    .subtitle { font-size: 14px; }
-    .list { gap: 6px; font-size: 13px; }
-    .content { gap: 16px; }
-    .trust { font-size: 12px; padding: 12px; }
-}
+            .badge {
+                display: block;
+                width: fit-content;
+                margin: 0 auto 10px;
+            }
 
-@media (min-width: 768px) and (max-width: 1100px) {
-    h1 { font-size: clamp(34px, 5.2vw, 48px); }
-    .subtitle { font-size: clamp(15px, 2vw, 20px); max-width: 85%; margin: 0 auto; }
-    .eng-box div { font-size: clamp(14px, 2vw, 17px); }
-    .form-box { padding: 18px; }
-    .content { gap: 20px; }
-}
-</style>
+            h1 {
+                font-size: clamp(30px, 7vw, 48px);
+            }
+
+            .subtitle {
+                font-size: clamp(14px, 3vw, 20px);
+                max-width: 90%;
+            }
+
+            .eng-box {
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .rating {
+                justify-content: center;
+                flex-wrap: nowrap;
+                white-space: nowrap;
+            }
+
+            .trust {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .stars {
+                display: inline-flex;
+                gap: 4px;
+                flex-wrap: nowrap;
+            }
+        }
+
+        @media (max-width: 420px) {
+            header.container {
+                padding-top: 14px;
+            }
+
+            .logo {
+                max-width: 180px;
+            }
+
+            img.logo-mobile {
+                width: 150px;
+            }
+
+            .form-box {
+                padding: 14px;
+            }
+
+            .field input,
+            .field select {
+                padding: 10px;
+            }
+
+            .btn {
+                padding: 14px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .list {
+                gap: 6px;
+                font-size: 13px;
+            }
+
+            .content {
+                gap: 16px;
+            }
+
+            .trust {
+                font-size: 12px;
+                padding: 12px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1100px) {
+            h1 {
+                font-size: clamp(34px, 5.2vw, 48px);
+            }
+
+            .subtitle {
+                font-size: clamp(15px, 2vw, 20px);
+                max-width: 85%;
+                margin: 0 auto;
+            }
+
+            .eng-box div {
+                font-size: clamp(14px, 2vw, 17px);
+            }
+
+            .form-box {
+                padding: 18px;
+            }
+
+            .content {
+                gap: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <img src="img/hero.webp"
+     width="1366"
+     height="768"
+     class="hero-bg"
+     fetchpriority="high"
+     loading="eager"
+     decoding="async"
+     alt="Aluguel de caçambas em São Paulo com entrega rápida e destinação legal - RETEC">
 <header class="container">
-    <div class="logo">
-        <img src="img/logo-Retec-360.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-desktop">
-        <img src="img/logo-Retec-180.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-mobile">
-    </div>
-</header>
+        <div class="logo">
+            <img src="img/logo-Retec-360.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-desktop">
+            <img src="img/logo-Retec-180.webp" alt="RETEC logo - Pensou Caçamba, Pensou RETEC" class="logo-mobile">
+        </div>
+    </header>
 
-<main class="container">
-<div class="content">
+    <main class="container">
+        <div class="content">
 
-<div class="left-top">
-<div class="badge">Novo Site em Breve</div>
-<h1>Líder em Aluguel de Caçambas em São Paulo</h1>
-<p class="subtitle">Atendemos São Paulo, Osasco, Barueri e região.</p>
-<div class="list">
-<span>✔ Aterro próprio (melhor custo)</span>
-<span>✔ Certificação ambiental (CETESB / IBAMA)</span>
-<span>✔ Emissão de CTR / MTR</span>
-<span>✔ Entrega rápida</span>
-<span>✔ Operação 24h</span>
-</div>
-</div>
+            <div class="left-top">
+                <div class="badge">Novo Site em Breve</div>
+                <h1>Líder em Aluguel de Caçambas em São Paulo</h1>
+                <p class="subtitle">Atendemos São Paulo, Osasco, Barueri e região.</p>
+                <div class="list">
+                    <span>✔ Aterro próprio (melhor custo)</span>
+                    <span>✔ Certificação ambiental (CETESB / IBAMA)</span>
+                    <span>✔ Emissão de CTR / MTR</span>
+                    <span>✔ Entrega rápida</span>
+                    <span>✔ Operação 24h</span>
+                </div>
+            </div>
 
-<div class="right-top">
-<div class="form-box">
-<h2>Solicitar Orçamento</h2>
-<div class="field"><label for="tipo">Tamanho da Caçamba</label><select id="tipo"><option>4m³ (Estacionárias)</option><option>26m³ (Roll on Roll of)</option></select></div>
-<div class="field"><label for="bairro">Bairro</label><input type="text" id="bairro" placeholder="Ex: Moema"></div>
-<button class="btn" onclick="enviar()">SOLICITAR ORÇAMENTO IMEDIATO</button>
-<div class="note">Resposta em poucos minutos</div>
-<div class="secure">🔒 Canal oficial: (11) 3712-2416</div>
-</div>
-</div>
+            <div class="right-top">
+                <div class="form-box">
+                    <h2>Solicitar Orçamento</h2>
+                    <div class="field"><label for="tipo">Tamanho da Caçamba</label><select id="tipo">
+                            <option>4m³ (Estacionárias)</option>
+                            <option>26m³ (Roll on Roll of)</option>
+                        </select></div>
+                    <div class="field"><label for="bairro">Bairro</label><input type="text" id="bairro"
+                            placeholder="Ex: Moema"></div>
+                    <button class="btn" onclick="enviar()">SOLICITAR ORÇAMENTO IMEDIATO</button>
+                    <div class="note">Resposta em poucos minutos</div>
+                    <div class="secure">🔒 Canal oficial: (11) 3712-2416</div>
+                </div>
+            </div>
 
-<div class="left-bottom">
-<div class="eng-box">
-<div><span class="eng-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg></span>
-    <strong style="color:var(--gold-light)">CONDIÇÕES EXCLUSIVAS</strong> para engenheiros, arquitetos e construtoras. Negociação direta com nossa equipe.</div>
-</div>
-</div>
+            <div class="left-bottom">
+                <div class="eng-box">
+                    <div><span class="eng-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                <path
+                                    d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z" />
+                            </svg></span>
+                        <strong style="color:var(--gold-light)">CONDIÇÕES EXCLUSIVAS</strong> para engenheiros,
+                        arquitetos e construtoras. Negociação direta com nossa equipe.
+                    </div>
+                </div>
+            </div>
 
-<div class="right-bottom">
-<div class="trust">
-<div>Mais de 20 anos atendendo grandes obras em São Paulo</div>
-<div class="rating">
-<span>Mais de 3.000 avaliações</span>
-<div class="rating-badge">4.8</div>
-<div class="stars"><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z"/></svg></div>
-</div>
-</div>
-</div>
+            <div class="right-bottom">
+                <div class="trust">
+                    <div>Mais de 20 anos atendendo grandes obras em São Paulo</div>
+                    <div class="rating">
+                        <span>Mais de 3.000 avaliações</span>
+                        <div class="rating-badge">4.8</div>
+                        <div class="stars"><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z" />
+                            </svg><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z" />
+                            </svg><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z" />
+                            </svg><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z" />
+                            </svg><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 .6l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8.1L12 18.9l-7.2 3.8 1.4-8.1L.3 9.1l8.1-1.2z" />
+                            </svg></div>
+                    </div>
+                </div>
+            </div>
 
-</div>
-</main>
+        </div>
+    </main>
 
-<footer>
-2026 RETEC — Pensou Caçamba, Pensou RETEC — Líder em aluguel de caçambas e gestão de resíduos
-</footer>
+    <footer>
+        2026 RETEC — Pensou Caçamba, Pensou RETEC — Líder em aluguel de caçambas e gestão de resíduos
+    </footer>
 
-<script>
-function enviar(){
-const bairro=document.getElementById('bairro').value;
-const tipo=document.getElementById('tipo').value;
+    <script>
+        function enviar() {
+            const bairro = document.getElementById('bairro').value;
+            const tipo = document.getElementById('tipo').value;
 
-if(!bairro){
-alert('Digite o bairro');
-return;
-}
+            if (!bairro) {
+                alert('Digite o bairro');
+                return;
+            }
 
-const msg=encodeURIComponent(`Olá, gostaria de orçamento:\nCaçamba: ${tipo}\nBairro: ${bairro}`);
-window.open(`https://wa.me/551137122416?text=${msg}`,'_blank');
-}
-</script>
+            const msg = encodeURIComponent(`Olá, gostaria de orçamento:\nCaçamba: ${tipo}\nBairro: ${bairro}`);
+            window.open(`https://wa.me/551137122416?text=${msg}`, '_blank');
+        }
+    </script>
 
 </body>
+
 </html>
