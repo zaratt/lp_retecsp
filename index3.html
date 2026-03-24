@@ -228,9 +228,10 @@
 			position: relative;
 			min-height: 90vh;
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			background: url('img/hero.webp') center/cover no-repeat;
 			color: white;
+			padding: 0;
 		}
 		.hero::before {
 			content: '';
@@ -246,25 +247,30 @@
 			z-index: 0;
 		}
 		.hero-container {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 40px;
+			display: grid;
+			grid-template-columns: 1.2fr 1fr;
+			grid-template-areas:
+				"hero-content hero-form"
+				"hero-bl     hero-br";
+			column-gap: 40px;
+			row-gap: 20px;
+			align-items: start;
 			position: relative;
 			z-index: 1;
-			padding: 60px 0;
+			padding: 20px 0 40px;
 		}
-		.hero-content { flex: 1.2; max-width: 620px; }
+		.hero-content  { grid-area: hero-content; padding: 0; }
 		.hero-badge {
 			display: inline-block;
 			background: rgba(255,255,255,0.15);
 			backdrop-filter: blur(6px);
-			color: white;
+			color: #d6b030;
 			padding: 6px 14px;
 			border-radius: 20px;
 			font-size: 13px;
-			font-weight: 600;
+			font-weight: 700;
 			margin-bottom: 14px;
+			border: 1px solid rgba(214,176,48,0.4);
 		}
 		.hero h1 {
 			font-size: clamp(1.8rem, 4.5vw, 3rem);
@@ -327,14 +333,13 @@
 
 		/* HERO FORM BOX */
 		.hero-form-box {
-			flex: 0.85;
+			grid-area: hero-form;
 			background: rgba(0,30,50,0.75);
 			backdrop-filter: blur(14px);
 			-webkit-backdrop-filter: blur(14px);
 			border: 1px solid rgba(255,255,255,0.2);
 			border-radius: 18px;
 			padding: 28px;
-			max-width: 380px;
 			width: 100%;
 		}
 		.hero-form-box h3 {
@@ -417,16 +422,63 @@
 			line-height: 1.4;
 		}
 
-		@media (max-width: 992px) {
-			.hero-container { flex-direction: column; text-align: center; }
-			.hero-content { text-align: center; max-width: 100%; }
+		/* HERO BOTTOM CARDS */
+		.hero-bar-card {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			background: rgba(255,255,255,0.08);
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+			border: 1px solid rgba(255,255,255,0.2);
+			border-radius: 12px;
+			padding: 14px 16px;
+			font-size: clamp(12px, 2.1vw, 15px);
+			color: #d9e8f5;
+		}
+		.hero-bar-card svg {
+			width: 22px;
+			height: 22px;
+			flex-shrink: 0;
+			fill: white;
+		}
+		.hero-bar-left  { grid-area: hero-bl; }
+		.hero-bar-right {
+			grid-area: hero-br;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 6px;
+			text-align: center;
+			font-size: clamp(12px, 2vw, 14px);
+		}
+		.hero-bar-rating {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			flex-wrap: wrap;
+			width: 100%;
+		}
+		@media (max-width: 980px) {
+			.hero-container {
+				grid-template-columns: 1fr;
+				grid-template-areas:
+					"hero-content"
+					"hero-form"
+					"hero-bl"
+					"hero-br";
+				text-align: center;
+				padding: 20px 3% 36px;
+			}
+			.hero-content { text-align: center; }
 			.hero-checklist { align-items: flex-start; display: inline-flex; text-align: left; }
-			.hero-trust { justify-content: center; }
-			.hero-form-box { max-width: 460px; width: 100%; }
+			.hero-form-box { max-width: 460px; margin: 0 auto; }
+			.hero-bar-card { max-width: 460px; width: 100%; margin: 0 auto; }
+			.hero-bar-right { text-align: center; align-items: center; }
 		}
 		@media (max-width: 480px) {
 			.hero { min-height: auto; }
-			.hero-container { padding: 40px 0; }
+			.hero-container { padding: 16px 3% 32px; }
 		}
 
 		/* ============ TIPOS DE CAÇAMBA ============ */
@@ -678,7 +730,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ HERO ============ -->
 <section class="hero" id="home">
 	<div class="container hero-container">
-		<!-- Conteúdo esquerdo -->
+
+		<!-- Topo esquerdo: conteúdo -->
 		<div class="hero-content">
 			<div class="hero-badge">Mais de 20 anos de experiência</div>
 			<h1>Líder em Aluguel de Caçambas em São Paulo</h1>
@@ -690,16 +743,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<li>Entrega rápida — Operação 24h</li>
 				<li>Frota própria</li>
 			</ul>
-			<div class="hero-trust">
-				<span>Mais de 3.000 avaliações</span>
-				<div class="hero-rating">
-					<span class="rating-badge">4.8</span>
-					<span class="stars">★★★★★</span>
-				</div>
-			</div>
 		</div>
 
-		<!-- Form direito -->
+		<!-- Topo direito: formulário -->
 		<div class="hero-form-box" id="home-form">
 			<h3>Solicitar Orçamento</h3>
 			<div class="field-group">
@@ -713,16 +759,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<label for="bairroInput">Bairro da Entrega</label>
 				<input type="text" id="bairroInput" placeholder="Ex: Pinheiros, Moema, Osasco...">
 			</div>
-			<div class="lgpd-row">
-				<input type="checkbox" id="lgpd-check">
-				<span>Autorizo a <strong>RETEC SP</strong> a entrar em contato via WhatsApp para fins de orçamento, conforme a <a href="privacidade.html" style="color:#7ec8e3; text-decoration:underline;">Política de Privacidade</a>.</span>
-			</div>
-			<button id="btn_orcamento_home" class="btn-whatsapp-hero">
+			<button id="btn_orcamento_home" class="btn-whatsapp-hero active">
 				<i class="fa-brands fa-whatsapp"></i>
-				<span>PEDIR ORÇAMENTO PELO WHATSAPP</span>
+				<span>SOLICITAR ORÇAMENTO IMEDIATO</span>
 			</button>
 			<p class="security-note">🔒 Canal oficial: (11) 3712-2416<br>Não solicitamos pagamentos antecipados.</p>
 		</div>
+
+		<!-- Rodapé esquerdo: card CONDIÇÕES -->
+		<div class="hero-bar-card hero-bar-left">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" style="width:22px;height:22px;flex-shrink:0;fill:white">
+				<path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/>
+			</svg>
+			<div><strong style="color:#d6b030">CONDIÇÕES EXCLUSIVAS</strong> para engenheiros, arquitetos e construtoras. Negociação direta com nossa equipe.</div>
+		</div>
+
+		<!-- Rodapé direito: card avaliações -->
+		<div class="hero-bar-card hero-bar-right">
+			<div>Mais de 20 anos atendendo grandes obras em São Paulo</div>
+			<div class="hero-bar-rating">
+				<span>Mais de 3.000 avaliações</span>
+				<span class="rating-badge">4.8</span>
+				<span class="stars">★★★★★</span>
+			</div>
+		</div>
+
 	</div>
 </section>
 
@@ -1109,25 +1170,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		link.addEventListener('click', closeMenu);
 	});
 
-	/* --- FORM HERO: LGPD + WHATSAPP --- */
-	const check = document.getElementById('lgpd-check');
+	/* --- FORM HERO: WHATSAPP --- */
 	const btnEnviar = document.getElementById('btn_orcamento_home');
 	const bairroInput = document.getElementById('bairroInput');
 	const tipoCacamba = document.getElementById('tipoCacamba');
-
-	function toggleBtn() {
-		if (check && btnEnviar) {
-			if (check.checked) {
-				btnEnviar.classList.add('active');
-			} else {
-				btnEnviar.classList.remove('active');
-			}
-		}
-	}
-	if (check) {
-		check.addEventListener('change', toggleBtn);
-		toggleBtn();
-	}
 
 	if (btnEnviar) {
 		btnEnviar.addEventListener('click', function () {
