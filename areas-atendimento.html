@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Áreas Atendidas | RETEC SP — Aluguel de Caçambas em São Paulo e Grande SP</title>
+	<meta name="description" content="RETEC SP atende São Paulo (Zonas Oeste, Sul, Norte e Leste), Osasco, Barueri, Alphaville, Santana de Parnaíba, Taboão da Serra e demais cidades da Grande São Paulo.">
+	<link rel="canonical" href="https://www.retecsp.com.br/areas-atendimento.html">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.retecsp.com.br/areas-atendimento.html">
+	<meta property="og:title" content="Áreas Atendidas | RETEC SP">
+	<meta property="og:description" content="Veja todas as regiões atendidas pela RETEC SP: São Paulo, Osasco, Barueri, Alphaville, Santana de Parnaíba e toda Grande São Paulo.">
+	<meta property="og:image" content="https://retecsp.com.br/img/hero.webp">
+
+	<!-- Favicon -->
+	<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
+
+	<!-- Fonts & Icons -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://kit.fontawesome.com">
+	<link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
+	<script defer src="https://kit.fontawesome.com/ca3c4a97cf.js" crossorigin="anonymous"></script>
+
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-MRNG2HFG');</script>
+	<!-- End Google Tag Manager -->
+
+	<link rel="stylesheet" href="style.css">
+
+	<style>
+		/* ============================================
+		   ESTILOS DA PÁGINA DE ÁREAS ATENDIDAS
+		   ============================================ */
+
+		/* HEADER (igual ao index3) */
+		header {
+			background: var(--white);
+			position: sticky;
+			top: 0;
+			z-index: 1001;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+		}
+		.header-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 12px 0;
+		}
+		.logo-link { display: flex; align-items: center; text-decoration: none; }
+		.logo-link img { height: 48px; width: auto; display: block; }
+		nav ul { display: flex; list-style: none; gap: 22px; align-items: center; margin: 0; padding: 0; }
+		nav a { font-weight: 600; font-size: 0.85rem; color: var(--dark-gray); text-decoration: none; transition: color 0.2s; }
+		nav a:hover { color: var(--primary-blue); }
+		nav a.active { color: var(--primary-blue); }
+		.btn-nav { background: var(--primary-blue); color: white !important; padding: 9px 18px; border-radius: 5px; white-space: nowrap; }
+		.btn-nav:hover { background: var(--secondary-blue); }
+		.menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1002; background: none; border: none; padding: 4px; }
+		.menu-toggle span { display: block; width: 28px; height: 3px; background: var(--primary-blue); border-radius: 3px; transition: 0.3s; }
+		@media (max-width: 900px) {
+			.menu-toggle { display: flex; }
+			nav { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: var(--white); box-shadow: -5px 0 15px rgba(0,0,0,0.12); transition: 0.35s; padding-top: 90px; z-index: 1000; }
+			nav.active { right: 0; }
+			nav ul { flex-direction: column; gap: 0; padding: 0; align-items: flex-start; }
+			nav ul li { width: 100%; }
+			nav a { display: block; padding: 14px 32px; font-size: 1rem; border-bottom: 1px solid #f0f0f0; }
+			.btn-nav { margin: 20px 32px; display: inline-block; border-radius: 5px; }
+			.menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+			.menu-toggle.active span:nth-child(2) { opacity: 0; }
+			.menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+		}
+
+		/* PAGE HERO / BANNER */
+		.page-hero {
+			background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+			color: white;
+			padding: 60px 0 50px;
+			text-align: center;
+		}
+		.page-hero h1 {
+			font-size: clamp(1.8rem, 4vw, 2.6rem);
+			font-weight: 800;
+			margin-bottom: 12px;
+		}
+		.page-hero p {
+			font-size: 1rem;
+			opacity: 0.85;
+			max-width: 600px;
+			margin: 0 auto 28px;
+			line-height: 1.6;
+		}
+		.page-hero .btn-hero-wa {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			background: #25D366;
+			color: white;
+			padding: 14px 28px;
+			border-radius: 8px;
+			font-weight: 700;
+			font-size: 1rem;
+			text-decoration: none;
+			transition: 0.25s;
+		}
+		.page-hero .btn-hero-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.3); }
+
+		/* REGIÕES - ACCORDION */
+		.areas-page {
+			padding: 60px 0 80px;
+			background: var(--light-gray);
+		}
+		.region-group {
+			max-width: 900px;
+			margin: 0 auto 16px;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+		}
+		.region-toggle {
+			width: 100%;
+			background: var(--white);
+			border: none;
+			padding: 20px 24px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+			text-align: left;
+			transition: background 0.2s;
+		}
+		.region-toggle:hover { background: #f0f4f8; }
+		.region-toggle-left {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+		}
+		.region-icon {
+			width: 44px;
+			height: 44px;
+			background: var(--primary-blue);
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.1rem;
+			flex-shrink: 0;
+		}
+		.region-toggle h2 {
+			font-size: 1.1rem;
+			font-weight: 700;
+			color: var(--primary-blue);
+			margin: 0;
+		}
+		.region-toggle small {
+			display: block;
+			font-size: 0.78rem;
+			color: #666;
+			font-weight: 400;
+			margin-top: 2px;
+		}
+		.region-toggle .chevron {
+			color: var(--primary-blue);
+			font-size: 0.9rem;
+			transition: transform 0.3s;
+			flex-shrink: 0;
+		}
+		.region-group.open .region-toggle { background: var(--primary-blue); }
+		.region-group.open .region-toggle h2 { color: white; }
+		.region-group.open .region-toggle small { color: rgba(255,255,255,0.75); }
+		.region-group.open .region-toggle .chevron { color: white; transform: rotate(180deg); }
+		.region-group.open .region-icon { background: rgba(255,255,255,0.2); }
+
+		.region-body {
+			display: none;
+			background: var(--white);
+			padding: 24px;
+			border-top: 1px solid #eee;
+		}
+		.region-group.open .region-body { display: block; }
+
+		/* Sub cidades dentro de uma região macro */
+		.sub-area {
+			margin-bottom: 24px;
+		}
+		.sub-area:last-child { margin-bottom: 0; }
+		.sub-area-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 12px;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+		.sub-area-title {
+			font-size: 0.95rem;
+			font-weight: 700;
+			color: var(--secondary-blue);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+		.sub-area-title i { color: var(--primary-blue); font-size: 0.85rem; }
+
+		/* CHIPS / TAGS de bairros */
+		.bairros-chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 7px;
+		}
+		.chip {
+			background: #eef2f7;
+			color: var(--dark-gray);
+			padding: 5px 12px;
+			border-radius: 20px;
+			font-size: 0.78rem;
+			font-weight: 500;
+			white-space: nowrap;
+			transition: background 0.2s, color 0.2s;
+		}
+		.chip:hover { background: var(--primary-blue); color: white; cursor: default; }
+
+		/* CTA por região */
+		.region-cta {
+			margin-top: 20px;
+			padding-top: 16px;
+			border-top: 1px solid #eee;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 12px;
+		}
+		.region-cta p {
+			font-size: 0.85rem;
+			color: #666;
+			margin: 0;
+		}
+		.btn-region-wa {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			background: #25D366;
+			color: white;
+			padding: 11px 20px;
+			border-radius: 8px;
+			font-weight: 700;
+			font-size: 0.88rem;
+			text-decoration: none;
+			transition: 0.2s;
+			white-space: nowrap;
+		}
+		.btn-region-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+
+		/* Separador entre sub-áreas */
+		.sub-divider {
+			border: none;
+			border-top: 1px dashed #dde3ea;
+			margin: 20px 0;
+		}
+
+		/* Banner CTA final */
+		.cta-banner {
+			background: var(--primary-blue);
+			color: white;
+			text-align: center;
+			padding: 60px 20px;
+		}
+		.cta-banner h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 12px; }
+		.cta-banner p { opacity: 0.85; margin-bottom: 28px; font-size: 1rem; }
+		.cta-banner a {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			background: #25D366;
+			color: white;
+			padding: 16px 32px;
+			border-radius: 8px;
+			font-weight: 700;
+			font-size: 1rem;
+			text-decoration: none;
+			transition: 0.25s;
+		}
+		.cta-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
+
+		/* WHATSAPP FLOAT */
+		.whatsapp-float {
+			position: fixed; bottom: 25px; right: 25px;
+			width: 60px; height: 60px;
+			background: #25D366; color: white;
+			display: flex; align-items: center; justify-content: center;
+			border-radius: 50%; z-index: 9999; font-size: 1.6rem;
+			opacity: 0; visibility: hidden;
+			transition: opacity 0.3s, visibility 0.3s;
+			text-decoration: none;
+		}
+		.whatsapp-float.show { opacity: 1; visibility: visible; }
+		@keyframes pulse-ring {
+			0% { transform: scale(0.5); opacity: 0.8; }
+			80%, 100% { transform: scale(1.8); opacity: 0; }
+		}
+		.whatsapp-float.show::before {
+			content: ''; position: absolute; width: 100%; height: 100%;
+			border-radius: 50%; background: #25D366;
+			animation: pulse-ring 1.8s cubic-bezier(0.455,0.03,0.515,0.955) infinite; z-index: -1;
+		}
+
+		/* NAV OVERLAY */
+		.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+		.nav-overlay.active { display: block; }
+
+		/* FOOTER */
+		.footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+		.footer-legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+		.footer-legal-links a:hover { color: white; }
+		.footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; color: rgba(255,255,255,0.45); font-size: 0.72rem; }
+	</style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Nav Overlay Mobile -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- ============ HEADER ============ -->
+<header>
+	<div class="container header-container">
+		<a href="index3.html" class="logo-link">
+			<img src="img/logo-Retec-360.webp" alt="RETEC SP - Pensou Caçamba, Pensou RETEC" width="180" height="48">
+		</a>
+		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
+			<span></span><span></span><span></span>
+		</button>
+		<nav id="nav-menu" role="navigation" aria-label="Menu principal">
+			<ul>
+				<li><a href="index3.html#home">Home</a></li>
+				<li><a href="index3.html#quem-somos">Quem Somos</a></li>
+				<li><a href="areas-atendimento.html" class="active">Áreas Atendidas</a></li>
+				<li><a href="index3.html#tipos">Tipo de Caçambas</a></li>
+				<li><a href="index3.html#guia-descarte">Guia de Descarte</a></li>
+				<li><a href="index3.html#faq">FAQ</a></li>
+				<li><a href="index3.html#contato" class="btn-nav">Contato</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+	<div class="container">
+		<h1><i class="fas fa-map-marker-alt"></i> Áreas de Atendimento</h1>
+		<p>Logística ágil e destinação ambiental correta. Atendemos obras residenciais, comerciais e industriais em toda a Grande São Paulo.</p>
+		<a href="https://wa.me/551137122416?text=Olá! Gostaria de verificar se vocês atendem minha região." class="btn-hero-wa" target="_blank" rel="noopener">
+			<i class="fa-brands fa-whatsapp"></i> Consultar minha região
+		</a>
+	</div>
+</section>
+
+<!-- ============ ACORDEÃO DE REGIÕES ============ -->
+<section class="areas-page">
+	<div class="container">
+
+		<!-- SÃO PAULO CAPITAL -->
+		<div class="region-group open" id="saopaulo">
+			<button class="region-toggle" aria-expanded="true" data-target="body-saopaulo">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-city"></i></span>
+					<div>
+						<h2>São Paulo Capital</h2>
+						<small>Zona Oeste, Sul, Norte e Leste</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-saopaulo">
+
+				<div class="sub-area">
+					<div class="sub-area-header">
+						<span class="sub-area-title"><i class="fas fa-compass"></i> Zona Oeste</span>
+					</div>
+					<div class="bairros-chips">
+						<span class="chip">Butantã</span><span class="chip">Pinheiros</span><span class="chip">Lapa</span><span class="chip">Perdizes</span><span class="chip">Vila Madalena</span><span class="chip">Vila Leopoldina</span><span class="chip">Jaguaré</span><span class="chip">Rio Pequeno</span><span class="chip">Jardim Bonfiglioli</span><span class="chip">Vila Sônia</span><span class="chip">Raposo Tavares</span><span class="chip">Sumaré</span><span class="chip">Pompeia</span><span class="chip">Barra Funda</span><span class="chip">Alto da Lapa</span><span class="chip">Vila Jaguara</span><span class="chip">Vila Hamburguesa</span><span class="chip">Jardim Guedala</span><span class="chip">City América</span>
+					</div>
+				</div>
+
+				<hr class="sub-divider">
+
+				<div class="sub-area">
+					<div class="sub-area-header">
+						<span class="sub-area-title"><i class="fas fa-compass"></i> Zona Sul</span>
+					</div>
+					<div class="bairros-chips">
+						<span class="chip">Morumbi</span><span class="chip">Real Parque</span><span class="chip">Panamby</span><span class="chip">Vila Andrade</span><span class="chip">Jardim Sul</span><span class="chip">Itaim Bibi</span><span class="chip">Vila Olímpia</span><span class="chip">Moema</span><span class="chip">Brooklin</span><span class="chip">Campo Belo</span><span class="chip">Santo Amaro</span><span class="chip">Granja Julieta</span><span class="chip">Chácara Santo Antônio</span><span class="chip">Alto da Boa Vista</span><span class="chip">Interlagos</span><span class="chip">Jardim Marajoara</span><span class="chip">Saúde</span><span class="chip">Vila Mariana</span><span class="chip">Ipiranga</span><span class="chip">Aclimação</span><span class="chip">Jabaquara</span><span class="chip">Cursino</span><span class="chip">Sacomã</span><span class="chip">Planalto Paulista</span>
+					</div>
+				</div>
+
+				<hr class="sub-divider">
+
+				<div class="sub-area">
+					<div class="sub-area-header">
+						<span class="sub-area-title"><i class="fas fa-compass"></i> Zona Norte</span>
+					</div>
+					<div class="bairros-chips">
+						<span class="chip">Santana</span><span class="chip">Casa Verde</span><span class="chip">Tucuruvi</span><span class="chip">Mandaqui</span><span class="chip">Freguesia do Ó</span><span class="chip">Limão</span><span class="chip">Vila Guilherme</span><span class="chip">Tremembé</span><span class="chip">Jaçanã</span><span class="chip">Parada Inglesa</span><span class="chip">Vila Maria</span><span class="chip">Vila Medeiros</span><span class="chip">Brasilândia</span><span class="chip">Pirituba</span><span class="chip">Jaraguá</span><span class="chip">Cachoeirinha</span><span class="chip">Imirim</span><span class="chip">Chácara Meyer</span><span class="chip">Parque Novo Mundo</span><span class="chip">Lauzane Paulista</span>
+					</div>
+				</div>
+
+				<hr class="sub-divider">
+
+				<div class="sub-area">
+					<div class="sub-area-header">
+						<span class="sub-area-title"><i class="fas fa-compass"></i> Zona Leste</span>
+					</div>
+					<div class="bairros-chips">
+						<span class="chip">Tatuapé</span><span class="chip">Anália Franco</span><span class="chip">Mooca</span><span class="chip">Belém</span><span class="chip">Vila Formosa</span><span class="chip">Água Rasa</span><span class="chip">Penha</span><span class="chip">Carrão</span><span class="chip">Brás</span><span class="chip">Itaquera</span><span class="chip">Vila Matilde</span><span class="chip">Vila Prudente</span><span class="chip">Sapopemba</span><span class="chip">Aricanduva</span><span class="chip">Cangaíba</span><span class="chip">Artur Alvim</span><span class="chip">Itaim Paulista</span><span class="chip">São Miguel Paulista</span><span class="chip">Vila Curuçá</span><span class="chip">Ponte Rasa</span>
+					</div>
+				</div>
+
+				<div class="region-cta">
+					<p>Retirada e entrega em 24–48h em toda São Paulo Capital.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Preciso de uma caçamba em São Paulo Capital." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Solicitar para São Paulo
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- OSASCO -->
+		<div class="region-group" id="osasco">
+			<button class="region-toggle" aria-expanded="false" data-target="body-osasco">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-truck"></i></span>
+					<div>
+						<h2>Osasco</h2>
+						<small>Sede próxima — melhores condições e prazo 24h</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-osasco">
+				<div class="sub-area">
+					<div class="bairros-chips">
+						<span class="chip">Centro</span><span class="chip">Vila Yara</span><span class="chip">Campesina</span><span class="chip">Bela Vista</span><span class="chip">Jaguaribe</span><span class="chip">Umuarama</span><span class="chip">Adalgisa</span><span class="chip">City Bussocaba</span><span class="chip">Km 18</span><span class="chip">Quitaúna</span><span class="chip">Pestana</span><span class="chip">Rochdale</span><span class="chip">Piratininga</span><span class="chip">Munhoz Júnior</span><span class="chip">Novo Osasco</span><span class="chip">Conceição</span><span class="chip">Jardim D'Abril</span><span class="chip">Ayrosa</span><span class="chip">Iapi</span>
+					</div>
+				</div>
+				<div class="region-cta">
+					<p>Cidade sede da RETEC SP — prazo de entrega 24h.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Preciso de uma caçamba em Osasco." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Orçar para Osasco
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- BARUERI / ALPHAVILLE -->
+		<div class="region-group" id="barueri">
+			<button class="region-toggle" aria-expanded="false" data-target="body-barueri">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-building"></i></span>
+					<div>
+						<h2>Barueri / Alphaville</h2>
+						<small>Condomínios, comércios e obras de alto padrão</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-barueri">
+				<div class="sub-area">
+					<div class="bairros-chips">
+						<span class="chip">Alphaville (Todos)</span><span class="chip">Tamboré</span><span class="chip">Aldeia da Serra</span><span class="chip">Bethaville</span><span class="chip">Jardim Belval</span><span class="chip">Vila Silveira</span><span class="chip">Engenho Novo</span><span class="chip">Jardim dos Altos</span><span class="chip">Cruz Preta</span><span class="chip">Vila Militar</span><span class="chip">Jardim Audir</span><span class="chip">Parque Viana</span><span class="chip">Jardim Paulista</span><span class="chip">Vila Porto</span><span class="chip">Califórnia</span>
+					</div>
+				</div>
+				<div class="region-cta">
+					<p>Logística especializada para condomínios e obras de alto padrão.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Preciso de uma caçamba em Barueri/Alphaville." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Orçar para Barueri
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- SANTANA DE PARNAÍBA -->
+		<div class="region-group" id="santana">
+			<button class="region-toggle" aria-expanded="false" data-target="body-santana">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-home"></i></span>
+					<div>
+						<h2>Santana de Parnaíba</h2>
+						<small>Atendimento rápido e eficiente</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-santana">
+				<div class="sub-area">
+					<div class="bairros-chips">
+						<span class="chip">Centro</span><span class="chip">Alphaville</span><span class="chip">Tamborzinho</span><span class="chip">Jardim das Flores</span><span class="chip">Vila Helena</span><span class="chip">Chácaras Reunidas</span><span class="chip">Recanto Feliz</span><span class="chip">Jardim do Lago</span><span class="chip">Parque Botanical</span><span class="chip">Granja Viana II</span>
+					</div>
+				</div>
+				<div class="region-cta">
+					<p>Atendimento rápido com entrega em 24–48h.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Preciso de uma caçamba em Santana de Parnaíba." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Orçar para Santana de Parnaíba
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- TABOÃO DA SERRA -->
+		<div class="region-group" id="taboao">
+			<button class="region-toggle" aria-expanded="false" data-target="body-taboao">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-map-pin"></i></span>
+					<div>
+						<h2>Taboão da Serra</h2>
+						<small>Atendimento residencial e comercial</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-taboao">
+				<div class="sub-area">
+					<div class="bairros-chips">
+						<span class="chip">Centro</span><span class="chip">Jardim Monte Alegre</span><span class="chip">Parque Assunção</span><span class="chip">Jardim Gloria</span><span class="chip">Intercap</span><span class="chip">Vila Iasi</span><span class="chip">Jardim América</span><span class="chip">Cidade Intercap</span><span class="chip">Parque Pinheiros</span><span class="chip">Jardim Saporito</span><span class="chip">Jardim Helena</span><span class="chip">Vila Santa Luzia</span><span class="chip">Jardim Record</span><span class="chip">Jardim Maria Rosa</span>
+					</div>
+				</div>
+				<div class="region-cta">
+					<p>Entrega ágil para toda Taboão da Serra.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Preciso de uma caçamba em Taboão da Serra." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Orçar para Taboão
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- OUTRAS REGIÕES -->
+		<div class="region-group" id="outras">
+			<button class="region-toggle" aria-expanded="false" data-target="body-outras">
+				<div class="region-toggle-left">
+					<span class="region-icon"><i class="fas fa-search-location"></i></span>
+					<div>
+						<h2>Outras Regiões</h2>
+						<small>Carapicuíba, Cotia, Jandira, Embu e mais</small>
+					</div>
+				</div>
+				<i class="fas fa-chevron-down chevron"></i>
+			</button>
+			<div class="region-body" id="body-outras">
+				<div class="sub-area">
+					<div class="bairros-chips">
+						<span class="chip">Carapicuíba</span><span class="chip">Granja Viana</span><span class="chip">Cotia</span><span class="chip">Jandira</span><span class="chip">Itapevi</span><span class="chip">Vargem Grande Paulista</span><span class="chip">Pirapora do Bom Jesus</span><span class="chip">Caieiras</span><span class="chip">Cajamar</span><span class="chip">Jordanésia</span><span class="chip">Itapecerica da Serra</span><span class="chip">Embu das Artes</span>
+					</div>
+				</div>
+				<div class="region-cta">
+					<p>Não encontrou sua região? Entre em contato e verificamos a cobertura.</p>
+					<a href="https://wa.me/551137122416?text=Olá! Gostaria de verificar se vocês atendem minha região." class="btn-region-wa" target="_blank" rel="noopener">
+						<i class="fa-brands fa-whatsapp"></i> Consultar minha região
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="cta-banner">
+	<div class="container">
+		<h2>Pronto para solicitar sua caçamba?</h2>
+		<p>Resposta em poucos minutos. Operação 24h, frota própria e destinação 100% legalizada.</p>
+		<a href="https://wa.me/551137122416?text=Olá! Gostaria de solicitar um orçamento para caçamba." target="_blank" rel="noopener">
+			<i class="fa-brands fa-whatsapp"></i> Solicitar Orçamento Agora
+		</a>
+	</div>
+</section>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/551137122416" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+	<i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+	<div class="container">
+		<div class="footer-grid">
+			<div>
+				<h4 style="color:white; margin-bottom:12px;">RETEC SP</h4>
+				<p>Referência em gestão sustentável na Grande São Paulo. Atendimento humanizado e focado em resultados.</p>
+				<p style="margin-top:10px;"><i class="fas fa-check"></i> Licença CETESB | Aterro Próprio</p>
+				<div class="footer-legal-links">
+					<a href="termos-de-uso.html">Termos de Uso</a>
+					<a href="politica-de-privacidade.html">Política de Privacidade</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h4 style="margin-bottom:12px;">Fale Conosco</h4>
+				<p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/551137122416" style="color:white; text-decoration:none;">(11) 3712-2416</a></p>
+				<p><i class="far fa-envelope"></i> contato@retecsp.com.br</p>
+				<p><i class="fas fa-map-marker-alt"></i> Av. das Nações Unidas, 99 — Osasco/SP</p>
+			</div>
+			<div>
+				<h4 style="margin-bottom:12px;">Social</h4>
+				<a href="#" style="color:white; text-decoration:none; margin-right:16px; opacity:0.85;">Instagram</a>
+				<a href="#" style="color:white; text-decoration:none; opacity:0.85;">LinkedIn</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>© <span id="year"></span> RETEC SP — Todos os direitos reservados. Destinação 100% Legalizada.</p>
+		</div>
+	</div>
+</footer>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+	/* --- ANO NO RODAPÉ --- */
+	const yearEl = document.getElementById('year');
+	if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+	/* --- MENU MOBILE --- */
+	const menuToggle = document.getElementById('mobile-menu');
+	const navMenu = document.getElementById('nav-menu');
+	const navOverlay = document.getElementById('nav-overlay');
+
+	function openMenu() {
+		navMenu.classList.add('active');
+		navOverlay.classList.add('active');
+		menuToggle.classList.add('active');
+		menuToggle.setAttribute('aria-expanded', 'true');
+		document.body.style.overflow = 'hidden';
+	}
+	function closeMenu() {
+		navMenu.classList.remove('active');
+		navOverlay.classList.remove('active');
+		menuToggle.classList.remove('active');
+		menuToggle.setAttribute('aria-expanded', 'false');
+		document.body.style.overflow = '';
+	}
+	if (menuToggle) menuToggle.addEventListener('click', function () {
+		navMenu.classList.contains('active') ? closeMenu() : openMenu();
+	});
+	if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+	navMenu.querySelectorAll('a').forEach(function (link) {
+		link.addEventListener('click', closeMenu);
+	});
+
+	/* --- ACCORDION DAS REGIÕES --- */
+	document.querySelectorAll('.region-toggle').forEach(function (toggle) {
+		toggle.addEventListener('click', function () {
+			const group = toggle.closest('.region-group');
+			const isOpen = group.classList.contains('open');
+
+			// Fecha todos
+			document.querySelectorAll('.region-group.open').forEach(function (g) {
+				g.classList.remove('open');
+				g.querySelector('.region-toggle').setAttribute('aria-expanded', 'false');
+			});
+
+			// Abre o clicado se estava fechado
+			if (!isOpen) {
+				group.classList.add('open');
+				toggle.setAttribute('aria-expanded', 'true');
+				// Scroll suave até o grupo aberto
+				setTimeout(function () {
+					group.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+				}, 100);
+			}
+		});
+	});
+
+	/* --- ABRE ÂNCORA DA URL (ex: #osasco) --- */
+	const hash = window.location.hash;
+	if (hash) {
+		const target = document.querySelector(hash);
+		if (target && target.classList.contains('region-group')) {
+			// Fecha os que estão abertos
+			document.querySelectorAll('.region-group.open').forEach(function (g) {
+				g.classList.remove('open');
+			});
+			target.classList.add('open');
+			target.querySelector('.region-toggle').setAttribute('aria-expanded', 'true');
+			setTimeout(function () {
+				target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}, 300);
+		}
+	}
+
+	/* --- WHATSAPP FLOAT --- */
+	const whatsappFloat = document.getElementById('whatsapp-float');
+	if (whatsappFloat) {
+		window.addEventListener('scroll', function () {
+			whatsappFloat.classList.toggle('show', window.scrollY > 400);
+		}, { passive: true });
+	}
+
+});
+</script>
+</body>
+</html>
