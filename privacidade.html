@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Política de Privacidade | RETEC SP</title>
+	<meta name="description" content="Política de Privacidade da RETEC SP — em atualização.">
+	<meta name="robots" content="noindex, nofollow">
+	<link rel="canonical" href="https://www.retecsp.com.br/privacidade.html">
+	<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://kit.fontawesome.com">
+	<link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
+	<script defer src="https://kit.fontawesome.com/ca3c4a97cf.js" crossorigin="anonymous"></script>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-MRNG2HFG');</script>
+	<!-- End Google Tag Manager -->
+	<link rel="stylesheet" href="style.css">
+	<style>
+		/* --- HEADER / NAV --- */
+		.header-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+		.logo-link { display: flex; align-items: center; text-decoration: none; }
+		.logo-link img { height: 48px; width: auto; display: block; }
+		nav ul { display: flex; list-style: none; gap: 22px; align-items: center; margin: 0; padding: 0; }
+		nav a { font-weight: 600; font-size: 0.85rem; color: var(--dark-gray); text-decoration: none; transition: color 0.2s; }
+		nav a:hover { color: var(--primary-blue); }
+		.btn-nav { background: var(--primary-blue); color: white !important; padding: 9px 18px; border-radius: 5px; white-space: nowrap; }
+		.btn-nav:hover { background: var(--secondary-blue); }
+		@media (max-width: 900px) {
+			nav { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: var(--white); box-shadow: -5px 0 15px rgba(0,0,0,0.12); transition: 0.35s; padding-top: 90px; z-index: 1000; }
+			nav.active { right: 0; }
+			nav ul { flex-direction: column; gap: 0; padding: 0; align-items: flex-start; }
+			nav ul li { width: 100%; }
+			nav a { display: block; padding: 14px 32px; font-size: 1rem; border-bottom: 1px solid #f0f0f0; }
+			.btn-nav { margin: 20px 32px; display: inline-block; border-radius: 5px; }
+		}
+		.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+		.nav-overlay.active { display: block; }
+		/* --- PLACEHOLDER --- */
+		.placeholder-page {
+			min-height: 70vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: var(--light-gray);
+			padding: 60px 20px;
+		}
+		.placeholder-card {
+			background: white;
+			border-radius: 16px;
+			padding: 60px 48px;
+			text-align: center;
+			max-width: 560px;
+			width: 100%;
+			box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+			border-top: 5px solid var(--primary-blue);
+		}
+		.placeholder-card i.icon-page { font-size: 3.5rem; color: var(--primary-blue); opacity: 0.3; margin-bottom: 24px; display: block; }
+		.placeholder-card h1 { font-size: 1.6rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 12px; }
+		.badge-status { display: inline-block; background: #fff3cd; color: #856404; border: 1px solid #ffc107; padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; }
+		.placeholder-card p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 28px; }
+		.btn-back { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-blue); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: 0.2s; }
+		.btn-back:hover { background: var(--secondary-blue); transform: translateY(-1px); }
+		/* --- FOOTER --- */
+		.footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+		.footer-legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+		.footer-legal-links a:hover { color: white; }
+	</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Nav Overlay Mobile -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- ============ HEADER ============ -->
+<header>
+	<div class="container header-container">
+		<a href="index3.html" class="logo-link">
+			<img src="img/logo-Retec-360.webp" alt="RETEC SP - Pensou Caçamba, Pensou RETEC" width="180" height="48">
+		</a>
+		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
+			<span></span><span></span><span></span>
+		</button>
+		<nav id="nav-menu" role="navigation" aria-label="Menu principal">
+			<ul>
+				<li><a href="index3.html#home">Home</a></li>
+				<li><a href="index3.html#quem-somos">Quem Somos</a></li>
+				<li><a href="areas-atendimento.html">Áreas Atendidas</a></li>
+				<li><a href="index3.html#tipos">Tipo de Caçambas</a></li>
+				<li><a href="index3.html#guia-descarte">Guia de Descarte</a></li>
+				<li><a href="index3.html#faq">FAQ</a></li>
+				<li><a href="index3.html#contato" class="btn-nav">Contato</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<section class="placeholder-page">
+	<div class="placeholder-card">
+		<i class="fas fa-shield-alt icon-page"></i>
+		<h1>Política de Privacidade</h1>
+		<span class="badge-status">⏳ Em atualização</span>
+		<p>Nossa Política de Privacidade está sendo elaborada em conformidade com a LGPD (Lei nº 13.709/2018) e estará disponível em breve.</p>
+		<p>Em caso de dúvidas sobre o tratamento dos seus dados, entre em contato diretamente com nossa equipe.</p>
+		<a href="index3.html" class="btn-back">
+			<i class="fas fa-arrow-left"></i> Voltar ao site
+		</a>
+	</div>
+</section>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/551137122416" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+	<i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+	<div class="container">
+		<div class="footer-grid">
+			<div>
+				<h4 style="color:white; margin-bottom:12px;">RETEC SP</h4>
+				<p>Referência em gestão sustentável na Grande São Paulo. Atendimento humanizado e focado em resultados.</p>
+				<p style="margin-top:10px;"><i class="fas fa-check"></i> Licença CETESB | Aterro Próprio</p>
+				<div class="footer-legal-links">
+					<a href="termos-uso.html">Termos de Uso</a>
+					<a href="privacidade.html">Política de Privacidade</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h4 style="margin-bottom:12px;">Fale Conosco</h4>
+				<p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/551137122416" style="color:white; text-decoration:none;">(11) 3712-2416</a></p>
+				<p><i class="far fa-envelope"></i> contato@retecsp.com.br</p>
+				<p><i class="fas fa-map-marker-alt"></i> Av. das Nações Unidas, 99 — Osasco/SP</p>
+			</div>
+			<div>
+				<h4 style="margin-bottom:12px;">Social</h4>
+				<a href="#" style="color:white; text-decoration:none; margin-right:16px; opacity:0.85;">Instagram</a>
+				<a href="#" style="color:white; text-decoration:none; opacity:0.85;">LinkedIn</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>© <span id="year"></span> RETEC SP — Todos os direitos reservados. Destinação 100% Legalizada.</p>
+		</div>
+	</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	/* --- ANO NO RODAPÉ --- */
+	const yearEl = document.getElementById('year');
+	if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+	/* --- MENU MOBILE --- */
+	const menuToggle = document.getElementById('mobile-menu');
+	const navMenu = document.getElementById('nav-menu');
+	const navOverlay = document.getElementById('nav-overlay');
+	function openMenu() {
+		navMenu.classList.add('active');
+		navOverlay.classList.add('active');
+		menuToggle.classList.add('active');
+		menuToggle.setAttribute('aria-expanded', 'true');
+		document.body.style.overflow = 'hidden';
+	}
+	function closeMenu() {
+		navMenu.classList.remove('active');
+		navOverlay.classList.remove('active');
+		menuToggle.classList.remove('active');
+		menuToggle.setAttribute('aria-expanded', 'false');
+		document.body.style.overflow = '';
+	}
+	if (menuToggle) menuToggle.addEventListener('click', function () {
+		navMenu.classList.contains('active') ? closeMenu() : openMenu();
+	});
+	if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+	navMenu.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', closeMenu); });
+
+	/* --- WHATSAPP FLOAT: aparece ao rolar --- */
+	const whatsappFloat = document.getElementById('whatsapp-float');
+	if (whatsappFloat) {
+		window.addEventListener('scroll', function () {
+			whatsappFloat.classList.toggle('show', window.scrollY > 200);
+		}, { passive: true });
+	}
+});
+</script>
+</body>
+</html>
