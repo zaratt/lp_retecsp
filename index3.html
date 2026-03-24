@@ -270,7 +270,7 @@
 			font-size: 13px;
 			font-weight: 700;
 			margin-bottom: 14px;
-			border: 1px solid rgba(214,176,48,0.4);
+			border: 1px solid rgba(255,255,255,0.15);
 		}
 		.hero h1 {
 			font-size: clamp(1.8rem, 4.5vw, 3rem);
@@ -301,7 +301,7 @@
 		}
 		.hero-checklist li::before {
 			content: '✔';
-			color: #2ecc71;
+			color: #d6b030;
 			font-weight: 700;
 			flex-shrink: 0;
 		}
@@ -355,7 +355,7 @@
 			font-size: 0.7rem;
 			font-weight: 700;
 			text-transform: uppercase;
-			color: #a8c8e0;
+			color: var(--gold-light);
 			margin-bottom: 5px;
 		}
 		.field-group select,
@@ -432,7 +432,7 @@
 			-webkit-backdrop-filter: blur(8px);
 			border: 1px solid rgba(255,255,255,0.2);
 			border-radius: 12px;
-			padding: 14px 16px;
+			padding: 12px 16px;
 			font-size: clamp(12px, 2.1vw, 15px);
 			color: #d9e8f5;
 		}
@@ -442,11 +442,13 @@
 			flex-shrink: 0;
 			fill: white;
 		}
-		.hero-bar-left  { grid-area: hero-bl; }
+		.hero-bar-left  { grid-area: hero-bl; align-self: stretch; }
 		.hero-bar-right {
 			grid-area: hero-br;
+			align-self: stretch;
 			flex-direction: column;
-			align-items: flex-start;
+			align-items: center;
+			justify-content: center;
 			gap: 6px;
 			text-align: center;
 			font-size: clamp(12px, 2vw, 14px);
@@ -708,7 +710,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header>
 	<div class="container header-container">
 		<a href="#home" class="logo-link">
-			<img src="img/logo-Retec-360.webp" alt="RETEC SP - Pensou Caçamba, Pensou RETEC" width="180" height="48">
+			<img src="img/LOGO-Retecsp-Azul.webp" alt="RETEC SP - Pensou Caçamba, Pensou RETEC" width="180" height="48">
 		</a>
 		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
 			<span></span><span></span><span></span>
@@ -740,7 +742,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<li>Aterro próprio — melhor custo</li>
 				<li>Certificação ambiental (CETESB / IBAMA)</li>
 				<li>Emissão de CTR / MTR</li>
-				<li>Entrega rápida — Operação 24h</li>
+				<li>Entrega rápida</li>
+				<li>Operação 24h</li>
 				<li>Frota própria</li>
 			</ul>
 		</div>
@@ -763,7 +766,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<i class="fa-brands fa-whatsapp"></i>
 				<span>SOLICITAR ORÇAMENTO IMEDIATO</span>
 			</button>
-			<p class="security-note">🔒 Canal oficial: (11) 3712-2416<br>Não solicitamos pagamentos antecipados.</p>
+			<p class="security-note"><br>🔒 Canal oficial: (11) 3712-2416</p>
 		</div>
 
 		<!-- Rodapé esquerdo: card CONDIÇÕES -->
