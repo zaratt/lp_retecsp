@@ -412,6 +412,10 @@
             cursor: pointer;
             transition: .3s;
             margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn:hover {
@@ -642,7 +646,11 @@
                         </select></div>
                     <div class="field"><label for="bairro">Bairro</label><input type="text" id="bairro"
                             placeholder="Ex: Moema"></div>
-                    <button id="btn_orcamento_home" class="btn" onclick="enviar()">SOLICITAR ORÇAMENTO IMEDIATO</button>
+                    <button id="btn_orcamento_home" class="btn" onclick="enviar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="white">
+                        <path d="M16 3C9.372 3 4 8.373 4 15c0 2.646.865 5.09 2.33 7.07L4 29l7.183-2.294A11.95 11.95 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.845 0-3.58-.5-5.07-1.37l-.36-.213-4.262 1.36 1.392-4.154-.234-.379A9.94 9.94 0 016 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.29-7.71c-.29-.146-1.72-.85-1.986-.946-.266-.097-.46-.146-.654.146-.194.29-.75.946-.92 1.14-.17.194-.34.218-.63.073-.29-.146-1.225-.45-2.334-1.435-.862-.768-1.445-1.716-1.615-2.006-.17-.29-.018-.446.128-.592.13-.13.29-.34.435-.51.146-.17.194-.29.29-.486.097-.194.048-.365-.024-.51-.073-.146-.654-1.576-.896-2.157-.236-.566-.476-.49-.654-.498l-.556-.01c-.194 0-.51.073-.776.365s-1.02.996-1.02 2.43 1.044 2.82 1.19 3.016c.146.194 2.056 3.14 4.982 4.404.697.3 1.24.48 1.664.614.699.222 1.335.19 1.838.115.56-.084 1.72-.703 1.964-1.382.242-.678.242-1.26.17-1.382-.073-.122-.266-.194-.556-.34z"/>
+                        </svg>
+                        SOLICITAR ORÇAMENTO IMEDIATO</button>
                     <div class="note">Resposta em poucos minutos</div>
                     <div class="secure">🔒 Canal oficial: (11) 3712-2416</div>
                 </div>
