@@ -29,13 +29,14 @@
 	<!-- Fonts & Icons -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
 	<link rel="preconnect" href="https://kit.fontawesome.com">
 	<link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
 	<script defer src="https://kit.fontawesome.com/ca3c4a97cf.js" crossorigin="anonymous"></script>
 
 	<!-- Preload hero image -->
-	<link rel="preload" as="image" href="img/hero.webp">
+	<link rel="preload" as="image" href="img/hero.webp" fetchpriority="high">
 
 	<!-- JSON-LD: LocalBusiness + FAQPage -->
 	<script type="application/ld+json">
@@ -113,9 +114,26 @@
 	})(window,document,'script','dataLayer','GTM-MRNG2HFG');</script> -->
 	<!-- End Google Tag Manager -->
 
-	<link rel="stylesheet" href="style.css">
+	<link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="style.css"></noscript>
 
 	<style>
+		/* === CSS CRÍTICO: inlined para evitar render-blocking === */
+		:root {
+			--primary-blue: #003352; --secondary-blue: #00263d;
+			--accent-green: #2ecc71; --accent-yellow: #f1c40f; --accent-red: #e74c3c;
+			--light-gray: #f8f9fa; --dark-gray: #2c3e50; --white: #ffffff;
+			--gold: #f1c40f; --gold-light: #d6b030;
+			--transition: all 0.3s ease; --section-padding: 60px 5%;
+		}
+		*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+		html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+		body { font-family: 'Inter', sans-serif; color: var(--dark-gray); line-height: 1.6; overflow-x: hidden; }
+		.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+		a { text-decoration: none; color: inherit; }
+		.section-title { text-align: center; margin-bottom: 15px; }
+		.section-subtitle { max-width: 600px; margin: 0 auto 40px; text-align: center; color: #666; }
+
 		/* ============================================
 		   ESTILOS EXCLUSIVOS DO INDEX3
 		   (complementam style.css)
