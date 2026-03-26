@@ -1,0 +1,139 @@
+/* =====================================================
+   style-areas.css
+   Estilos específicos das páginas aluguel_cacamba_(cidade)
+   ===================================================== */
+
+/* --- HEADER / NAV --- */
+.header-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+.logo-link { display: flex; align-items: center; text-decoration: none; }
+.logo-link img { height: 48px; width: auto; display: block; }
+nav ul { display: flex; list-style: none; gap: 22px; align-items: center; margin: 0; padding: 0; }
+nav a { font-weight: 600; font-size: 0.85rem; color: var(--dark-gray); text-decoration: none; transition: color 0.2s; }
+nav a:hover { color: var(--primary-blue); }
+.btn-nav { background: var(--primary-blue); color: white !important; padding: 9px 18px; border-radius: 5px; white-space: nowrap; }
+.btn-nav:hover { background: var(--secondary-blue); }
+@media (max-width: 900px) {
+	nav { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: var(--white); box-shadow: -5px 0 15px rgba(0,0,0,0.12); transition: 0.35s; padding-top: 90px; z-index: 1000; }
+	nav.active { right: 0; }
+	nav ul { flex-direction: column; gap: 0; padding: 0; align-items: flex-start; }
+	nav ul li { width: 100%; }
+	nav a { display: block; padding: 14px 32px; font-size: 1rem; border-bottom: 1px solid #f0f0f0; }
+	.btn-nav { margin: 20px 32px; display: inline-block; border-radius: 5px; }
+}
+.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+.nav-overlay.active { display: block; }
+
+/* --- PAGE HERO --- */
+.city-hero {
+	background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+	color: white;
+	padding: 64px 0 52px;
+	text-align: center;
+}
+.city-hero h1 {
+	font-size: clamp(1.8rem, 4vw, 2.8rem);
+	font-weight: 800;
+	margin-bottom: 14px;
+	line-height: 1.2;
+}
+.city-hero p {
+	font-size: 1rem;
+	opacity: 0.85;
+	max-width: 580px;
+	margin: 0 auto 28px;
+	line-height: 1.6;
+}
+
+/* --- EM CONSTRUÇÃO --- */
+.construction-section { background: var(--light-gray); padding: 60px 20px; }
+.construction-card {
+	background: white; border-radius: 16px; padding: 52px 48px;
+	max-width: 620px; margin: 0 auto;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+	border-top: 5px solid var(--primary-blue); text-align: center;
+}
+.construction-card i.icon-city { font-size: 3rem; color: var(--primary-blue); opacity: 0.25; margin-bottom: 20px; display: block; }
+.badge-construction { display: inline-block; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; }
+.construction-card h2 { font-size: 1.4rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 12px; }
+.construction-card p { color: #555; font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; }
+.checklist-preview { list-style: none; padding: 0; margin: 20px auto; text-align: left; display: inline-block; }
+.checklist-preview li { color: #555; font-size: 0.9rem; padding: 4px 0; }
+.checklist-preview li i { color: var(--accent-green); margin-right: 8px; }
+.btn-wa-city {
+	display: inline-flex; align-items: center; gap: 10px;
+	background: #25D366; color: white; padding: 14px 28px;
+	border-radius: 8px; text-decoration: none; font-weight: 700;
+	font-size: 1rem; margin-top: 24px; transition: 0.2s;
+}
+.btn-wa-city:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+/* --- FOOTER --- */
+.footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+.footer-legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+.footer-legal-links a:hover { color: white; }
+
+/* --- ÁREAS ATENDIDAS --- */
+.areas-section { padding: 64px 0; background: var(--white); }
+.areas-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+.areas-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.areas-container { display: grid; grid-template-columns: 1fr; gap: 40px; }
+.city-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.city-card { background: white; border: 2px solid #f0f0f0; border-radius: 12px; padding: 24px; transition: all 0.3s ease; cursor: default; }
+.city-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.city-name { font-size: 1.2rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 4px; }
+.city-subtitle { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+.btn-bairro-osasco { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease; border: none; cursor: pointer; }
+.btn-bairro-osasco:hover { background: #1ebe5d; transform: translateY(-2px); }
+.btn-bairro-osasco i { font-size: 1.2rem; }
+
+/* --- DIFERENCIAIS --- */
+.features { padding: 64px 0; background: var(--light-gray); }
+.features .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+.features .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+@media (max-width: 1024px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .features-grid { grid-template-columns: repeat(1, 1fr); } }
+.feature-card { background: white; padding: 32px 24px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
+.feature-card:hover { transform: translateY(-5px); }
+.feature-card i { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 16px; }
+.feature-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 12px; }
+.feature-card p { color: #666; line-height: 1.6; }
+
+/* --- TIPOS DE CAÇAMBA --- */
+.tipos-section { padding: 64px 0; background: var(--white); }
+.tipos-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+.tipos-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.tipos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+.tipo-card { background: white; border-radius: 16px; padding: 40px 32px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+.tipo-card.destaque { border: 3px solid var(--gold); }
+.tipo-badge { position: absolute; top: 16px; right: 16px; background: var(--gold); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+.tipo-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 16px; }
+.tipo-volume { font-size: 2.5rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; }
+.tipo-nome { font-size: 1.4rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 8px; }
+.tipo-sub { color: #666; margin-bottom: 24px; }
+.tipo-list { list-style: none; padding: 0; margin-bottom: 32px; text-align: left; }
+.tipo-list li { color: #555; padding: 4px 0; font-size: 0.9rem; }
+.btn-tipo { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: 0.2s; }
+.btn-tipo:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+/* --- FORMULÁRIO --- */
+.faq-section { padding: 64px 0; }
+.faq-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); text-align: center; }
+.faq-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.form-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+.form-container select, .form-container input, .form-container textarea { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; margin-bottom: 16px; transition: border-color 0.2s; }
+.form-container select:focus, .form-container input:focus, .form-container textarea:focus { outline: none; border-color: var(--primary-blue); }
+.lgpd-consent { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px; font-size: 0.9rem; color: #666; }
+.lgpd-consent a { color: var(--primary-blue); }
+.btn-enviar { width: 100%; background: var(--primary-blue); color: white; padding: 16px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-enviar:hover { background: var(--secondary-blue); transform: translateY(-2px); }
+
+/* --- FAQ --- */
+.faq-section { padding: 64px 0; background: var(--white); }
+.faq-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); text-align: center; margin-bottom: 30px; }
+.faq-item { background: var(--light-gray); margin-bottom: 12px; border-radius: 8px; }
+.faq-item.active .faq-btn i { transform: rotate(180deg); }
+.faq-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 18px; text-align: left; font-weight: 700; color: var(--secondary-blue); background: none; border: none; cursor: pointer; transition: color 0.3s; }
+.faq-answer p { padding: 0 18px 18px; font-size: 0.9rem; color: #666; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
+.faq-item.active .faq-answer { max-height: 500px; padding: 12px 18px; }
