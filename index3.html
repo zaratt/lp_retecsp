@@ -31,9 +31,13 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 	<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
-	<link rel="preconnect" href="https://kit.fontawesome.com">
-	<link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
-	<script defer src="https://kit.fontawesome.com/ca3c4a97cf.js" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css">
+	</noscript>
 
 	<!-- Preload hero image -->
 	<link rel="preload" as="image" href="img/hero.webp" fetchpriority="high">
@@ -133,6 +137,29 @@
 		a { text-decoration: none; color: inherit; }
 		.section-title { text-align: center; margin-bottom: 15px; }
 		.section-subtitle { max-width: 600px; margin: 0 auto 40px; text-align: center; color: #666; }
+
+		/* === Font Awesome 6 — jsDelivr, font-display: swap === */
+		@font-face {
+			font-family: "Font Awesome 6 Free";
+			font-style: normal; font-weight: 900; font-display: swap;
+			src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2");
+		}
+		@font-face {
+			font-family: "Font Awesome 6 Brands";
+			font-style: normal; font-weight: 400; font-display: swap;
+			src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2");
+		}
+		.fa, .fas, .fa-solid, .fab, .fa-brands {
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-font-smoothing: antialiased;
+			display: inline-block;
+			font-style: normal;
+			font-variant: normal;
+			line-height: 1;
+			text-rendering: auto;
+		}
+		.fa-solid, .fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
+		.fa-brands, .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
 
 		/* ============================================
 		   ESTILOS EXCLUSIVOS DO INDEX3
@@ -1138,7 +1165,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<div class="footer-contact">
 				<h4 style="margin-bottom:12px;">Fale Conosco</h4>
 				<p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/551137122416" style="color:white; text-decoration:none;">(11) 3712-2416</a></p>
-				<p><i class="far fa-envelope"></i> contato@retecsp.com.br</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;fill:#00a8ff;vertical-align:-0.125em;margin-right:8px"><path d="M64 112c-8.8 0-16 7.2-16 16l0 22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1l0-22.1c0-8.8-7.2-16-16-16L64 112zM48 212.2L48 384c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-171.8L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64l384 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128z"/></svg>contato@retecsp.com.br</p>
 				<p><i class="fas fa-map-marker-alt"></i> Av. das Nações Unidas, 99 — Osasco/SP</p>
 			</div>
 			<div>
