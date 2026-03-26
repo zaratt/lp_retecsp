@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Aluguel de Caçamba em Osasco | RETEC SP</title>
+	<title>Aluguel de Caçamba em Osasco | Entrega Rápida e Descarte Legal | RETEC SP</title>
 	<meta name="description" content="Aluguel de caçambas em Osasco com entrega rápida, aterro próprio e destinação 100% legalizada. Sede da RETEC SP — as melhores condições da região. Solicite já!">
 	<link rel="canonical" href="https://www.retecsp.com.br/aluguel_cacamba_osasco.html">
 	<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -105,6 +105,67 @@
 		.footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
 		.footer-legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
 		.footer-legal-links a:hover { color: white; }
+		/* --- ÁREAS ATENDIDAS --- */
+		.areas-section { padding: 64px 0; background: var(--white); }
+		.areas-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+		.areas-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+		.areas-container { display: grid; grid-template-columns: 1fr; gap: 40px; }
+		.city-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+		.city-card { background: white; border: 2px solid #f0f0f0; border-radius: 12px; padding: 24px; transition: all 0.3s ease; cursor: default; }
+		.city-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+		.city-name { font-size: 1.2rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 4px; }
+		.city-subtitle { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+		.btn-bairro-osasco { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease; border: none; cursor: pointer; }
+		.btn-bairro-osasco:hover { background: #1ebe5d; transform: translateY(-2px); }
+		.btn-bairro-osasco i { font-size: 1.2rem; }
+		/* --- DIFERENCIAIS --- */
+		.features { padding: 64px 0; background: var(--light-gray); }
+		.features .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+		.features .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+		.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+		@media (max-width: 1024px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+		@media (max-width: 768px) { .features-grid { grid-template-columns: repeat(1, 1fr); } }
+		.feature-card { background: white; padding: 32px 24px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
+		.feature-card:hover { transform: translateY(-5px); }
+		.feature-card i { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 16px; }
+		.feature-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 12px; }
+		.feature-card p { color: #666; line-height: 1.6; }
+		/* --- TIPOS DE CAÇAMBA --- */
+		.tipos-section { padding: 64px 0; background: var(--white); }
+		.tipos-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; text-align: center; }
+		.tipos-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+		.tipos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+		.tipo-card { background: white; border-radius: 16px; padding: 40px 32px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+		.tipo-card.destaque { border: 3px solid var(--gold); }
+		.tipo-badge { position: absolute; top: 16px; right: 16px; background: var(--gold); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+		.tipo-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 16px; }
+		.tipo-volume { font-size: 2.5rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; }
+		.tipo-nome { font-size: 1.4rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 8px; }
+		.tipo-sub { color: #666; margin-bottom: 24px; }
+		.tipo-list { list-style: none; padding: 0; margin-bottom: 32px; text-align: left; }
+		.tipo-list li { color: #555; padding: 4px 0; font-size: 0.9rem; }
+		.btn-tipo { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: 0.2s; }
+		.btn-tipo:hover { background: #1ebe5d; transform: translateY(-2px); }
+		/* --- FORMULÁRIO --- */
+		.faq-section { padding: 64px 0; }
+		.faq-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); text-align: center; }
+		.faq-section .section-subtitle { font-size: 1rem; color: #666; text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; }
+		.form-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+		.form-container select, .form-container input, .form-container textarea { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; margin-bottom: 16px; transition: border-color 0.2s; }
+		.form-container select:focus, .form-container input:focus, .form-container textarea:focus { outline: none; border-color: var(--primary-blue); }
+		.lgpd-consent { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px; font-size: 0.9rem; color: #666; }
+		.lgpd-consent a { color: var(--primary-blue); }
+		.btn-enviar { width: 100%; background: var(--primary-blue); color: white; padding: 16px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+		.btn-enviar:hover { background: var(--secondary-blue); transform: translateY(-2px); }
+		/* --- FAQ --- */
+		.faq-section { padding: 64px 0; background: var(--white); }
+		.faq-section .section-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); text-align: center; margin-bottom: 30px; }
+		.faq-item { background: var(--light-gray); margin-bottom: 12px; border-radius: 8px; }
+		.faq-item.active .faq-btn i { transform: rotate(180deg); }
+		.faq-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 18px; text-align: left; font-weight: 700; color: var(--secondary-blue); background: none; border: none; cursor: pointer; transition: color 0.3s; }
+		.faq-answer p { padding: 0 18px 18px; font-size: 0.9rem; color: #666; }
+		.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
+		.faq-item.active .faq-answer { max-height: 500px; padding: 12px 18px; }
 	</style>
 </head>
 <body>
@@ -142,30 +203,227 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ HERO DA CIDADE ============ -->
 <section class="city-hero">
 	<div class="container">
-		<h1>Aluguel de Caçamba em Osasco</h1>
-		<p>Nossa sede está em Osasco! Isso significa respostas mais rápidas, frete reduzido e as melhores condições de locação de caçambas para obras na cidade e região.</p>
+		<h1>Aluguel de Caçamba em Osasco | Entrega Rápida e Descarte Legal</h1>
+		<p>A RETEC SP agora possui operação logística dedicada para atender residências e obras em toda Osasco. Frota própria, CTR/MTR completo e as melhores condições da região.</p>
 	</div>
 </section>
 
-<!-- ============ EM CONSTRUÇÃO ============ -->
-<section class="construction-section">
-	<div class="construction-card">
-		<i class="fas fa-hard-hat icon-city"></i>
-		<span class="badge-construction">🔧 Página em construção</span>
-		<h2>Estamos preparando algo completo para você</h2>
-		<p>Em breve esta página contará com todas as informações sobre aluguel de caçambas em <strong>Osasco</strong>: preços, prazos de entrega por bairro, tipos de caçamba disponíveis, e muito mais.</p>
-		<p>O que você encontrará aqui em breve:</p>
-		<ul class="checklist-preview">
-			<li><i class="fas fa-check-circle"></i> Preços e condições exclusivos para Osasco</li>
-			<li><i class="fas fa-check-circle"></i> Prazos de entrega por bairro</li>
-			<li><i class="fas fa-check-circle"></i> Tipos e tamanhos de caçamba disponíveis</li>
-			<li><i class="fas fa-check-circle"></i> Legislação municipal de Osasco para descarte</li>
-			<li><i class="fas fa-check-circle"></i> Bairros atendidos: Centro, Presidente Altino, Baronesa e mais</li>
-		</ul>
-		<p>Enquanto isso, entre em contato via WhatsApp — atendemos agora!</p>
-		<a href="https://wa.me/551137122416?text=Olá!%20Preciso%20de%20caçamba%20em%20Osasco." class="btn-wa-city" target="_blank" rel="noopener">
-			<i class="fa-brands fa-whatsapp"></i> Solicitar caçamba em Osasco
-		</a>
+<!-- ============ BAIRROS ATENDIDOS ============ -->
+<section class="areas-section" id="bairros-osasco">
+	<div class="container">
+		<h2 class="section-title">Bairros Atendidos em Osasco</h2>
+		<p class="section-subtitle">Cobertura completa em Osasco com entrega rápida e logística eficiente.</p>
+		<div class="areas-container">
+			<div class="city-grid">
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Centro</h4>
+						<span class="city-subtitle">Centro histórico e comercial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Centro em Osasco" class="btn-bairro-osasco" data-bairro="Centro" data-cidade="Osasco" aria-label="Pedir caçamba no Centro" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Vila Yara</h4>
+						<span class="city-subtitle">Residencial e comercial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Vila Yara em Osasco" class="btn-bairro-osasco" data-bairro="Vila Yara" data-cidade="Osasco" aria-label="Pedir caçamba na Vila Yara" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Jaguaribe</h4>
+						<span class="city-subtitle">Zona residencial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Jaguaribe em Osasco" class="btn-bairro-osasco" data-bairro="Jaguaribe" data-cidade="Osasco" aria-label="Pedir caçamba no Jaguaribe" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Bela Vista</h4>
+						<span class="city-subtitle">Área residencial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Bela Vista em Osasco" class="btn-bairro-osasco" data-bairro="Bela Vista" data-cidade="Osasco" aria-label="Pedir caçamba na Bela Vista" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Rochdale</h4>
+						<span class="city-subtitle">Condomínios e residências</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Rochdale em Osasco" class="btn-bairro-osasco" data-bairro="Rochdale" data-cidade="Osasco" aria-label="Pedir caçamba no Rochdale" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Munhoz Júnior</h4>
+						<span class="city-subtitle">Zona comercial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Munhoz Júnior em Osasco" class="btn-bairro-osasco" data-bairro="Munhoz Júnior" data-cidade="Osasco" aria-label="Pedir caçamba no Munhoz Júnior" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Quitaúna</h4>
+						<span class="city-subtitle">Residencial e industrial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Quitaúna em Osasco" class="btn-bairro-osasco" data-bairro="Quitaúna" data-cidade="Osasco" aria-label="Pedir caçamba no Quitaúna" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Veloso</h4>
+						<span class="city-subtitle">Área residencial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Veloso em Osasco" class="btn-bairro-osasco" data-bairro="Veloso" data-cidade="Osasco" aria-label="Pedir caçamba no Veloso" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Cipava</h4>
+						<span class="city-subtitle">Zona industrial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Cipava em Osasco" class="btn-bairro-osasco" data-bairro="Cipava" data-cidade="Osasco" aria-label="Pedir caçamba no Cipava" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+				<div class="city-card">
+					<div>
+						<h4 class="city-name">Industrial</h4>
+						<span class="city-subtitle">Distrito industrial</span>
+						<a href="https://wa.me/551137122416?text=Olá, gostaria de um orçamento de caçamba para o bairro Industrial em Osasco" class="btn-bairro-osasco" data-bairro="Industrial" data-cidade="Osasco" aria-label="Pedir caçamba no Industrial" target="_blank" rel="noopener">
+							Pedir Orçamento <i class="fa-brands fa-whatsapp"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ============ DIFERENCIAIS LOCAIS ============ -->
+<section class="features" id="diferenciais-osasco">
+	<div class="container">
+		<h2 class="section-title">Por que escolher a RETEC SP em Osasco?</h2>
+		<p class="section-subtitle">Agilidade na entrega, frota própria com rastreamento e licenciamento ambiental completo.</p>
+		<div class="features-grid">
+			<div class="feature-card">
+				<i class="fas fa-clock"></i>
+				<h3>Entrega em 24h</h3>
+				<p>Frota própria dedicada garantindo agilidade na entrega e retirada das caçambas em toda Osasco.</p>
+			</div>
+			<div class="feature-card">
+				<i class="fas fa-map-marker-alt"></i>
+				<h3>Sede Próxima</h3>
+				<p>Localizada em Osasco, nossa sede permite resposta rápida e custos reduzidos para toda a região.</p>
+			</div>
+			<div class="feature-card">
+				<i class="fas fa-shield-alt"></i>
+				<h3>CTR/MTR Completo</h3>
+				<p>Licenciamento ambiental completo com emissão de CTR e MTR conforme exigido pelas normas municipais.</p>
+			</div>
+			<div class="feature-card">
+				<i class="fas fa-truck"></i>
+				<h3>Rastreamento em Tempo Real</h3>
+				<p>Acompanhe a localização da sua caçamba em tempo real através do nosso sistema de rastreamento.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ============ TIPOS DE CAÇAMBA ============ -->
+<section class="tipos-section" id="tipos-osasco">
+	<div class="container">
+		<h2 class="section-title">Tipo de Caçambas Disponíveis</h2>
+		<p class="section-subtitle">Escolha o modelo ideal para o seu projeto em Osasco. Ajudamos você a selecionar o tamanho certo.</p>
+		<div class="tipos-grid">
+
+			<div class="tipo-card">
+				<span class="tipo-badge">Mais Utilizada</span>
+				<div class="tipo-icon"><i class="fas fa-dumpster"></i></div>
+				<div class="tipo-volume">4m³</div>
+				<div class="tipo-nome">Caçamba Estacionária</div>
+				<p class="tipo-sub">Ideal para reformas, pequenas obras e uso residencial em Osasco</p>
+				<ul class="tipo-list">
+					<li>Reformas e obras residenciais</li>
+					<li>Descarte de entulho e alvenaria</li>
+					<li>Madeira, ferro e terra</li>
+					<li>Condomínios e comércios</li>
+					<li>Entrega e retirada ágil</li>
+				</ul>
+				<a href="https://wa.me/551137122416?text=Olá! Gostaria de orçamento para caçamba 4m³ em Osasco." class="btn-tipo" target="_blank" rel="noopener">
+					<i class="fa-brands fa-whatsapp"></i> Solicitar Orçamento
+				</a>
+			</div>
+
+			<div class="tipo-card destaque">
+				<div class="tipo-icon"><i class="fas fa-truck-moving"></i></div>
+				<div class="tipo-volume">26m³</div>
+				<div class="tipo-nome">Roll-on Roll-off</div>
+				<p class="tipo-sub">Para grandes obras, demolições e volumes industriais em Osasco</p>
+				<ul class="tipo-list">
+					<li>Grandes obras e demolições</li>
+					<li>Resíduos industriais e comerciais</li>
+					<li>Alto volume de entulho</li>
+					<li>Canteiros de obras</li>
+					<li>Remoção de estruturas</li>
+				</ul>
+				<a href="https://wa.me/551137122416?text=Olá! Gostaria de orçamento para caçamba 26m³ Roll-on Roll-off em Osasco." class="btn-tipo" target="_blank" rel="noopener">
+					<i class="fa-brands fa-whatsapp"></i> Solicitar Orçamento
+				</a>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ============ PERGUNTAS FREQUENTES ============ -->
+<section class="faq-section" id="faq-osasco">
+	<div class="container">
+		<h2 class="section-title">Perguntas Frequentes sobre Caçambas em Osasco</h2>
+		<div style="max-width:800px; margin:0 auto;">
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Qual o prazo de entrega em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Entregamos caçambas em Osasco em até 24 horas após a confirmação do pedido. Nossa sede localizada na cidade permite agilidade no atendimento para todos os bairros.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Quais bairros de Osasco vocês atendem? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Atendemos todos os bairros de Osasco, incluindo Centro, Vila Yara, Jaguaribe, Bela Vista, Rochdale, Munhoz Júnior, Quitaúna, Veloso, Cipava e Industrial, além de regiões próximas.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">O descarte é legalizado em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Sim. A RETEC SP realiza a coleta e destinação ambiental correta dos resíduos seguindo as normas da CETESB, IBAMA e legislação municipal de Osasco, com emissão completa de CTR e MTR.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Posso levar multa por descarte irregular em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Sim. A legislação municipal de Osasco proíbe o descarte irregular de entulho, com multas que podem chegar a R$ 10.000,00. Utilizando a RETEC SP, todo o processo é legalizado e você fica protegido.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Qual caçamba usar para reforma residencial em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Para reformas residenciais em Osasco, recomendamos a caçamba de 4m³ (estacionária), ideal para entulho de alvenaria, madeira, ferro e terra. Para obras maiores, considere a caçamba de 26m³ (Roll-on Roll-off).</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">A RETEC SP emite nota fiscal para condomínios em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Sim. Emitimos nota fiscal e toda a documentação necessária, incluindo CTR e MTR, atendendo às exigências dos condomínios e administradoras em Osasco.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Como funciona o rastreamento da caçamba em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Oferecemos sistema de rastreamento em tempo real para acompanhar a localização da sua caçamba. Você recebe atualizações por WhatsApp sobre o status da entrega e retirada.</p></div>
+			</div>
+			<div class="faq-item">
+				<button class="faq-btn" aria-expanded="false">Quais formas de pagamento vocês aceitam em Osasco? <i class="fas fa-chevron-down"></i></button>
+				<div class="faq-answer"><p>Aceitamos Pix, boleto bancário e cartões de crédito. Para condomínios e construtoras em Osasco, oferecemos condições especiais de pagamento.</p></div>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -235,6 +493,46 @@ document.addEventListener('DOMContentLoaded', function () {
 			whatsappFloat.classList.toggle('show', window.scrollY > 200);
 		}, { passive: true });
 	}
+
+	// Form validation for Osasco (removed)
+	
+	// GA4/GTM tracking for neighborhood buttons
+	document.querySelectorAll('.btn-bairro-osasco').forEach(function (btn) {
+		btn.addEventListener('click', function (e) {
+			const bairro = this.getAttribute('data-bairro');
+			const cidade = this.getAttribute('data-cidade');
+			
+			// GA4 / GTM Event Tracking
+			if (window.dataLayer) {
+				window.dataLayer.push({
+					'event': 'click_bairro_osasco',
+					'bairro': bairro,
+					'cidade': cidade,
+					'fonte': 'cards_bairros'
+				});
+			}
+		});
+	});
+
+	// FAQ Accordion
+	document.querySelectorAll('.faq-item').forEach(function (item) {
+		const btn = item.querySelector('.faq-btn');
+		btn.addEventListener('click', function () {
+			const isActive = item.classList.contains('active');
+			
+			// Close all FAQ items
+			document.querySelectorAll('.faq-item.active').forEach(function (open) {
+				open.classList.remove('active');
+				open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+			});
+			
+			// Open clicked item if it wasn't active
+			if (!isActive) {
+				item.classList.add('active');
+				btn.setAttribute('aria-expanded', 'true');
+			}
+		});
+	});
 });
 </script>
 </body>
