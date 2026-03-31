@@ -39,8 +39,41 @@
                     {"@type":"City","name":"Barueri"},
                     {"@type":"City","name":"Santana de Parnaíba"}
                 ]
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://www.retecsp.com.br/#organization",
+                "name": "RETEC",
+                "legalName": "Retec Locação de Caçambas LTDA",
+                "alternateName": ["RETEC SP", "RETEC Caçambas", "Retec Locação de Caçambas"],
+                "url": "https://www.retecsp.com.br",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.retecsp.com.br/logo-retec.png"
+                },
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "CARAPEVA, 62 - BOX 42 - PARADA INGLESA",
+                    "addressLocality": "São Paulo",
+                    "addressRegion": "SP",
+                    "postalCode": "02242-110",
+                    "addressCountry": "BR"
+                },
+                "taxID": "61.371.553/0001-45"
             }
         ]
+    }
+    </script>
+    <!-- JSON-LD WebSite -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://www.retecsp.com.br",
+        "name": "RETEC",
+        "publisher": {
+            "@id": "https://www.retecsp.com.br/#organization"
+        }
     }
     </script>
     <style>
