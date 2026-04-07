@@ -71,6 +71,17 @@ nav a:hover {
     display: block;
 }
 
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1002;
+    background: none;
+    border: none;
+    padding: 4px;
+}
+
 /* --- HERO LOCAL --- */
 .city-hero {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
@@ -105,16 +116,16 @@ nav a:hover {
 }
 
 .city-hero h1 {
-    font-size: clamp(2.7rem, 4vw, 4.4rem);
+    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
     font-weight: 800;
     margin-bottom: 18px;
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    max-width: 8.8ch;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: none;
 }
 
 .city-hero p {
-    font-size: 1.02rem;
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
     opacity: 0.94;
     max-width: 56ch;
     margin: 0;
@@ -126,6 +137,14 @@ nav a:hover {
     gap: 14px;
     flex-wrap: wrap;
     margin-top: 28px;
+}
+
+.hero-cta-group .btn-wa-city,
+.hero-cta-group .btn-secondary-city {
+    flex: 1 1 auto;
+    min-width: 200px;
+    text-align: center;
+    justify-content: center;
 }
 
 .btn-wa-city,
@@ -196,7 +215,7 @@ nav a:hover {
 
 .hero-proof-list li i,
 .hero-card-trust i {
-    color: #7df2b4;
+    color: #d6b030;
     flex-shrink: 0;
 }
 
@@ -736,8 +755,8 @@ nav a:hover {
     }
 
     .city-hero h1 {
-        font-size: clamp(3rem, 4.1vw, 4.8rem);
-        max-width: 8.5ch;
+        font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+        max-width: none;
     }
 }
 
@@ -818,6 +837,10 @@ nav a:hover {
         width: auto;
         border-radius: 6px;
     }
+
+    .menu-toggle {
+        display: flex;
+    }
 }
 
 @media (max-width: 768px) {
@@ -833,12 +856,13 @@ nav a:hover {
         padding: 52px 0;
     }
 
-    .hero-cta-group {
-        flex-direction: column;
+    .hero-cta-group .btn-wa-city,
+    .hero-cta-group .btn-secondary-city {
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: center;
     }
 
-    .btn-wa-city,
-    .btn-secondary-city,
     .areas-main-cta,
     .btn-tipo {
         width: 100%;
