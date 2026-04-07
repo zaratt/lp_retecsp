@@ -19,27 +19,37 @@
     <meta name="twitter:image" content="https://www.retecsp.com.br/img/LOGO-Retecsp-Azul.webp">
 
     <link rel="icon" href="img/favicon.ico">
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
-    <link rel="preload" href="style-areas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style-areas.css"></noscript>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-areas.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css">
-    </noscript>
     <style>
+        /* Font Awesome 6 Free — inline, sem dependência externa, font-display:swap */
         @font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 900; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); }
         @font-face { font-family: "Font Awesome 6 Brands"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); }
         @font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); }
+        .fa,.fas,.fa-solid,.fab,.fa-brands,.far,.fa-regular { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; display: inline-block; font-style: normal; font-variant: normal; line-height: 1; text-rendering: auto; }
+        .fa-solid,.fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .fa-brands,.fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+        .fa-regular,.far { font-family: "Font Awesome 6 Free"; font-weight: 400; }
+        /* Ícones usados nesta página */
+        .fa-bolt::before { content: "\f0e7"; }
+        .fa-building-circle-check::before { content: "\e4d2"; }
+        .fa-check::before { content: "\f00c"; }
+        .fa-check-circle::before { content: "\f058"; }
+        .fa-chevron-down::before { content: "\f078"; }
+        .fa-dumpster::before { content: "\f793"; }
+        .fa-envelope::before { content: "\f0e0"; }
+        .fa-file-alt::before { content: "\f15c"; }
+        .fa-map-marker-alt::before { content: "\f3c5"; }
+        .fa-scale-balanced::before { content: "\f24e"; }
+        .fa-shield-alt::before { content: "\f3ed"; }
+        .fa-truck-moving::before { content: "\f4df"; }
+        .fa-whatsapp::before { content: "\f232"; }
     </style>
 
     <!-- Google Tag Manager (carregamento deferido) -->
