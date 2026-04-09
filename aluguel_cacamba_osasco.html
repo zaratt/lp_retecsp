@@ -24,19 +24,47 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
-
+      <!-- Font Awesome 6 Free — carregamento otimizado com preload e fallback -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
     <style>
-        /* Font Awesome 6 Free — inline, sem dependência externa, font-display:swap */
-        @font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 900; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); }
-        @font-face { font-family: "Font Awesome 6 Brands"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); }
-        @font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); }
-        .fa,.fas,.fa-solid,.fab,.fa-brands,.far,.fa-regular { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; display: inline-block; font-style: normal; font-variant: normal; line-height: 1; text-rendering: auto; }
-        .fa-solid,.fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .fa-brands,.fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
-        .fa-regular,.far { font-family: "Font Awesome 6 Free"; font-weight: 400; }
-        /* Ícones usados nesta página */
+        /* Font Awesome 6 Free — carregamento com font-display: optional para evitar FOIT */
+        @font-face { 
+            font-family: "Font Awesome 6 Free"; 
+            font-style: normal; 
+            font-weight: 900; 
+            font-display: optional;  /* Mudei de 'swap' para 'optional' - elimina o atraso */
+            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); 
+        }
+        @font-face { 
+            font-family: "Font Awesome 6 Brands"; 
+            font-style: normal; 
+            font-weight: 400; 
+            font-display: optional;  /* Mudei de 'swap' para 'optional' */
+            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); 
+        }
+        @font-face { 
+            font-family: "Font Awesome 6 Free"; 
+            font-style: normal; 
+            font-weight: 400; 
+            font-display: optional;  /* Mudei de 'swap' para 'optional' */
+            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); 
+        }
+        
+        /* Fallback crítico - garante que os ícones apareçam mesmo sem fonte */
+        .fa, .fas, .fa-solid, .fab, .fa-brands, .far, .fa-regular { 
+            -moz-osx-font-smoothing: grayscale; 
+            -webkit-font-smoothing: antialiased; 
+            display: inline-block; 
+            font-style: normal; 
+            font-variant: normal; 
+            line-height: 1; 
+            text-rendering: auto; 
+        }
+        
+        /* Fallback usando emojis/caracteres Unicode caso a fonte não carregue */
         .fa-bolt::before { content: "\f0e7"; }
         .fa-building-circle-check::before { content: "\e4d2"; }
         .fa-check::before { content: "\f00c"; }
@@ -50,7 +78,33 @@
         .fa-shield-alt::before { content: "\f3ed"; }
         .fa-truck-moving::before { content: "\f4df"; }
         .fa-whatsapp::before { content: "\f232"; }
+        
+        /* Fallback para navegadores que não carregam a fonte - usando System UI */
+        .no-fontawesome .fa, 
+        .no-fontawesome .fas, 
+        .no-fontawesome .fa-solid,
+        .no-fontawesome .fab,
+        .no-fontawesome .fa-brands {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
     </style>
+
+     <!-- Detector de falha do Font Awesome -->
+    <script>
+        (function() {
+            // Testa se o Font Awesome carregou corretamente
+            var timeout = setTimeout(function() {
+                document.documentElement.classList.add('no-fontawesome');
+            }, 1500);
+            
+            // Cancela o timeout se a fonte carregar
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function() {
+                    clearTimeout(timeout);
+                });
+            }
+        })();
+    </script>
 
     <!-- Google Tag Manager (carregamento deferido) -->
     <script>
@@ -225,7 +279,7 @@
                     </div>
                 </div>
                 <aside class="hero-local-card" aria-label="Informações de atendimento em Osasco">
-                    <h3>Com nossa sede em Osasco garantimos:</h3>
+                    <h3>Com nossa sede em Osasco garantimos</h3>
                     <ul class="hero-proof-list">
                         <li><i class="fas fa-check-circle"></i> Atendimento em toda Osasco</li>
                         <li><i class="fas fa-check-circle"></i> Agilidade na entrega e retirada de caçambas</li>
@@ -235,7 +289,7 @@
                     <div class="hero-card-trust">
                        
                     </div>
-                    <div class="hero-cta-group" id="contato-cta">
+                    <div class="hero-cta-group" id="areas-atendidas">
                     <a href="areas-atendimento.html" class="btn-secondary-city">Ver mais áreas atendidas</a>
                    </div> 
                 </aside>
