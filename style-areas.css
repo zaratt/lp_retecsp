@@ -455,6 +455,29 @@ nav a:hover {
 }
 
 /* --- DIFERENCIAIS --- */
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e0e0e0, #d0d0d0);  /* Gradiente cinza */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover .icon-circle {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.icon-circle .icon {
+    width: 40px;
+    height: 40px;
+    color: #1a5f7a;  /* Azul RETEC */
+    fill: currentColor;
+}
 .features-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

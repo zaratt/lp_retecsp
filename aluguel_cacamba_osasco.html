@@ -24,87 +24,50 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <!-- Font Awesome 6 Free — carregamento otimizado com preload e fallback -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+
+    <!-- SVG Sprite (todos os ícones em um só lugar) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <defs>
+            <symbol id="i-dumpster" viewBox="0 0 576 512">
+                <path fill="currentColor" d="M560 160c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h16l32 272c0 26.4 21.6 48 48 48h320c26.4 0 48-21.6 48-48l32-272h16zm-384 256c0 8.8-7.2 16-16 16s-16-7.2-16-16V224c0-8.8 7.2-16 16-16s16 7.2 16 16v192zm64 0c0 8.8-7.2 16-16 16s-16-7.2-16-16V224c0-8.8 7.2-16 16-16s16 7.2 16 16v192zm64 0c0 8.8-7.2 16-16 16s-16-7.2-16-16V224c0-8.8 7.2-16 16-16s16 7.2 16 16v192zm64 0c0 8.8-7.2 16-16 16s-16-7.2-16-16V224c0-8.8 7.2-16 16-16s16 7.2 16 16v192z"/>
+            </symbol>
+            <symbol id="i-whatsapp" viewBox="0 0 448 512">
+                <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM224 424c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.2-17.1-41.4-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.1 13.9 10.9-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </symbol>
+            <symbol id="i-check" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/>
+            </symbol>
+            <symbol id="i-bolt" viewBox="0 0 320 512">
+                <path fill="currentColor" d="M272 288H192l48-160H96L48 288H0L96 480h32V288h48L144 480h32L320 288h-48z"/>
+            </symbol>
+            <symbol id="i-shield" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M466.5 83.7l-192-80c-5.4-2.2-11.4-2.2-16.9 0l-192 80C57.1 85.5 48 96.8 48 109.3v202.3c0 105.3 85.7 200.5 200.7 210.4 5.4.5 10.8.5 16.2 0 115-9.9 200.7-105.1 200.7-210.4V109.3c0-12.5-9.1-23.8-21.5-27.3zM256 450.1c-84.9-8.6-149-81.3-149-156.8V124.9l149-62.1 149 62.1v168.4c0 75.5-64.1 148.2-149 156.8z"/>
+            </symbol>
+            <symbol id="i-envelope" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/>
+            </symbol>
+            <symbol id="i-map-marker" viewBox="0 0 384 512">
+                <path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+            </symbol>
+            <symbol id="i-truck" viewBox="0 0 640 512">
+                <path fill="currentColor" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"/>
+            </symbol>
+            <symbol id="i-chevron-down" viewBox="0 0 448 512">
+                <path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"/>
+            </symbol>
+        </defs>
+    </svg>
+    <!-- CSS auxiliar para os SVGs (opcional - facilita o uso) -->
     <style>
-        /* Font Awesome 6 Free — carregamento com font-display: optional para evitar FOIT */
-        @font-face { 
-            font-family: "Font Awesome 6 Free"; 
-            font-style: normal; 
-            font-weight: 900; 
-            font-display: optional;  /* Mudei de 'swap' para 'optional' - elimina o atraso */
-            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); 
-        }
-        @font-face { 
-            font-family: "Font Awesome 6 Brands"; 
-            font-style: normal; 
-            font-weight: 400; 
-            font-display: optional;  /* Mudei de 'swap' para 'optional' */
-            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); 
-        }
-        @font-face { 
-            font-family: "Font Awesome 6 Free"; 
-            font-style: normal; 
-            font-weight: 400; 
-            font-display: optional;  /* Mudei de 'swap' para 'optional' */
-            src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); 
-        }
-        
-        /* Fallback crítico - garante que os ícones apareçam mesmo sem fonte */
-        .fa, .fas, .fa-solid, .fab, .fa-brands, .far, .fa-regular { 
-            -moz-osx-font-smoothing: grayscale; 
-            -webkit-font-smoothing: antialiased; 
-            display: inline-block; 
-            font-style: normal; 
-            font-variant: normal; 
-            line-height: 1; 
-            text-rendering: auto; 
-        }
-        
-        /* Fallback usando emojis/caracteres Unicode caso a fonte não carregue */
-        .fa-bolt::before { content: "\f0e7"; }
-        .fa-building-circle-check::before { content: "\e4d2"; }
-        .fa-check::before { content: "\f00c"; }
-        .fa-check-circle::before { content: "\f058"; }
-        .fa-chevron-down::before { content: "\f078"; }
-        .fa-dumpster::before { content: "\f793"; }
-        .fa-envelope::before { content: "\f0e0"; }
-        .fa-file-alt::before { content: "\f15c"; }
-        .fa-map-marker-alt::before { content: "\f3c5"; }
-        .fa-scale-balanced::before { content: "\f24e"; }
-        .fa-shield-alt::before { content: "\f3ed"; }
-        .fa-truck-moving::before { content: "\f4df"; }
-        .fa-whatsapp::before { content: "\f232"; }
-        
-        /* Fallback para navegadores que não carregam a fonte - usando System UI */
-        .no-fontawesome .fa, 
-        .no-fontawesome .fas, 
-        .no-fontawesome .fa-solid,
-        .no-fontawesome .fab,
-        .no-fontawesome .fa-brands {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            fill: currentColor;
         }
     </style>
-
-     <!-- Detector de falha do Font Awesome -->
-    <script>
-        (function() {
-            // Testa se o Font Awesome carregou corretamente
-            var timeout = setTimeout(function() {
-                document.documentElement.classList.add('no-fontawesome');
-            }, 1500);
-            
-            // Cancela o timeout se a fonte carregar
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(function() {
-                    clearTimeout(timeout);
-                });
-            }
-        })();
-    </script>
 
     <!-- Google Tag Manager (carregamento deferido) -->
     <script>
@@ -273,7 +236,7 @@
                             data-canal="whatsapp"
                             target="_blank"
                             rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp"></i>
+                            <svg class="icon"><use href="#i-whatsapp"/></svg> 
                             Solicitar orçamento em Osasco
                         </a>
                     </div>
@@ -281,10 +244,10 @@
                 <aside class="hero-local-card" aria-label="Informações de atendimento em Osasco">
                     <h3>Com nossa sede em Osasco garantimos</h3>
                     <ul class="hero-proof-list">
-                        <li><i class="fas fa-check-circle"></i> Atendimento em toda Osasco</li>
-                        <li><i class="fas fa-check-circle"></i> Agilidade na entrega e retirada de caçambas</li>
-                        <li><i class="fas fa-check-circle"></i> Suporte e Destinação legalizada dos resíduos</li>
-                        <li><i class="fas fa-check-circle"></i> Os melhores preços da região</li>
+                        <li><svg class="icon"><use href="#i-check-circle"/></svg> Atendimento em toda Osasco</li>
+                        <li><svg class="icon"><use href="#i-check-circle"/></svg> Agilidade na entrega e retirada de caçambas</li>
+                        <li><svg class="icon"><use href="#i-check-circle"/></svg> Suporte e Destinação legalizada dos resíduos</li>
+                        <li><svg class="icon"><use href="#i-check-circle"/></svg> Os melhores preços da região</li>
                     </ul>
                     <div class="hero-card-trust">
                        
@@ -302,7 +265,7 @@
                 <div class="tipos-grid">
                     <article class="tipo-card">
                         <span class="tipo-badge">Mais utilizada</span>
-                        <div class="tipo-icon"><i class="fas fa-dumpster"></i></div>
+                        <div class="tipo-icon"><svg class="icon"><use href="#i-dumpster"/></svg></div>
                         <div class="tipo-volume">4m³</div>
                         <div class="tipo-nome">Caçamba estacionária</div>
                         <p class="tipo-sub">Indicada para obras e reformas residenciais, descarte de entulho e apoio a condomínios e comércios.</p>
@@ -320,12 +283,12 @@
                            data-canal="whatsapp"
                            target="_blank"
                            rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp"></i>
+                            <svg class="icon"><use href="#i-whatsapp"/></svg>
                             Quero Caçamba de 4m³
                         </a>
                     </article>
                     <article class="tipo-card destaque">
-                        <div class="tipo-icon"><i class="fas fa-truck-moving"></i></div>
+                        <div class="tipo-icon"><svg class="icon"><use href="#i-truck-moving"/></svg></div>
                         <div class="tipo-volume">26m³</div>
                         <div class="tipo-nome">Roll-on Roll-off</div>
                         <p class="tipo-sub">Solução indicada para operações de maior volume, grandes obras e demandas empresariais.</p>
@@ -343,7 +306,7 @@
                            data-canal="whatsapp"
                            target="_blank"
                            rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp"></i>
+                            <svg class="icon"><use href="#i-whatsapp"/></svg>
                             Quero Caçamba de 26m³
                         </a>
                     </article>
@@ -358,19 +321,25 @@
 
                 <div class="features-grid features-grid-3">
                     <article class="feature-card">
-                        <i class="fas fa-bolt"></i>
-                        <h3>Atendimento ágil</h3>
-                        <p>Atendimento mais rápido para obras, reformas, condomínios e empresas em toda Osasco.</p>
+                    <div class="icon-circle">
+                    <svg class="icon"><use href="#i-bolt"/></svg>
+                    </div>
+                    <h3>Atendimento ágil</h3>
+                    <p>Atendimento mais rápido para obras, reformas, condomínios e empresas em toda Osasco.</p>
                     </article>
 
                     <article class="feature-card">
-                        <i class="fas fa-scale-balanced"></i>
+                        <div class="icon-circle">
+                            <svg class="icon"><use href="#i-scale-balanced"/></svg>
+                        </div>
                         <h3>Descarte legalizado</h3>
                         <p>Processo alinhado às exigências ambientais e operacionais para coleta, transporte e destinação final.</p>
                     </article>
 
                     <article class="feature-card">
-                        <i class="fas fa-building-circle-check"></i>
+                        <div class="icon-circle">
+                            <svg class="icon"><use href="#i-building-circle-check"/></svg>
+                        </div>
                         <h3>Operação local</h3>
                         <p>Presença em Osasco para oferecer suporte mais próximo e melhor resposta logística na cidade.</p>
                     </article>
@@ -385,7 +354,7 @@
                     <div class="faq-item">
                         <button class="faq-btn" aria-expanded="false" type="button">
                             Vocês atendem todos os bairros de Osasco?
-                            <i class="fas fa-chevron-down"></i>
+                            <svg class="icon"><use href="#i-chevron-down"/></svg>
                         </button>
                         <div class="faq-answer">
                             <p>Sim. A RETEC atende todos os bairros de Osasco com operação local e atendimento ágil para obras, reformas, condomínios e empresas.</p>
@@ -405,7 +374,7 @@
                     <div class="faq-item">
                         <button class="faq-btn" aria-expanded="false" type="button">
                             O descarte dos resíduos das caçambas é feito em locais licenciados?
-                            <i class="fas fa-chevron-down"></i>
+                            <svg class="icon"><use href="#i-chevron-down"/></svg>
                         </button>
                         <div class="faq-answer">
                             <p>Sim. A RETEC realiza a coleta, o transporte e a destinação final dos resíduos de acordo com a legislação ambiental vigente. O processo segue as normas aplicáveis, incluindo diretrizes do CONAMA, exigências da CETESB e da legislação municipal de Osasco, com descarte em locais devidamente licenciados.</p>
@@ -415,7 +384,7 @@
                     <div class="faq-item">
                         <button class="faq-btn" aria-expanded="false" type="button">
                             Como solicitar orçamento de caçamba em Osasco?
-                            <i class="fas fa-chevron-down"></i>
+                           <svg class="icon"><use href="#i-chevron-down"/></svg> 
                         </button>
                         <div class="faq-answer">
                             <p>Você pode solicitar seu orçamento diretamente pelo WhatsApp da RETEC. Nossa equipe orienta sobre disponibilidade, tipo de caçamba e atendimento na sua região.</p>
