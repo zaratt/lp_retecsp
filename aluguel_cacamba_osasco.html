@@ -19,14 +19,15 @@
     <meta name="twitter:image" content="https://www.retecsp.com.br/img/LOGO-Retecsp-Azul.webp">
 
     <link rel="icon" href="img/favicon.ico">
-
-    <link rel="preload" href="/style.css" as="style">
-    <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/style.css"></noscript>
-
-    <link rel="preload" href="/style-areas.css" as="style">
-    <link rel="stylesheet" href="/style-areas.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="/style-areas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/style-areas.css"></noscript>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
     <!-- Google Tag Manager (carregamento deferido) -->
     <script>
         function loadGTM() {
