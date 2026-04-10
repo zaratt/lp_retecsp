@@ -38,8 +38,14 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css">
 	</noscript>
+	<style>
+		@font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 900; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); }
+		@font-face { font-family: "Font Awesome 6 Brands"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); }
+		@font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); }
+	</style>
 
-	<!-- Preload hero image -->
+	<!-- Preload logo e hero -->
+	<link rel="preload" as="image" href="img/Logo%20-%20RETEC%20OFICIAL%20-(180%20x%2043%20px).webp">
 	<link rel="preload" as="image" href="img/hero.webp" fetchpriority="high">
 
 	<!-- JSON-LD: LocalBusiness + FAQPage -->
@@ -154,17 +160,9 @@
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="style-areas.css">
 	<link rel="stylesheet" href="style-index.css">
-
-
-
 </head>
 
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <!-- Nav Overlay Mobile -->
 <div class="nav-overlay" id="nav-overlay"></div>
 
@@ -172,7 +170,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header>
 	<div class="container header-container">
 		<a href="#home" class="logo-link">
-			<img src="img/LOGO-Retecsp-Azul.webp" alt="RETEC - Pensou Caçamba, Pensou RETEC" width="180" height="48">
+			<picture>
+				<source media="(min-width: 768px)" srcset="img/Logo%20-%20RETEC%20OFICIAL%20-(360%20x%2086%20px).webp" width="180" height="43">
+				<img src="img/Logo%20-%20RETEC%20OFICIAL%20-(180%20x%2043%20px).webp" alt="RETEC - Pensou Caçamba, Pensou RETEC" width="180" height="43" fetchpriority="high">
+			</picture>
 		</a>
 		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
 			<span></span><span></span><span></span>
@@ -335,17 +336,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<p class="section-subtitle">Mais agilidade no atendimento, cobertura regional e descarte correto dos resíduos com operação regularizada.</p>
 		<div class="features-grid">
 			<div class="feature-card">
-				<i class="fas fa-truck"></i>
+				<img src="img/fast-quick.svg" alt="Entrega rápida" class="feature-icon-svg">
 				<h3>Entrega no prazo</h3>
 				<p>Frota preparada para atender com agilidade, transporte licenciado e operação alinhada às exigências ambientais.</p>
 			</div>
 			<div class="feature-card">
-				<i class="fas fa-shield-alt"></i>
+				<img src="img/map-location.svg" alt="Cobertura regional" class="feature-icon-svg">
 				<h3>Cobertura regional</h3>
 				<p>Atendimento em São Paulo Capital e Grande São Paulo em especial: Osasco, Barueri e Santana de Parnaíba com logística eficiente para diferentes tipos de demanda.</p>
 			</div>
 			<div class="feature-card">
-				<i class="fas fa-map-marked-alt"></i>
+				<img src="img/truck-trash.svg" alt="Destinação com ATT própria licenciada" class="feature-icon-svg">
 				<h3>Destinação com ATT própria licenciada</h3>
 				<p>Área de Transbordo Própria (ATT) regulamentada pelos principais órgãos ambientais, com triagem e destinação correta dos resíduos diretamente gerenciada pela RETEC.</p>
 			</div>
