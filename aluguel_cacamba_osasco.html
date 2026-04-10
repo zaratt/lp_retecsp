@@ -19,8 +19,10 @@
     <meta name="twitter:image" content="https://www.retecsp.com.br/img/LOGO-Retecsp-Azul.webp">
 
     <link rel="icon" href="img/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style-areas.css">
+    <link rel="preload" href="/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/style.css"></noscript>
+    <link rel="preload" href="/style-areas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/style-areas.css"></noscript>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -154,14 +156,19 @@
     <header>
         <div class="container header-container">
             <a href="index3.html" class="logo-link" aria-label="Ir para a página inicial da RETEC">
-                <img src="img/LOGO-Retecsp-Azul.webp" alt="Logo RETEC" width="655" height="185">
+                <img 
+                src="img/Logo-RETEC-OFICIAL.svg"
+                alt="Logo RETEC" 
+                width="180" 
+                height="51"
+                loading="eager"
+                fetchpriority="high">
             </a>
             <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <nav id="nav-menu" aria-label="Menu principal">
                 <ul>
                     <li><a href="index3.html">Home</a></li>
