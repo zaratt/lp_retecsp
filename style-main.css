@@ -12,7 +12,7 @@
 	--light-gray: #f8f9fa;
 	--dark-gray: #2c3e50;
 	--white: #ffffff;
-	--transition: all 0.3s ease;
+	--transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
     --section-padding:60px 5%;}
 			
 	*{margin:0;padding:0;box-sizing:border-box;}
@@ -182,9 +182,8 @@
 	.faq-item.active .faq-btn i{transform:rotate(180deg);}
     .faq-btn{display:flex;justify-content:space-between;align-items:center;width:100%;padding:18px;text-align:left;font-weight:700;color:var(--secondary-blue);background:none;border:none;cursor:pointer;transition:color 0.3s;}
     .faq-answer p{padding:0 18px 18px;font-size:0.8rem;color:#666;}
-    .faq-answer{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.35s ease;}
-    .faq-answer > div{overflow:hidden;}
-    .faq-item.active .faq-answer{grid-template-rows:1fr;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.5s ease, padding 0.5s ease;}
+    .faq-item.active .faq-answer{max-height:500px;padding:12px 18px;}
    
     /* FORMULÁRIO */
     .form-container{transition: .3s ease; background:var(--light-gray);padding:20px 20px 20px 20px;width:100%;margin-bottom:50px; border-radius:6px;}
@@ -623,7 +622,7 @@ nav a:hover {
     border: 2px solid #f0f0f0;
     border-radius: 12px;
     padding: 24px;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: default;
 }
 
@@ -657,7 +656,7 @@ nav a:hover {
     text-decoration: none;
     font-weight: 700;
     font-size: 0.9rem;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     border: none;
     cursor: pointer;
 }
@@ -858,13 +857,9 @@ nav a:hover {
 }
 
 .faq-answer {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.35s ease;
-}
-
-.faq-answer > div {
+    max-height: 0;
     overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
 }
 
 .faq-answer p {
@@ -876,7 +871,8 @@ nav a:hover {
 }
 
 .faq-item.active .faq-answer {
-    grid-template-rows: 1fr;
+    max-height: 500px;
+    padding-top: 2px;
 }
 
 /* --- CTA FINAL --- */

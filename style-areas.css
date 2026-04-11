@@ -406,7 +406,7 @@ nav a:hover {
     border: 2px solid #f0f0f0;
     border-radius: 12px;
     padding: 24px;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: default;
 }
 
@@ -440,7 +440,7 @@ nav a:hover {
     text-decoration: none;
     font-weight: 700;
     font-size: 0.9rem;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     border: none;
     cursor: pointer;
 }
