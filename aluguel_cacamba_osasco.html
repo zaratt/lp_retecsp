@@ -24,7 +24,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
+    <link rel="preload" as="image" href="img/retec-osasco.webp" fetchpriority="high">
 
     <!-- Google Tag Manager (carregamento deferido) -->
     <script>
@@ -176,6 +176,15 @@
 
     <main>
         <section class="city-hero">
+            <img src="img/retec-osasco.webp"
+                 class="hero-bg-img"
+                 width="1366"
+                 height="768"
+                 fetchpriority="high"
+                 loading="eager"
+                 decoding="async"
+                 alt=""
+                 aria-hidden="true">
             <div class="container hero-local-grid">
                 <div class="hero-local-copy">
                     <span class="hero-badge">Operação local em Osasco</span>
