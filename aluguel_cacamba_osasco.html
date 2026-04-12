@@ -22,7 +22,10 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style-areas.css">
 
-    <link rel="preload" as="image" href="img/retec-osasco.webp" fetchpriority="high">
+    <link rel="preload" as="image"
+          imagesrcset="img/Retec-Osasco-Small.webp 768w, img/retec-osasco.webp 1366w"
+          imagesizes="100vw"
+          fetchpriority="high">
 
     <!-- Google Tag Manager (carregamento deferido) -->
     <script>
@@ -175,6 +178,9 @@
     <main>
         <section class="city-hero">
             <img src="img/retec-osasco.webp"
+                 srcset="img/Retec-Osasco-Small.webp 768w,
+                         img/retec-osasco.webp 1366w"
+                 sizes="100vw"
                  class="hero-bg-img"
                  width="1366"
                  height="768"
