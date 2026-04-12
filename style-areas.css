@@ -781,7 +781,7 @@ nav a:hover {
 }
 
 .footer-legal-links a {
-    color: rgba(255, 255, 255, 0.55);
+    color: #44e1ff;
     text-decoration: none;
     font-size: 0.75rem;
     transition: color 0.2s ease;
