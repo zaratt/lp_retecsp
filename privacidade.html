@@ -1,206 +1,572 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Política de Privacidade | RETEC SP</title>
-	<meta name="description" content="Política de Privacidade da RETEC SP — em atualização.">
-	<meta name="robots" content="noindex, nofollow">
-	<link rel="canonical" href="https://www.retecsp.com.br/privacidade.html">
-	<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
-	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-	<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/brands.min.css">
-	</noscript>
-	<!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-MRNG2HFG');</script>
-	<!-- End Google Tag Manager -->
-	<link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript><link rel="stylesheet" href="style.css"></noscript>
-	<style>
-		@font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 900; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-solid-900.woff2") format("woff2"); }
-		@font-face { font-family: "Font Awesome 6 Brands"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-brands-400.woff2") format("woff2"); }
-		@font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/webfonts/fa-regular-400.woff2") format("woff2"); }
-		/* --- HEADER / NAV --- */
-		.header-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
-		.logo-link { display: flex; align-items: center; text-decoration: none; }
-		.logo-link img { height: 48px; width: auto; display: block; }
-		nav ul { display: flex; list-style: none; gap: 22px; align-items: center; margin: 0; padding: 0; }
-		nav a { font-weight: 600; font-size: 0.85rem; color: var(--dark-gray); text-decoration: none; transition: color 0.2s; }
-		nav a:hover { color: var(--primary-blue); }
-		.btn-nav { background: var(--primary-blue); color: white !important; padding: 9px 18px; border-radius: 5px; white-space: nowrap; }
-		.btn-nav:hover { background: var(--secondary-blue); }
-		@media (max-width: 900px) {
-			nav { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: var(--white); box-shadow: -5px 0 15px rgba(0,0,0,0.12); transition: 0.35s; padding-top: 90px; z-index: 1000; }
-			nav.active { right: 0; }
-			nav ul { flex-direction: column; gap: 0; padding: 0; align-items: flex-start; }
-			nav ul li { width: 100%; }
-			nav a { display: block; padding: 14px 32px; font-size: 1rem; border-bottom: 1px solid #f0f0f0; }
-			.btn-nav { margin: 20px 32px; display: inline-block; border-radius: 5px; }
-		}
-		.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
-		.nav-overlay.active { display: block; }
-		/* --- PLACEHOLDER --- */
-		.placeholder-page {
-			min-height: 70vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background: var(--light-gray);
-			padding: 60px 20px;
-		}
-		.placeholder-card {
-			background: white;
-			border-radius: 16px;
-			padding: 60px 48px;
-			text-align: center;
-			max-width: 560px;
-			width: 100%;
-			box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-			border-top: 5px solid var(--primary-blue);
-		}
-		.placeholder-card i.icon-page { font-size: 3.5rem; color: var(--primary-blue); opacity: 0.3; margin-bottom: 24px; display: block; }
-		.placeholder-card h1 { font-size: 1.6rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 12px; }
-		.badge-status { display: inline-block; background: #fff3cd; color: #856404; border: 1px solid #ffc107; padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; }
-		.placeholder-card p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 28px; }
-		.btn-back { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-blue); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: 0.2s; }
-		.btn-back:hover { background: var(--secondary-blue); transform: translateY(-1px); }
-		/* --- FOOTER --- */
-		.footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
-		.footer-legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
-		.footer-legal-links a:hover { color: white; }
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade | RETEC — Locação de Caçambas</title>
+    <meta name="description" content="Saiba como a RETEC coleta, usa e protege seus dados pessoais em conformidade com a LGPD. Política de privacidade do site oficial retecsp.com.br.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://www.retecsp.com.br/privacidade.html">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="preload" href="tiff/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="tiff/Roboto-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+    @font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:swap;src:url('tiff/Roboto-Regular.woff2') format('woff2');}
+    @font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:swap;src:url('tiff/Roboto-Bold.woff2') format('woff2');}
+    :root{--primary-blue:#003352;--secondary-blue:#00263d;--light-gray:#f8f9fa;--dark-gray:#2c3e50;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;scroll-padding-top:90px;}
+    body{font-family:'Roboto',Verdana,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--dark-gray);line-height:1.6;overflow-x:hidden;}
+    .container{max-width:1200px;margin:0 auto;padding:0 5%;}
+    a{text-decoration:none;color:inherit;}
+    header{background:var(--white);position:sticky;top:0;z-index:1001;box-shadow:0 2px 10px rgba(0,0,0,.1);}
+    .header-container{display:flex;justify-content:space-between;align-items:center;padding:12px 0;}
+    .logo-link{display:flex;align-items:center;text-decoration:none;}
+    .logo-link img{height:48px;width:auto;display:block;}
+    nav ul{display:flex;list-style:none;gap:22px;align-items:center;margin:0;padding:0;}
+    nav a{font-weight:600;font-size:.88rem;color:var(--dark-gray);text-decoration:none;}
+    nav a:hover{color:var(--primary-blue);}
+    .btn-nav{background:var(--primary-blue);color:#fff!important;padding:10px 18px;border-radius:6px;white-space:nowrap;}
+    .nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:999;}
+    .nav-overlay.active{display:block;}
+    .menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1002;background:none;border:none;padding:4px;}
+    .menu-toggle span{display:block;width:28px;height:3px;background:var(--primary-blue);border-radius:3px;transition:.3s;}
+    /* --- HERO PRIVACIDADE --- */
+    .priv-hero{background:var(--primary-blue);color:#fff;padding:52px 0 40px;}
+    .priv-hero h1{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:10px;}
+    .priv-hero p{font-size:.96rem;opacity:.88;max-width:65ch;}
+    .priv-hero .badge-update{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:18px;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+    /* --- CONTEÚDO --- */
+    .priv-content{padding:56px 0 72px;background:#fff;}
+    .priv-layout{display:grid;grid-template-columns:220px 1fr;gap:56px;align-items:start;}
+    .priv-nav{position:sticky;top:100px;}
+    .priv-nav h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary-blue);margin-bottom:14px;}
+    .priv-nav ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;}
+    .priv-nav ol li a{font-size:.82rem;color:#555;padding:5px 10px;border-left:3px solid transparent;display:block;transition:.2s;}
+    .priv-nav ol li a:hover,.priv-nav ol li a.active{color:var(--primary-blue);border-left-color:var(--primary-blue);font-weight:700;}
+    .priv-body{max-width:760px;}
+    .priv-section{margin-bottom:44px;}
+    .priv-section-title{display:flex;align-items:center;gap:12px;font-size:1.12rem;font-weight:700;color:var(--primary-blue);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #e8eef3;}
+    .priv-section p{font-size:.94rem;line-height:1.75;color:#444;margin-bottom:10px;}
+    .priv-section p:last-child{margin-bottom:0;}
+    .priv-list{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:10px;}
+    .priv-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:#444;line-height:1.6;}
+    .priv-list li svg{flex-shrink:0;margin-top:3px;}
+    .priv-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.88rem;}
+    .priv-table th{background:var(--primary-blue);color:#fff;padding:10px 14px;text-align:left;font-weight:700;}
+    .priv-table td{padding:10px 14px;border-bottom:1px solid #e0e8ed;color:#444;vertical-align:top;}
+    .priv-table tr:last-child td{border-bottom:none;}
+    .priv-table tr:nth-child(even) td{background:#f6f9fb;}
+    .priv-aviso{display:flex;align-items:flex-start;gap:14px;background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:18px 20px;margin-top:16px;}
+    .priv-aviso p{font-size:.9rem;color:#5d4100;line-height:1.6;margin:0;}
+    .priv-highlight{background:var(--light-gray);border-left:4px solid var(--primary-blue);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:12px;}
+    .priv-highlight p{font-size:.9rem;color:#333;margin:0;}
+    @media(max-width:900px){
+        nav{position:fixed;top:0;right:-100%;width:min(82vw,340px);height:100vh;background:var(--white);box-shadow:-5px 0 15px rgba(0,0,0,.12);transition:right .35s ease;padding-top:90px;z-index:1000;overflow-y:auto;}
+        nav.active{right:0;}
+        nav ul{flex-direction:column;gap:0;padding:0;align-items:flex-start;}
+        nav ul li{width:100%;}
+        nav a{display:block;width:100%;padding:14px 28px;font-size:1rem;border-bottom:1px solid #f0f0f0;}
+        .btn-nav{margin:20px 28px;display:inline-flex;width:auto;border-radius:6px;}
+        .menu-toggle{display:flex;}
+    }
+    @media(max-width:768px){
+        .priv-layout{grid-template-columns:1fr;}
+        .priv-nav{display:none;}
+        .priv-body{max-width:100%;}
+        .priv-table{display:block;overflow-x:auto;}
+    }
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-areas.css">
+
+    <script>
+        function loadGTM() {
+            if (window._gtmLoaded) return;
+            window._gtmLoaded = true;
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-MRNG2HFG');
+        }
+        ['scroll','click','keydown','touchstart'].forEach(function(evt) {
+            window.addEventListener(evt, loadGTM, {once: true, passive: true});
+        });
+        setTimeout(loadGTM, 5000);
+    </script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
+                title="Google Tag Manager"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
 
-<!-- Nav Overlay Mobile -->
-<div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-overlay" id="nav-overlay"></div>
 
-<!-- ============ HEADER ============ -->
-<header>
-	<div class="container header-container">
-		<a href="index3.html" class="logo-link">
-			<img src="img/logo-Retec-360.webp" alt="RETEC SP - Pensou Caçamba, Pensou RETEC" width="180" height="48">
-		</a>
-		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
-			<span></span><span></span><span></span>
-		</button>
-		<nav id="nav-menu" role="navigation" aria-label="Menu principal">
-			<ul>
-				<li><a href="index3.html#home">Home</a></li>
-				<li><a href="index3.html#quem-somos">Quem Somos</a></li>
-				<li><a href="areas-atendimento.html">Áreas Atendidas</a></li>
-				<li><a href="index3.html#tipos">Tipo de Caçambas</a></li>
-				<li><a href="index3.html#guia-descarte">Guia de Descarte</a></li>
-				<li><a href="index3.html#faq">FAQ</a></li>
-				<li><a href="index3.html#contato" class="btn-nav">Contato</a></li>
-			</ul>
-		</nav>
-	</div>
-</header>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="container header-container">
+            <a href="index3.html" class="logo-link" aria-label="Ir para a página inicial da RETEC">
+                <img src="img/LOGO-Retecsp-Azul.webp" alt="Logo RETEC" width="655" height="185">
+            </a>
+            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="nav-menu" aria-label="Menu principal">
+                <ul>
+                    <li><a href="index3.html">Home</a></li>
+                    <li><a href="areas-atendimento.html">Áreas Atendidas</a></li>
+                    <li><a href="index3.html#tipos">Caçambas</a></li>
+                    <li><a href="index3.html#faq">FAQ</a></li>
+                    <li><a href="index3.html#contato" class="btn-nav">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<section class="placeholder-page">
-	<div class="placeholder-card">
-		<i class="fas fa-shield-alt icon-page"></i>
-		<h1>Política de Privacidade</h1>
-		<span class="badge-status">⏳ Em atualização</span>
-		<p>Nossa Política de Privacidade está sendo elaborada em conformidade com a LGPD (Lei nº 13.709/2018) e estará disponível em breve.</p>
-		<p>Em caso de dúvidas sobre o tratamento dos seus dados, entre em contato diretamente com nossa equipe.</p>
-		<a href="index3.html" class="btn-back">
-			<i class="fas fa-arrow-left"></i> Voltar ao site
-		</a>
-	</div>
-</section>
+    <main>
+        <!-- Cabeçalho da página (sem hero) -->
+        <section class="priv-hero">
+            <div class="container">
+                <span class="badge-update">Atualizada em 12 de abril de 2026</span>
+                <h1>Política de Privacidade</h1>
+                <p>Saiba como a RETEC coleta, utiliza e protege seus dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº&nbsp;13.709/2018).</p>
+            </div>
+        </section>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/551137122416" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-	<i class="fa-brands fa-whatsapp"></i>
-</a>
+        <section class="priv-content">
+            <div class="container">
+                <div class="priv-layout">
 
-<!-- ============ FOOTER ============ -->
-<footer>
-	<div class="container">
-		<div class="footer-grid">
-			<div>
-				<h4 style="color:white; margin-bottom:12px;">RETEC SP</h4>
-				<p>Referência em gestão sustentável na Grande São Paulo. Atendimento humanizado e focado em resultados.</p>
-				<p style="margin-top:10px;"><i class="fas fa-check"></i> Licença CETESB | Aterro Próprio</p>
-				<div class="footer-legal-links">
-					<a href="termos-uso.html">Termos de Uso</a>
-					<a href="privacidade.html">Política de Privacidade</a>
-				</div>
-			</div>
-			<div class="footer-contact">
-				<h4 style="margin-bottom:12px;">Fale Conosco</h4>
-				<p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/551137122416" style="color:white; text-decoration:none;">(11) 3712-2416</a></p>
-				<p><i class="far fa-envelope"></i> contato@retecsp.com.br</p>
-				<p><i class="fas fa-map-marker-alt"></i> Av. das Nações Unidas, 99 — Osasco/SP</p>
-			</div>
-			<div>
-				<h4 style="margin-bottom:12px;">Social</h4>
-				<a href="#" style="color:white; text-decoration:none; margin-right:16px; opacity:0.85;">Instagram</a>
-				<a href="#" style="color:white; text-decoration:none; opacity:0.85;">LinkedIn</a>
-			</div>
-		</div>
-		<div class="footer-bottom">
-			<p>© <span id="year"></span> RETEC SP — Todos os direitos reservados. Destinação 100% Legalizada.</p>
-		</div>
-	</div>
-</footer>
+                    <!-- Índice lateral (desktop) -->
+                    <nav class="priv-nav" aria-label="Índice da política de privacidade">
+                        <h3>Índice</h3>
+                        <ol>
+                            <li><a href="#sec-controlador">1. Controlador de dados</a></li>
+                            <li><a href="#sec-dados">2. Dados coletados</a></li>
+                            <li><a href="#sec-finalidade">3. Finalidade do tratamento</a></li>
+                            <li><a href="#sec-cookies">4. Cookies e rastreamento</a></li>
+                            <li><a href="#sec-compartilhamento">5. Compartilhamento</a></li>
+                            <li><a href="#sec-retencao">6. Retenção dos dados</a></li>
+                            <li><a href="#sec-seguranca">7. Segurança</a></li>
+                            <li><a href="#sec-direitos">8. Seus direitos (LGPD)</a></li>
+                            <li><a href="#sec-site-oficial">9. Site oficial</a></li>
+                            <li><a href="#sec-contato">10. Contato e DPO</a></li>
+                        </ol>
+                    </nav>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-	/* --- ANO NO RODAPÉ --- */
-	const yearEl = document.getElementById('year');
-	if (yearEl) yearEl.textContent = new Date().getFullYear();
+                    <!-- Corpo da política -->
+                    <div class="priv-body">
 
-	/* --- MENU MOBILE --- */
-	const menuToggle = document.getElementById('mobile-menu');
-	const navMenu = document.getElementById('nav-menu');
-	const navOverlay = document.getElementById('nav-overlay');
-	function openMenu() {
-		navMenu.classList.add('active');
-		navOverlay.classList.add('active');
-		menuToggle.classList.add('active');
-		menuToggle.setAttribute('aria-expanded', 'true');
-		document.body.style.overflow = 'hidden';
-	}
-	function closeMenu() {
-		navMenu.classList.remove('active');
-		navOverlay.classList.remove('active');
-		menuToggle.classList.remove('active');
-		menuToggle.setAttribute('aria-expanded', 'false');
-		document.body.style.overflow = '';
-	}
-	if (menuToggle) menuToggle.addEventListener('click', function () {
-		navMenu.classList.contains('active') ? closeMenu() : openMenu();
-	});
-	if (navOverlay) navOverlay.addEventListener('click', closeMenu);
-	navMenu.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', closeMenu); });
+                        <p style="font-size:.9rem;color:#666;margin-bottom:36px;line-height:1.7;">
+                            Esta Política de Privacidade descreve as práticas da <strong>Retec Locação de Caçambas LTDA</strong> (CNPJ&nbsp;61.371.553/0001-45), nome fantasia <strong>RETEC</strong>, quanto ao tratamento de dados pessoais coletados por meio do site <strong>retecsp.com.br</strong>. Ao continuar navegando, você confirma que leu e concorda com estas práticas.
+                        </p>
 
-	/* --- WHATSAPP FLOAT: aparece ao rolar --- */
-	const whatsappFloat = document.getElementById('whatsapp-float');
-	if (whatsappFloat) {
-		window.addEventListener('scroll', function () {
-			whatsappFloat.classList.toggle('show', window.scrollY > 200);
-		}, { passive: true });
-	}
-});
-</script>
+                        <!-- 1 -->
+                        <article class="priv-section" id="sec-controlador">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512" fill="#003352" aria-hidden="true">
+                                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                                </svg>
+                                1. Controlador de dados
+                            </h2>
+                            <p>O <strong>controlador</strong> responsável pelo tratamento dos seus dados pessoais é:</p>
+                            <div class="priv-highlight">
+                                <p>
+                                    <strong>Retec Locação de Caçambas LTDA</strong><br>
+                                    CNPJ: 61.371.553/0001-45<br>
+                                    Nome fantasia: RETEC<br>
+                                    Site oficial: <a href="https://www.retecsp.com.br" style="color:var(--primary-blue);font-weight:700;">retecsp.com.br</a><br>
+                                    E-mail: <a href="mailto:contato@retecsp.com.br" style="color:var(--primary-blue);font-weight:700;">contato@retecsp.com.br</a>
+                                </p>
+                            </div>
+                        </article>
+
+                        <!-- 2 -->
+                        <article class="priv-section" id="sec-dados">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 0v64h64V96H64zm384 0H192v64H448V96zM64 224v64h64V224H64zm384 0H192v64H448V224zM64 352v64h64V352H64zm384 0H192v64H448V352z"/>
+                                </svg>
+                                2. Quais dados coletamos
+                            </h2>
+                            <p>A RETEC coleta dois tipos de dados ao longo da sua visita:</p>
+
+                            <p style="font-weight:700;margin-top:16px;margin-bottom:6px;">a) Dados fornecidos voluntariamente (formulário de contato)</p>
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Nome</strong> — para identificação no atendimento</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>E-mail</strong> — para retorno de contato e envio de orçamento</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Telefone/WhatsApp</strong> — para comunicação ágil sobre serviços e orçamento</span>
+                                </li>
+                            </ul>
+
+                            <p style="font-weight:700;margin-top:20px;margin-bottom:6px;">b) Dados coletados automaticamente (navegação)</p>
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Endereço IP e dados de geolocalização aproximada</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Tipo de dispositivo, navegador e sistema operacional</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Páginas visitadas, tempo de navegação e origem do acesso</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Interações registradas via cookies (Google Analytics 4 / Google Tag Manager)</span>
+                                </li>
+                            </ul>
+
+                            <p style="margin-top:16px;"><strong>A RETEC não coleta, em nenhuma hipótese:</strong> dados de cartão de crédito, dados bancários, CPF/CNPJ de pessoa física ou qualquer informação financeira. Não realizamos transações monetárias pelo site.</p>
+                        </article>
+
+                        <!-- 3 -->
+                        <article class="priv-section" id="sec-finalidade">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-384c-13.3 0-24 10.7-24 24V264c0 13.3 10.7 24 24 24s24-10.7 24-24V152c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/>
+                                </svg>
+                                3. Finalidade do tratamento
+                            </h2>
+                            <p>Utilizamos seus dados exclusivamente para as finalidades abaixo, com base legal correspondente:</p>
+
+                            <table class="priv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Dado</th>
+                                        <th>Finalidade</th>
+                                        <th>Base legal (LGPD)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nome, e-mail, telefone</td>
+                                        <td>Retorno de atendimento, envio de informações sobre serviços e orçamento de locação de caçambas</td>
+                                        <td>Consentimento (art. 7º, I) / Execução de contrato (art. 7º, V)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dados de navegação (IP, páginas, dispositivo)</td>
+                                        <td>Análise de desempenho do site, melhoria da experiência do usuário e geração de estatísticas de acesso via Google Analytics 4</td>
+                                        <td>Legítimo interesse (art. 7º, IX)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cookies de análise</td>
+                                        <td>Monitoramento de audiência e comportamento de navegação para otimização do site</td>
+                                        <td>Consentimento (art. 7º, I)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p style="margin-top:14px;">Seus dados de contato <strong>não são utilizados para envio de marketing não solicitado</strong>. O retorno da RETEC será sempre relacionado exclusivamente à sua solicitação de orçamento ou dúvida sobre os serviços.</p>
+                        </article>
+
+                        <!-- 4 -->
+                        <article class="priv-section" id="sec-cookies">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M247.2 17c-6.6-.4-13.3-.4-20 0C109.2 23 3.4 139.5 17 266.1c12.2 111.1 99 198 210.1 210.1 126.5 13.7 243.1-92.1 249.1-220.3C476.5 256 477 256 477 256a221 221 0 0 1-229.8-239zm86.9 82a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm-96 96a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm-112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm160 160a48 48 0 1 1 0-96 48 48 0 1 1 0 96z"/>
+                                </svg>
+                                4. Cookies e rastreamento (Google Analytics 4)
+                            </h2>
+                            <p>O site retecsp.com.br utiliza cookies — pequenos arquivos de texto armazenados no seu navegador — para as seguintes finalidades:</p>
+
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Cookies essenciais:</strong> necessários para o funcionamento básico do site (sessão, navegação).</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Cookies analíticos (Google Analytics 4 / GTM):</strong> coletam dados anônimos sobre páginas visitadas, tempo de sessão e origem do tráfego. Os dados são enviados ao Google LLC e tratados conforme a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-weight:700;">Política de Privacidade do Google</a>.</span>
+                                </li>
+                            </ul>
+
+                            <p style="margin-top:14px;">O Google Analytics 4 está configurado com <strong>anonimização de IP</strong>, de modo que nenhum endereço IP completo é armazenado pelo Google.</p>
+                            <p>Você pode desativar cookies analíticos a qualquer momento nas configurações do seu navegador ou por meio do <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-weight:700;">Google Analytics Opt-out</a>.</p>
+                        </article>
+
+                        <!-- 5 -->
+                        <article class="priv-section" id="sec-compartilhamento">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 576 512" fill="#003352" aria-hidden="true">
+                                    <path d="M400 255.4l0-15.4 0-32c0-8.8-7.2-16-16-16l-32 0-16 0-46.5 0c-50.9 0-93.9 33.5-108.3 79.6c-3.3-9.4-5.2-19.8-5.2-31.6l0-1.8C176 155.1 232.8 96 304 96l80 0 16 0 32 0c8.8 0 16-7.2 16-16l0-32 0-15.4L512 66 400 255.4zM576 240c0 6.3-3.4 12.1-8.8 15.2L416 340l0 52c0 6.3-3.4 12.1-8.8 15.2l-160 96C240.2 506 232 502.4 232 496l0-128-66.4 0C139.2 368 112 340.8 112 307.6l0-7.6c0-49.7 40.3-90 90-90l102 0c8 0 14.5-6.5 14.5-14.5S312 181 304 181l-137.6 0c-8.2 0-16 3.8-21 10.2L128 224 8.8 115.2C3.4 112.1 0 106.3 0 100c0-6.3 3.4-12.1 8.8-15.2L160 0l0 52 160 0c88.4 0 160 71.6 160 160l0 28.4 96 0 0-0.4z"/>
+                                </svg>
+                                5. Compartilhamento de dados
+                            </h2>
+                            <p><strong>A RETEC não vende, aluga ou cede dados pessoais a terceiros.</strong> O compartilhamento ocorre apenas nas situações abaixo:</p>
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Google LLC</strong> — dados de navegação anônimos via Google Analytics 4 e Google Tag Manager, para análise de audiência do site.</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Provedor de hospedagem</strong> — para armazenamento e operação do site, com obrigação contratual de confidencialidade.</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Autoridades públicas</strong> — quando exigido por lei, ordem judicial ou obrigação regulatória.</span>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <!-- 6 -->
+                        <article class="priv-section" id="sec-retencao">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                                </svg>
+                                6. Retenção dos dados
+                            </h2>
+                            <p>Os dados pessoais fornecidos via formulário de contato são mantidos pelo tempo necessário ao atendimento da sua solicitação e pelo prazo exigido por obrigações legais. Após esse período, os dados são excluídos ou anonimizados.</p>
+                            <p>Dados analíticos coletados pelo Google Analytics 4 são retidos pelo período configurado na ferramenta (padrão: 14 meses), conforme as políticas do Google.</p>
+                            <p>Você pode solicitar a exclusão antecipada dos seus dados a qualquer momento — veja a <a href="#sec-direitos" style="color:var(--primary-blue);font-weight:700;">seção&nbsp;8</a>.</p>
+                        </article>
+
+                        <!-- 7 -->
+                        <article class="priv-section" id="sec-seguranca">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/>
+                                </svg>
+                                7. Segurança dos dados
+                            </h2>
+                            <p>A RETEC adota medidas técnicas e organizacionais adequadas para proteger seus dados pessoais contra acesso não autorizado, perda, alteração ou divulgação indevida, incluindo:</p>
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Protocolo HTTPS com certificado SSL/TLS em todo o site</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Acesso restrito aos dados de contato, limitado aos responsáveis pelo atendimento</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#003352" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span>Parceiros e ferramentas contratadas (Google, hospedagem) com políticas de privacidade e segurança equivalentes</span>
+                                </li>
+                            </ul>
+                            <p style="margin-top:12px;">Nenhum sistema é 100% seguro. Em caso de incidente que possa afetar seus dados, a RETEC adotará as medidas previstas na LGPD e notificará os titulares afetados conforme exigido pela legislação.</p>
+                        </article>
+
+                        <!-- 8 -->
+                        <article class="priv-section" id="sec-direitos">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M318.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-120 120c-12.5 12.5-12.5 32.8 0 45.3l16 16c12.5 12.5 32.8 12.5 45.3 0l4-4L325.4 293.4l-4 4c-12.5 12.5-12.5 32.8 0 45.3l16 16c12.5 12.5 32.8 12.5 45.3 0l120-120c12.5-12.5 12.5-32.8 0-45.3l-16-16c-12.5-12.5-32.8-12.5-45.3 0l-4 4L330.3 164.7l4-4c12.5-12.5 12.5-32.8 0-45.3l-16-16zm-152 288c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l48 48c12.5 12.5 32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-1.4-1.4L272 285.3 226.7 240 168 298.7l-1.4-1.4z"/>
+                                </svg>
+                                8. Seus direitos como titular (LGPD)
+                            </h2>
+                            <p>Nos termos da Lei nº 13.709/2018 (LGPD), você tem os seguintes direitos em relação aos seus dados pessoais:</p>
+                            <ul class="priv-list">
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Confirmação e acesso</strong> — saber se tratamos seus dados e obter cópia deles</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Correção</strong> — solicitar a atualização de dados incompletos ou incorretos</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Exclusão</strong> — requerer a eliminação dos seus dados, quando não houver obrigação legal de retenção</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Revogação do consentimento</strong> — retirar o consentimento a qualquer momento, sem prejuízo dos tratamentos realizados anteriormente</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Portabilidade</strong> — solicitar a transferência dos seus dados a outro fornecedor ou prestador de serviço</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Oposição</strong> — opor-se ao tratamento realizado com base em legítimo interesse</span>
+                                </li>
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+                                    <span><strong>Reclamação à ANPD</strong> — apresentar reclamação à Autoridade Nacional de Proteção de Dados</span>
+                                </li>
+                            </ul>
+                            <p style="margin-top:14px;">Para exercer qualquer um desses direitos, entre em contato pelo e-mail <a href="mailto:contato@retecsp.com.br" style="color:var(--primary-blue);font-weight:700;">contato@retecsp.com.br</a>. Responderemos no prazo legal de até 15 dias úteis.</p>
+                        </article>
+
+                        <!-- 9 -->
+                        <article class="priv-section" id="sec-site-oficial">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M57.7 193l9.4 16.4c8.3 14.5 21.9 25.2 38 29.8L163 255.7c17.2 4.9 29 20.6 29 38.5v39.9c0 11 6.2 21 16 25.9s16 14.9 16 25.9v39c0 15.6 14.9 26.9 29.9 22.6c16.1-4.6 28.6-17.5 32.7-33.8l2.8-11.2c4.2-16.9 15.2-31.4 30.3-40l8.1-4.6c15-8.5 24.2-24.5 24.2-41.7v-8.3c0-12.7-5.1-24.9-14.1-33.9l-3.9-3.9c-9-9-21.2-14.1-33.9-14.1H257c-11.1 0-22.1-2.9-31.8-8.4l-34.5-19.7c-4.3-2.5-7.6-6.5-9.2-11.2c-3.2-9.6 1.1-20 10.2-24.5l5.9-3c6.6-3.3 14.3-3.9 21.3-1.5l23.2 7.7c8.2 2.7 17.2-.4 21.9-7.5c4.7-7 4.2-16.3-1.2-22.8l-13.6-16.3c-10-12-9.9-29.5 .3-41.3l15.7-18.3c8.8-10.3 10.2-25 3.5-36.7l-2.4-4.2c-3.5-.2-6.9-.3-10.4-.3C163.1 48 84.4 108.9 57.7 193zM464 256c0-36.8-9.6-71.4-26.4-101.5L412 164.8c-15.7 6.3-23.8 23.8-18.5 39.8l16.9 50.7c3.5 10.4 12 18.3 22.6 20.9l29.1 7.3c1.2-9 1.8-18.2 1.8-27.5zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/>
+                                </svg>
+                                9. Site oficial da RETEC
+                            </h2>
+                            <div class="priv-aviso">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 512 512" fill="#d6a500" style="flex-shrink:0;margin-top:2px;" aria-hidden="true">
+                                    <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/>
+                                </svg>
+                                <p><strong>O único site oficial da RETEC é retecsp.com.br.</strong> Desconfie de domínios semelhantes ou páginas que se apresentem como RETEC sem esse endereço. A RETEC <strong>jamais solicita dados bancários, de cartão ou pagamentos antecipados</strong> por qualquer canal digital. Em caso de dúvida, entre em contato pelo WhatsApp oficial: <a href="https://wa.me/551137122416" style="color:#5d4100;font-weight:700;">(11) 3712-2416</a>.</p>
+                            </div>
+                        </article>
+
+                        <!-- 10 -->
+                        <article class="priv-section" id="sec-contato">
+                            <h2 class="priv-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="#003352" aria-hidden="true">
+                                    <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                                </svg>
+                                10. Contato e encarregado de dados (DPO)
+                            </h2>
+                            <p>Para dúvidas, solicitações ou exercício dos seus direitos relacionados a esta Política de Privacidade, entre em contato com a RETEC:</p>
+                            <div class="priv-highlight">
+                                <p>
+                                    <strong>E-mail:</strong> <a href="mailto:contato@retecsp.com.br" style="color:var(--primary-blue);font-weight:700;">contato@retecsp.com.br</a><br>
+                                    <strong>WhatsApp:</strong> <a href="https://wa.me/551137122416" style="color:var(--primary-blue);font-weight:700;">(11) 3712-2416</a><br>
+                                    <strong>Empresa:</strong> Retec Locação de Caçambas LTDA — CNPJ 61.371.553/0001-45
+                                </p>
+                            </div>
+                            <p style="margin-top:20px;">Esta Política de Privacidade pode ser atualizada periodicamente. Recomendamos que o VISITANTE a consulte regularmente. A data da última revisão estará sempre indicada no topo desta página.</p>
+                            <p style="margin-top:10px;font-size:.86rem;color:#888;">Última atualização: 12 de abril de 2026</p>
+                        </article>
+
+                    </div><!-- /priv-body -->
+                </div><!-- /priv-layout -->
+            </div>
+        </section>
+    </main>
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/551137122416" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" aria-hidden="true"><path fill="rgb(249,249,249)" d="M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+    </a>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color:white;margin-bottom:12px;">RETEC</h3>
+                    <p>Referência em gestão sustentável em São Paulo. Atendimento humanizado e focado em resultados.</p>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" fill="#d6b030" aria-hidden="true">
+                            <path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/>
+                        </svg>
+                        <span>Licença CETESB e IBAMA | Aterro e ATT Próprio</span>
+                    </div>
+                    <div class="footer-legal-links">
+                        <a href="termos-uso.html">Termos de Uso</a>
+                        <a href="privacidade.html">Política de Privacidade</a>
+                    </div>
+                </div>
+
+                <div class="footer-contact">
+                    <h4 style="margin-bottom:12px;">Fale Conosco</h4>
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" fill="#d6b030" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
+                            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                        <a href="https://wa.me/551137122416" style="color:white;text-decoration:none;">(11) 3712-2416</a>
+                    </p>
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" fill="#d6b030" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
+                            <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                        </svg>
+                        contato@retecsp.com.br
+                    </p>
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 384 512" fill="#d6b030" style="vertical-align:middle;margin-right:6px;" aria-hidden="true">
+                            <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/>
+                        </svg>
+                        Av. das Nações Unidas, 99 — Osasco/SP
+                    </p>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom:12px;">Social</h4>
+                    <div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:16px;align-items:center;">
+                        <a href="#" style="display:flex;align-items:center;gap:8px;color:white;text-decoration:none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512" fill="#d6b030" aria-hidden="true">
+                                <path d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                        <a href="#" style="display:flex;align-items:center;gap:8px;color:white;text-decoration:none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512" fill="#d6b030" aria-hidden="true">
+                                <path d="M416 32L31.9 32C14.3 32 0 46.5 0 64.3L0 447.7C0 465.5 14.3 480 31.9 480L416 480c17.6 0 32-14.5 32-32.3l0-383.4C448 46.5 433.6 32 416 32zM135.4 416l-66.4 0 0-213.8 66.5 0 0 213.8-.1 0zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77zM384.3 416l-66.4 0 0-104c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9l0 105.8-66.4 0 0-213.8 63.7 0 0 29.2 .9 0c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9l0 117.2z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© <span id="year"></span> RETEC — Todos os direitos reservados. Destinação 100% Legalizada.</p>
+                <div style="display:flex;align-items:flex-start;justify-content:center;flex-wrap:nowrap;gap:6px;margin-top:8px;font-size:12px;text-align:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 512 512" fill="#d6b030" style="flex-shrink:0;margin-top:2px;" aria-hidden="true">
+                        <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/>
+                    </svg>
+                    <span style="color:#44e1ff;">Site oficial: <strong style="color:#fff;">retecsp.com.br</strong>. Desconfie de cópias e sites falsos. Nunca solicitamos pagamento antecipado por outros canais.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var yearEl = document.getElementById('year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            var menuToggle = document.getElementById('mobile-menu');
+            var navMenu = document.getElementById('nav-menu');
+            var navOverlay = document.getElementById('nav-overlay');
+
+            function openMenu() {
+                navMenu.classList.add('active');
+                navOverlay.classList.add('active');
+                menuToggle.classList.add('active');
+                menuToggle.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMenu() {
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                menuToggle.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function () {
+                    navMenu.classList.contains('active') ? closeMenu() : openMenu();
+                });
+            }
+            if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+            document.querySelectorAll('#nav-menu a').forEach(function (l) { l.addEventListener('click', closeMenu); });
+
+            var idle = window.requestIdleCallback || function (cb) { setTimeout(cb, 1); };
+            idle(function () {
+                var whatsappFloat = document.getElementById('whatsapp-float');
+                if (whatsappFloat) {
+                    window.addEventListener('scroll', function () {
+                        whatsappFloat.classList.toggle('show', window.scrollY > 400);
+                    }, { passive: true });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
