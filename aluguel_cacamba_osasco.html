@@ -22,11 +22,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style-areas.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"></noscript>
-
     <link rel="preload" as="image" href="img/retec-osasco.webp" fetchpriority="high">
 
     <!-- Google Tag Manager (carregamento deferido) -->
@@ -488,12 +483,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const yearEl = document.getElementById('year');
+            var yearEl = document.getElementById('year');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-            const menuToggle = document.getElementById('mobile-menu');
-            const navMenu = document.getElementById('nav-menu');
-            const navOverlay = document.getElementById('nav-overlay');
+            var menuToggle = document.getElementById('mobile-menu');
+            var navMenu = document.getElementById('nav-menu');
+            var navOverlay = document.getElementById('nav-overlay');
 
             function openMenu() {
                 navMenu.classList.add('active');
@@ -502,7 +497,6 @@
                 menuToggle.setAttribute('aria-expanded', 'true');
                 document.body.style.overflow = 'hidden';
             }
-
             function closeMenu() {
                 navMenu.classList.remove('active');
                 navOverlay.classList.remove('active');
@@ -510,66 +504,46 @@
                 menuToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
             }
-
             if (menuToggle) {
                 menuToggle.addEventListener('click', function () {
-                    if (navMenu.classList.contains('active')) {
-                        closeMenu();
-                    } else {
-                        openMenu();
-                    }
+                    navMenu.classList.contains('active') ? closeMenu() : openMenu();
                 });
             }
+            if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+            document.querySelectorAll('#nav-menu a').forEach(function (l) { l.addEventListener('click', closeMenu); });
 
-            if (navOverlay) {
-                navOverlay.addEventListener('click', closeMenu);
-            }
-
-            document.querySelectorAll('#nav-menu a').forEach(function (link) {
-                link.addEventListener('click', closeMenu);
-            });
-
-            document.querySelectorAll('.faq-item').forEach(function (item) {
-                const btn = item.querySelector('.faq-btn');
-                const answer = item.querySelector('.faq-answer');
-
-                btn.addEventListener('click', function () {
-                    const isOpen = item.classList.contains('active');
-
-                    document.querySelectorAll('.faq-item').forEach(function (faq) {
-                        faq.classList.remove('active');
-                        faq.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+            var idle = window.requestIdleCallback || function (cb) { setTimeout(cb, 1); };
+            idle(function () {
+                document.querySelectorAll('.faq-item').forEach(function (item) {
+                    var btn = item.querySelector('.faq-btn');
+                    btn.addEventListener('click', function () {
+                        var isOpen = item.classList.contains('active');
+                        document.querySelectorAll('.faq-item').forEach(function (f) {
+                            f.classList.remove('active');
+                            f.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+                        });
+                        if (!isOpen) { item.classList.add('active'); btn.setAttribute('aria-expanded', 'true'); }
                     });
-
-                    if (!isOpen) {
-                        item.classList.add('active');
-                        btn.setAttribute('aria-expanded', 'true');
-                    }
                 });
-            });
 
-            /* --- WHATSAPP FLOAT: aparece ao rolar --- */
-            const whatsappFloat = document.getElementById('whatsapp-float');
-            if (whatsappFloat) {
-                window.addEventListener('scroll', function () {
-                    if (window.scrollY > 400) {
-                        whatsappFloat.classList.add('show');
-                    } else {
-                        whatsappFloat.classList.remove('show');
-                    }
-                }, { passive: true });
-            }
+                var whatsappFloat = document.getElementById('whatsapp-float');
+                if (whatsappFloat) {
+                    window.addEventListener('scroll', function () {
+                        whatsappFloat.classList.toggle('show', window.scrollY > 400);
+                    }, { passive: true });
+                }
 
-            document.querySelectorAll('.js-generate-lead').forEach(function (element) {
-                element.addEventListener('click', function () {
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        event: 'generate_lead',
-                        cidade: this.dataset.cidade || '',
-                        pagina: this.dataset.pagina || '',
-                        cta_posicao: this.dataset.ctaPosicao || '',
-                        cta_texto: this.dataset.ctaTexto || '',
-                        canal: this.dataset.canal || 'whatsapp'
+                document.querySelectorAll('.js-generate-lead').forEach(function (el) {
+                    el.addEventListener('click', function () {
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push({
+                            event: 'generate_lead',
+                            cidade: this.dataset.cidade || '',
+                            pagina: this.dataset.pagina || '',
+                            cta_posicao: this.dataset.ctaPosicao || '',
+                            cta_texto: this.dataset.ctaTexto || '',
+                            canal: this.dataset.canal || 'whatsapp'
+                        });
                     });
                 });
             });
