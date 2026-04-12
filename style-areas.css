@@ -179,7 +179,7 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background:#1a8a50;
+    background:#167a42;
     color: #fff;
     padding: 14px 24px;
     border-radius: 8px;
@@ -195,7 +195,7 @@ nav a:hover {
 .btn-wa-city:hover,
 .btn-tipo:hover,
 .areas-main-cta:hover {
-    background: #1a8a50;
+    background: #167a42;
     transform: translateY(-2px);
     box-shadow: 0 14px 28px rgba(37, 211, 102, 0.24);
 }
