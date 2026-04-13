@@ -83,3 +83,18 @@
     Header unset ETag
 </IfModule>
 FileETag None
+
+# --------------------------------------------------------------
+# 6. URLs SEM EXTENSÃO .html
+# --------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redireciona /pagina.html → /pagina (301 permanente para SEO)
+    RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
+    RewriteRule ^ /%1 [R=301,L]
+
+    # Internamente serve o arquivo .html correspondente
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
