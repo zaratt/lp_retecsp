@@ -74,8 +74,12 @@
         .termos-body{max-width:100%;}
     }
     </style>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style-areas.css">
+    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="style-areas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style-areas.css">
+    </noscript>
 
     <script>
         function loadGTM() {

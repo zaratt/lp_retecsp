@@ -90,6 +90,12 @@ FileETag None
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # URLs antigas com underscore → URLs com hífen (301 permanente)
+    RewriteRule ^aluguel_cacamba_barueri(\.html)?$ /aluguel-cacamba-barueri [R=301,L]
+    RewriteRule ^aluguel_cacamba_osasco(\.html)?$ /aluguel-cacamba-osasco [R=301,L]
+    RewriteRule ^aluguel_cacamba_sao_paulo(\.html)?$ /aluguel-cacamba-sao-paulo [R=301,L]
+    RewriteRule ^aluguel_cacamba_santana_parnaiba(\.html)?$ /aluguel-cacamba-santana-parnaiba [R=301,L]
+
     # Redireciona /pagina.html → /pagina (301 permanente para SEO)
     RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
     RewriteRule ^ /%1 [R=301,L]

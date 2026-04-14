@@ -3,10 +3,10 @@ User-agent: *
 # Páginas de produção liberadas para indexação
 Allow: /
 Allow: /areas-atendimento
-Allow: /aluguel_cacamba_barueri
-Allow: /aluguel_cacamba_osasco
-Allow: /aluguel_cacamba_sao_paulo
-Allow: /aluguel_cacamba_santana_parnaiba
+Allow: /aluguel-cacamba-barueri
+Allow: /aluguel-cacamba-osasco
+Allow: /aluguel-cacamba-sao-paulo
+Allow: /aluguel-cacamba-santana-parnaiba
 Allow: /privacidade
 Allow: /termos-uso
 
