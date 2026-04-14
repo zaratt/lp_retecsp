@@ -542,6 +542,22 @@
                         whatsappFloat.classList.toggle('show', window.scrollY > 400);
                     }, { passive: true });
                 }
+
+                /* --- RASTREAMENTO DE CLIQUES NOS CTAs DE WHATSAPP --- */
+                document.querySelectorAll('.js-generate-lead').forEach(function (el) {
+                    el.addEventListener('click', function () {
+                        loadGTM();
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push({
+                            'event':       'generate_lead',
+                            'cidade':      el.dataset.cidade      || '',
+                            'pagina':      el.dataset.pagina      || '',
+                            'cta_posicao': el.dataset.ctaPosicao  || '',
+                            'cta_texto':   el.dataset.ctaTexto    || '',
+                            'canal':       el.dataset.canal        || ''
+                        });
+                    });
+                });
             });
         });
     </script>
