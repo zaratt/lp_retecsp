@@ -1,0 +1,25 @@
+User-agent: *
+
+# Páginas de produção liberadas para indexação
+Allow: /
+Allow: /areas-atendimento
+Allow: /aluguel_cacamba_barueri
+Allow: /aluguel_cacamba_osasco
+Allow: /aluguel_cacamba_sao_paulo
+Allow: /aluguel_cacamba_santana_parnaiba
+Allow: /privacidade
+Allow: /termos-uso
+
+# Bloqueios: duplicata da homepage (index3 serve como /)
+Disallow: /index3
+Disallow: /index3.html
+
+# Bloqueios: páginas legadas e temporárias
+Disallow: /index2
+Disallow: /index2.html
+Disallow: /index-BREVE.p
+Disallow: /index-BREVE.p.html
+Disallow: /areas-atendidas
+Disallow: /areas-atendidas.html
+
+Sitemap: https://www.retecsp.com.br/sitemap.xml
