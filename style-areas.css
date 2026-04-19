@@ -192,6 +192,10 @@ nav a:hover {
     -webkit-tap-highlight-color: transparent;
 }
 
+.btn-tipo {
+    width: 100%;
+}
+
 .btn-wa-city:hover,
 .btn-tipo:hover,
 .areas-main-cta:hover {
@@ -1083,8 +1087,8 @@ nav a:hover {
 }
 
 /* --- OTIMIZAÇÃO TIPOS-GUIDE-SECTION (CRO) --- */
-.tipo-img-wrap { margin: -36px -30px 20px; overflow: hidden; }
-.tipo-product-img { width: 100%; height: auto; display: block; aspect-ratio: 8 / 5; }
+.tipo-img-wrap { margin: 0 0 20px; padding: 0 16px; overflow: hidden; }
+.tipo-product-img { width: 100%; height: auto; display: block; aspect-ratio: 8 / 5; object-fit: contain; }
 .tipo-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #667085; margin-bottom: 12px; }
 .tipo-bullets { list-style: none; padding: 0; margin: 0 0 22px; text-align: left; display: flex; flex-direction: column; gap: 8px; }
 .tipo-bullets li { font-size: 0.88rem; color: #444; padding-left: 22px; position: relative; line-height: 1.45; }
