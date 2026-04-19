@@ -331,9 +331,12 @@ nav a:hover {
     background: var(--white);
 }
 
-.features,
-.cta-final {
+.features {
     background: var(--light-gray);
+}
+
+.cta-final {
+    background: #f2f4f6;
 }
 
 .section-title,
@@ -565,15 +568,15 @@ nav a:hover {
 }
 
 .tipo-card.destaque {
-    border: 3px solid var(--gold);
+    border: 3px solid var(--light-gray);
 }
 
 .tipo-badge {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: var(--gold);
-    color: #fff;
+    background: var(--light-gray);
+    color: #1a5f7a;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -1012,3 +1015,80 @@ nav a:hover {
         font-size: 1.2rem;
     }
 }
+
+/* --- TIPOS DE CAÇAMBA + GUIA DE DESCARTE --- */
+.tipos-guide-section { padding: var(--section-padding); background: var(--white); }
+.tipos-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 32px; margin-top: 8px; }
+.tipo-guide-card { background: var(--white); border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,.08); border: 2px solid var(--light-gray); overflow: visible; transition: box-shadow .3s ease, border-color .3s ease; display: flex; flex-direction: column; }
+.tipo-guide-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.13); border-color: var(--primary-blue); }
+.tipo-guide-card--destaque { border-color: var(--primary-blue); }
+.tipo-card-header { padding: 36px 30px 28px; text-align: center; position: relative; }
+.tipo-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background: var(--dark-gray); color: #fff; padding: 7px 20px; border-radius: 20px; font-size: .82rem; font-weight: 700; white-space: nowrap; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
+.tipo-badge svg { display: block; flex-shrink: 0; }
+.tipo-icon { margin-bottom: 16px; }
+.tipo-volume { font-size: 2.4rem; font-weight: 800; color: var(--primary-blue); margin-bottom: 6px; line-height: 1; }
+.tipo-nome { font-size: 1.25rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 8px; }
+.tipo-sub { color: #666; font-size: .9rem; line-height: 1.6; margin-bottom: 22px; }
+.tipo-guide-items { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.tipo-guide-item { background: var(--light-gray); border-radius: 8px; overflow: hidden; border: 1px solid #e8ecf0; }
+.tipo-guide-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 16px; background: none; border: none; cursor: pointer; font-weight: 700; font-size: .88rem; color: var(--secondary-blue); text-align: left; transition: color .25s ease; }
+.tipo-guide-btn:hover { color: var(--primary-blue); }
+.tipo-guide-btn span { flex: 1; }
+.tg-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.tg-icon-info { fill: var(--primary-blue); }
+.tg-icon-check { fill: #1a7a46; }
+.tg-icon-forbidden { fill: #c0392b; }
+.tg-chevron { width: 12px; height: 12px; flex-shrink: 0; fill: currentColor; transition: transform .3s ease; }
+.tipo-guide-item.active .tg-chevron { transform: rotate(180deg); }
+.tipo-guide-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; }
+.tipo-guide-item.active .tipo-guide-answer { max-height: 300px; padding: 4px 16px 16px; }
+.tipo-guide-answer p { font-size: .88rem; color: #555; line-height: 1.65; }
+
+@media (max-width: 680px) {
+    .tipos-guide-grid { grid-template-columns: 1fr; }
+}
+
+/* --- ACORDEÃO DE BAIRROS POR REGIÃO --- */
+.areas-region-section { padding: 60px 0 80px; background: var(--light-gray); }
+.region-group { max-width: 900px; margin: 0 auto 16px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.region-toggle { width: 100%; background: var(--white); border: none; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-align: left; transition: background 0.2s; }
+.region-toggle:hover { background: #f0f4f8; }
+.region-toggle-left { display: flex; align-items: center; gap: 14px; }
+.region-icon { width: 44px; height: 44px; background: var(--primary-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.region-toggle h2 { font-size: 1.1rem; font-weight: 700; color: var(--primary-blue); margin: 0; }
+.region-toggle small { display: block; font-size: 0.78rem; color: #666; font-weight: 400; margin-top: 2px; }
+.region-toggle .chevron { color: var(--primary-blue); transition: transform 0.3s; flex-shrink: 0; }
+.region-group.open .region-toggle { background: var(--primary-blue); }
+.region-group.open .region-toggle h2 { color: white; }
+.region-group.open .region-toggle small { color: rgba(255,255,255,0.75); }
+.region-group.open .region-toggle .chevron { color: white; transform: rotate(180deg); }
+.region-group.open .region-icon { background: rgba(255,255,255,0.2); }
+.region-body { display: none; background: var(--white); padding: 24px; border-top: 1px solid #eee; }
+.region-group.open .region-body { display: block; }
+.sub-area { margin-bottom: 24px; }
+.sub-area:last-child { margin-bottom: 0; }
+.sub-area-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+.sub-area-title { font-size: 0.95rem; font-weight: 700; color: var(--secondary-blue); display: flex; align-items: center; gap: 8px; }
+.sub-divider { border: none; border-top: 1px dashed #dde3ea; margin: 20px 0; }
+.bairros-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip { background: #eef2f7; color: var(--dark-gray); padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; white-space: nowrap; }
+.region-cta { margin-top: 20px; padding-top: 18px; border-top: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.region-cta p { font-size: 0.85rem; color: #666; margin: 0; }
+.btn-region-wa { display: inline-flex; align-items: center; gap: 8px; background: #22ac65; color: white; padding: 11px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: 0.2s; white-space: nowrap; }
+.btn-region-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+@media (max-width: 680px) {
+    .region-toggle { padding: 16px 18px; }
+    .region-icon { width: 38px; height: 38px; }
+    .region-cta { flex-direction: column; align-items: flex-start; }
+}
+
+/* --- OTIMIZAÇÃO TIPOS-GUIDE-SECTION (CRO) --- */
+.tipo-img-wrap { margin: -36px -30px 20px; overflow: hidden; }
+.tipo-product-img { width: 100%; height: auto; display: block; aspect-ratio: 8 / 5; }
+.tipo-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #667085; margin-bottom: 12px; }
+.tipo-bullets { list-style: none; padding: 0; margin: 0 0 22px; text-align: left; display: flex; flex-direction: column; gap: 8px; }
+.tipo-bullets li { font-size: 0.88rem; color: #444; padding-left: 22px; position: relative; line-height: 1.45; }
+.tipo-bullets li::before { content: "✓"; position: absolute; left: 0; color: #1a7a46; font-weight: 800; }
+.tipo-badge--destaque { background: var(--primary-blue); }
+.tipo-guide-card--mais-utilizada { border-color: var(--dark-gray); box-shadow: 0 12px 36px rgba(0,51,82,0.14); }
+.tipo-guide-item:hover > .tipo-guide-btn { background: #e8edf3; }
