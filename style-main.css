@@ -730,7 +730,7 @@ nav a:hover {
 /* --- TIPOS DE CAÇAMBA + GUIA DE DESCARTE --- */
 .tipos-guide-section {padding:var(--section-padding);background:var(--white);}
 .tipos-guide-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:32px;margin-top:8px;}
-.tipo-guide-card {background:var(--white);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.08);border:2px solid var(--light-gray);overflow:hidden;transition:box-shadow .3s ease,border-color .3s ease;display:flex;flex-direction:column;}
+.tipo-guide-card {background:var(--white);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.08);border:2px solid var(--light-gray);overflow:visible;transition:box-shadow .3s ease,border-color .3s ease;display:flex;flex-direction:column;}
 .tipo-guide-card:hover {box-shadow:0 12px 40px rgba(0,0,0,.13);border-color:var(--primary-blue);}
 .tipo-guide-card--destaque {border-color:var(--primary-blue);}
 .tipo-card-header {padding:36px 30px 28px;text-align:center;border-bottom:1px solid var(--light-gray);position:relative;}

@@ -1018,7 +1018,7 @@ nav a:hover {
 
 /* --- TIPOS DE CAÇAMBA + GUIA DE DESCARTE --- */
 .tipos-guide-section { padding: var(--section-padding); background: var(--white); }
-.tipos-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 32px; margin-top: 8px; }
+.tipos-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 32px; margin-top: 8px; padding-top: 18px; }
 .tipo-guide-card { background: var(--white); border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,.08); border: 2px solid var(--light-gray); overflow: visible; transition: box-shadow .3s ease, border-color .3s ease; display: flex; flex-direction: column; }
 .tipo-guide-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.13); border-color: var(--primary-blue); }
 .tipo-guide-card--destaque { border-color: var(--primary-blue); }
@@ -1092,3 +1092,7 @@ nav a:hover {
 .tipo-badge--destaque { background: var(--primary-blue); }
 .tipo-guide-card--mais-utilizada { border-color: var(--dark-gray); box-shadow: 0 12px 36px rgba(0,51,82,0.14); }
 .tipo-guide-item:hover > .tipo-guide-btn { background: #e8edf3; }
+@media (max-width: 420px) {
+    .tipo-badge { font-size: .7rem; padding: 5px 12px; gap: 4px; }
+    .tipo-badge svg { width: 11px; height: 11px; }
+}
