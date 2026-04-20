@@ -788,12 +788,16 @@ document.addEventListener('DOMContentLoaded', function () {
 				loadGTM();
 				window.dataLayer = window.dataLayer || [];
 				window.dataLayer.push({
-					'event':       'generate_lead',
-					'cidade':      el.dataset.cidade      || '',
-					'pagina':      el.dataset.pagina      || '',
-					'cta_posicao': el.dataset.ctaPosicao  || '',
-					'cta_texto':   el.dataset.ctaTexto    || '',
-					'canal':       el.dataset.canal        || ''
+					event: 'generate_lead',
+					click_id: this.id || '',
+					click_text: this.innerText.trim(),
+					click_url: this.href || '',
+					click_classes: this.className || '',
+					cidade: this.dataset.cidade || '',
+					pagina: this.dataset.pagina || '',
+					cta_posicao: this.dataset.ctaPosicao || '',
+					cta_texto: this.dataset.ctaTexto || '',
+					canal: this.dataset.canal || 'whatsapp'
 				});
 			});
 		});
