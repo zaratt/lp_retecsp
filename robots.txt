@@ -10,11 +10,8 @@ Allow: /aluguel-cacamba-santana-parnaiba
 Allow: /privacidade
 Allow: /termos-uso
 
-# Bloqueios: duplicata da homepage (index3 serve como /)
-Disallow: /index3
-Disallow: /index3.html
-
 # Bloqueios: páginas legadas e temporárias
+Disallow: /index.old
 Disallow: /index2
 Disallow: /index2.html
 Disallow: /index-BREVE.p

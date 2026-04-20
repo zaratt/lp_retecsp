@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Homepage (index3.html após aprovação) -->
+  <!-- Homepage -->
   <url>
     <loc>https://www.retecsp.com.br/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,28 +12,28 @@
   <!-- Páginas de serviço por cidade -->
   <url>
     <loc>https://www.retecsp.com.br/aluguel-cacamba-sao-paulo</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.retecsp.com.br/aluguel-cacamba-osasco</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.retecsp.com.br/aluguel-cacamba-barueri</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.retecsp.com.br/aluguel-cacamba-santana-parnaiba</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -41,7 +41,7 @@
   <!-- Página de áreas atendidas -->
   <url>
     <loc>https://www.retecsp.com.br/areas-atendimento</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -49,14 +49,14 @@
   <!-- Páginas legais -->
   <url>
     <loc>https://www.retecsp.com.br/privacidade</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://www.retecsp.com.br/termos-uso</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
