@@ -101,6 +101,9 @@ FileETag None
     RewriteRule ^aluguel_cacamba_sao_paulo(\.html)?$ /aluguel-cacamba-sao-paulo [R=301,L]
     RewriteRule ^aluguel_cacamba_santana_parnaiba(\.html)?$ /aluguel-cacamba-santana-parnaiba [R=301,L]
 
+    # Redirecionar .html → sem extensão
+    RewriteRule ^areas-atendimento\.html$ /areas-atendimento [R=301,L]
+
     # Redireciona /pagina.html → /pagina (301 permanente para SEO)
     RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
     RewriteRule ^ /%1 [R=301,L]
