@@ -72,14 +72,17 @@
 </IfModule>
 
 # --------------------------------------------------------------
-# 4. FORÇAR HTTPS (redirecionar HTTP → HTTPS)
-# Descomente as linhas abaixo se o servidor tiver SSL ativo.
+# 4. CANONIZAÇÃO DE HOST E PROTOCOLO (301)
+# Força sempre: https://www.retecsp.com.br
 # --------------------------------------------------------------
-# <IfModule mod_rewrite.c>
-#     RewriteEngine On
-#     RewriteCond %{HTTPS} off
-#     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-# </IfModule>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 301 único para evitar cadeia de redirecionamentos
+    RewriteCond %{HTTP_HOST} !^www\.retecsp\.com\.br$ [NC,OR]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://www.retecsp.com.br%{REQUEST_URI} [R=301,L,NE]
+</IfModule>
 
 # --------------------------------------------------------------
 # 5. ETags — desativar para evitar duplicidade com Cache-Control
@@ -101,14 +104,13 @@ FileETag None
     RewriteRule ^aluguel_cacamba_sao_paulo(\.html)?$ /aluguel-cacamba-sao-paulo [R=301,L]
     RewriteRule ^aluguel_cacamba_santana_parnaiba(\.html)?$ /aluguel-cacamba-santana-parnaiba [R=301,L]
 
-    # Redirecionar .html → sem extensão
-    RewriteRule ^areas-atendimento\.html$ /areas-atendimento [R=301,L]
-
     # Redireciona /pagina.html → /pagina (301 permanente para SEO)
-    RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
-    RewriteRule ^ /%1 [R=301,L]
+    RewriteCond %{THE_REQUEST} \s/+([^.\s]+)\.html(?:[\s?]|$) [NC]
+    RewriteRule ^ /%1 [R=301,L,NE]
 
     # Internamente serve o arquivo .html correspondente
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME}.html -f
     RewriteRule ^(.*)$ $1.html [L]
 </IfModule>
