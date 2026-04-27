@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contato — RETEC | Aluguel de Caçambas em São Paulo</title>
+	<meta name="description" content="Entre em contato com a RETEC para orçamentos, dúvidas financeiras ou atendimento ao cliente. Resposta rápida e atendimento humanizado.">
+	<link rel="canonical" href="https://www.retecsp.com.br/contato">
+
+	<!-- Favicon -->
+	<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<!-- Fonts -->
+	<link rel="preload" href="tiff/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="tiff/Roboto-Bold.woff2" as="font" type="font/woff2" crossorigin>
+	<!-- Font Awesome async -->
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/solid.min.css"></noscript>
+
+	<link rel="stylesheet" href="style-main.min.css?v=2">
+	<style>
+		@font-face{font-family:'Roboto';font-style:normal;font-weight:400;font-display:swap;src:url('tiff/Roboto-Regular.woff2') format('woff2');}
+		@font-face{font-family:'Roboto';font-style:normal;font-weight:700;font-display:swap;src:url('tiff/Roboto-Bold.woff2') format('woff2');}
+		:root{--primary-blue:#003352;--secondary-blue:#00263d;--accent-green:#22ac65;--light-gray:#f8f9fa;--dark-gray:#2c3e50;--white:#fff;--section-padding:60px 5%}
+		*{margin:0;padding:0;box-sizing:border-box}
+		.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+		html{scroll-behavior:smooth;scroll-padding-top:90px}
+		body{font-family:'Roboto',Verdana,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--dark-gray);line-height:1.6;overflow-x:hidden}
+		.container{max-width:1200px;margin:0 auto;padding:0 5%}
+		a{text-decoration:none;color:inherit}
+		header{background:#fff;position:sticky;top:0;z-index:1001;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+		.header-container{display:flex;justify-content:space-between;align-items:center;padding:15px 0}
+		.logo-link{display:flex;align-items:center;text-decoration:none}
+		.logo-link img{height:48px;width:auto;display:block;}
+		nav ul{display:flex;list-style:none;gap:30px;align-items:center}
+		nav a{font-weight:600;font-size:.9rem;text-decoration:none;color:var(--dark-gray)}
+		.btn-nav{background:var(--primary-blue);color:#fff!important;padding:10px 20px;border-radius:5px}
+		.menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1002;background:none;border:none;padding:4px}
+		.menu-toggle span{display:block;width:28px;height:3px;background:var(--primary-blue);border-radius:3px}
+		.nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:999}
+		@media(max-width:900px){nav{position:fixed;top:0;right:-100%;width:80%;height:100vh;background:#fff;box-shadow:-5px 0 15px rgba(0,0,0,.1);transition:.35s;padding-top:90px;z-index:1000}nav.active{right:0}nav ul{flex-direction:column;gap:0;padding:0;align-items:flex-start}nav ul li{width:100%}nav a{display:block;padding:14px 32px;font-size:1rem;border-bottom:1px solid #f0f0f0}.btn-nav{margin:20px 32px;display:inline-block;border-radius:5px}.menu-toggle{display:flex}}
+
+		/* === HERO CONTATO === */
+		.contato-hero{background:var(--primary-blue);padding:56px 5% 48px;position:relative;overflow:hidden;}
+		.contato-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(214,176,48,.08) 0%,transparent 65%);pointer-events:none;}
+		.contato-hero .container{position:relative;z-index:1;}
+		.contato-hero-breadcrumb{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:12px;}
+		.contato-hero-breadcrumb a{color:rgba(255,255,255,.6);text-decoration:none;}
+		.contato-hero-breadcrumb a:hover{color:#d6b030;}
+		.contato-hero h1{font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-.02em;}
+		.contato-hero p{color:rgba(255,255,255,.75);font-size:clamp(.95rem,1.5vw,1.05rem);max-width:580px;line-height:1.7;}
+
+		/* === LAYOUT PRINCIPAL === */
+		.contato-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:stretch;padding:56px 0 64px;}
+		@media(max-width:900px){.contato-layout{grid-template-columns:1fr;gap:32px;padding:40px 0 48px;align-items:start;}}
+
+		/* === FORMULÁRIO === */
+		.contato-form-wrap{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,51,82,.10);padding:36px 32px;border:1px solid rgba(0,51,82,.08);display:flex;flex-direction:column;}
+		@media(max-width:600px){.contato-form-wrap{padding:24px 18px;}}
+		.contato-form-wrap h2{font-size:1.15rem;font-weight:800;color:var(--primary-blue);margin-bottom:6px;}
+		.contato-form-wrap > p{font-size:.88rem;color:#666;margin-bottom:24px;line-height:1.6;}
+		.contato-form-wrap form{display:flex;flex-direction:column;gap:14px;}
+		.contato-form-wrap select,
+		.contato-form-wrap input,
+		.contato-form-wrap textarea{width:100%;padding:12px 14px;border:1.5px solid #dce3ea;border-radius:8px;font-family:inherit;font-size:.92rem;color:var(--dark-gray);background:#fff;outline:none;transition:border-color .2s;}
+		.contato-form-wrap select:focus,
+		.contato-form-wrap input:focus,
+		.contato-form-wrap textarea:focus{border-color:var(--primary-blue);}
+		.contato-form-wrap textarea{resize:vertical;min-height:110px;}
+		.lgpd-consent{display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:#666;line-height:1.5;}
+		.lgpd-consent input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:2px;cursor:pointer;accent-color:var(--primary-blue);}
+		.btn-enviar{background:var(--primary-blue);color:#fff;border:none;padding:14px 28px;border-radius:10px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;width:100%;}
+		.btn-enviar:hover{background:var(--secondary-blue);}
+		.btn-enviar:disabled{opacity:.6;cursor:not-allowed;}
+
+		/* === CARD SUCESSO === */
+		#form-success{display:none;text-align:center;padding:48px 20px;}
+		#form-success .success-icon{font-size:3rem;color:#22ac65;margin-bottom:16px;display:block;}
+		#form-success h3{color:var(--primary-blue);margin-bottom:10px;font-size:1.15rem;}
+		#form-success p{color:#666;font-size:.92rem;}
+
+		/* === SIDEBAR INFO === */
+		.contato-sidebar{display:flex;flex-direction:column;gap:16px;height:100%;}
+		.info-card{background:var(--primary-blue);border-radius:14px;padding:24px 22px;}
+		.info-card h3{color:#d6b030;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;}
+		.info-item{display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.85);font-size:.9rem;line-height:1.55;margin-bottom:14px;}
+		.info-item:last-child{margin-bottom:0;}
+		.info-item svg{flex-shrink:0;margin-top:2px;}
+		.info-divider{height:1px;background:rgba(255,255,255,.1);margin:16px 0;}
+		.canais-card{background:#f4f7fa;border-radius:14px;padding:24px 22px;border:1px solid #dce3ea;flex:1;display:flex;flex-direction:column;}
+		.canais-card h3{color:var(--primary-blue);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;}
+		.canal-item{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--dark-gray);margin-bottom:12px;font-weight:600;}
+		.canal-item:last-child{margin-bottom:0;}
+		.canal-badge{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+		.badge-sac{background:#e8f5e9;color:#1a7a46;}
+		.badge-fin{background:#fff3e0;color:#b05800;}
+		.badge-com{background:#e3f0ff;color:#003352;}
+		/* === DEPARTMENT CTA BLOCKS === */
+		.dept-block{background:#fff;border:1px solid #dce3ea;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;}
+		.dept-block:last-child{margin-bottom:0;}
+		.dept-block-header{display:flex;align-items:center;gap:8px;}
+		.dept-block-desc{font-size:.8rem;color:#666;line-height:1.4;}
+		.btn-dept{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border-radius:8px;font-size:.82rem;font-weight:700;text-decoration:none;transition:opacity .15s;width:100%;}
+		.btn-dept-wa{background:#22ac65;color:#fff;}
+		.btn-dept-tel{background:var(--primary-blue);color:#fff;}
+		.btn-dept:hover{opacity:.88;}
+	</style>
+
+	<!-- Inicializa dataLayer -->
+	<script>window.dataLayer = window.dataLayer || [];</script>
+
+	<!-- GTM deferido -->
+	<script>
+		function loadGTM() {
+			if (window._gtmLoaded) return;
+			window._gtmLoaded = true;
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-MRNG2HFG');
+		}
+		['scroll','click','keydown','touchstart'].forEach(function(evt) {
+			window.addEventListener(evt, loadGTM, {once: true, passive: true});
+		});
+		setTimeout(loadGTM, 5000);
+	</script>
+</head>
+
+<body>
+<!-- GTM noscript -->
+<noscript>
+	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRNG2HFG"
+	        height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+
+<!-- Nav Overlay Mobile -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- ============ HEADER ============ -->
+<header>
+	<div class="container header-container">
+		<a href="/" class="logo-link" aria-label="Ir para a página inicial da RETEC">
+			<img src="img/LOGO-Retecsp-Azul.webp" alt="Logo RETEC" width="655" height="185">
+		</a>
+		<button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
+			<span></span><span></span><span></span>
+		</button>
+		<nav id="nav-menu" aria-label="Menu principal">
+			<ul>
+				<li><a href="/#home">Home</a></li>
+				<li><a href="/#quem-somos">Quem Somos</a></li>
+				<li><a href="/areas-atendimento">Áreas Atendidas</a></li>
+				<li><a href="/#tipos">Tipo de Caçambas</a></li>
+				<li><a href="/#faq">FAQ</a></li>
+				<li><a href="/contato" class="btn-nav">Contato</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="contato-hero">
+	<div class="container">
+		<p class="contato-hero-breadcrumb"><a href="/">Home</a> / Contato</p>
+		<h1>Fale com a RETEC</h1>
+		<p>Estamos prontos para atender você. Seja para solicitar um orçamento, tirar uma dúvida financeira ou falar com nossa equipe comercial — escolha o departamento e envie sua mensagem. Respondemos com agilidade e atenção.</p>
+	</div>
+</div>
+
+<!-- ============ CONTEÚDO PRINCIPAL ============ -->
+<section style="background:var(--light-gray);">
+	<div class="container">
+		<div class="contato-layout">
+
+			<!-- FORMULÁRIO -->
+			<div class="contato-form-wrap">
+				<!-- Sucesso -->
+				<div id="form-success">
+					<span class="success-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 512 512" fill="#22ac65"><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zM374 145.7c-10.7-7.8-25.7-5.4-33.5 5.3L221.1 315.2 169 263.1c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72c5 5 11.8 7.5 18.8 7s13.4-4.1 17.5-9.8L379.3 179.2c7.8-10.7 5.4-25.7-5.3-33.5z"/></svg>
+					</span>
+					<h3>Mensagem enviada com sucesso!</h3>
+					<p>Obrigado pelo contato. Nossa equipe retornará em breve pelo canal informado.</p>
+				</div>
+
+				<!-- Formulário -->
+				<h2>Envie sua mensagem</h2>
+				<p>Preencha os campos abaixo. Selecione o departamento correto para garantir uma resposta mais rápida.</p>
+				<form action="/enviar.php" method="POST" id="form-contato">
+					<input type="hidden" name="csrf_token" id="csrf_token" value="">
+
+					<label for="departamento" class="sr-only">Departamento</label>
+					<select id="departamento" name="departamento" required>
+						<option value="">Selecione o departamento</option>
+						<option value="SAC">SAC — Atendimento ao Cliente</option>
+						<option value="Financeiro">Financeiro</option>
+						<option value="Comercial">Comercial — Orçamentos e Vendas</option>
+					</select>
+
+					<input type="text" name="nome" placeholder="Nome completo" required>
+					<input type="email" name="email" placeholder="E-mail" required>
+					<input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required>
+					<textarea name="mensagem" placeholder="Descreva como podemos ajudar" rows="5" required></textarea>
+
+					<div class="lgpd-consent">
+						<input type="checkbox" id="consentimento-form" name="consentimento" required>
+						<label for="consentimento-form">
+							Estou de acordo em fornecer meus dados para que a RETEC entre em contato, conforme a <a href="/privacidade" target="_blank" style="text-decoration:underline; color:var(--primary-blue);">Política de Privacidade</a>.
+						</label>
+					</div>
+					<button type="submit" class="btn-enviar" id="btn_contato_enviar">Enviar mensagem</button>
+				</form>
+			</div>
+
+			<!-- SIDEBAR -->
+			<div class="contato-sidebar">
+				<!-- Info de contato -->
+				<div class="info-card">
+					<h3>Informações de Contato</h3>
+					<div class="info-item">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C10.9 30.5 0 44.2 0 60C0 284.4 183.6 468 408 468c15.8 0 29.5-10.9 33.6-26.3l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L249.7 312c-59.4-29.2-107.5-77.4-136.7-136.7L151 138.3c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+						<span><a href="tel:+551137122416" class="js-generate-lead" id="btn_contato_tel_sidebar" data-cidade="" data-pagina="contato" data-cta-posicao="sidebar_telefone" data-cta-texto="Ligar agora" data-canal="telefone" style="color:rgba(255,255,255,.9); text-decoration:none; border:1px solid rgba(255,255,255,.3); border-radius:6px; padding:3px 10px; font-size:.88rem; transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background=''">(11) 3712-2416</a></span>
+					</div>
+					<div class="info-item">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="#d6b030"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+						<span>contato@retecsp.com.br</span>
+					</div>
+					<div class="info-divider"></div>
+					<div class="info-item">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 384 512" fill="#d6b030"><path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/></svg>
+						<span>Av. das Nações Unidas, 99 — Osasco/SP</span>
+					</div>
+				</div>
+
+				<!-- Departamentos -->
+				<div class="canais-card">
+					<h3>Departamentos Disponíveis</h3>
+
+					<!-- SAC -->
+					<div class="dept-block">
+						<div class="dept-block-header">
+							<span class="canal-badge badge-sac">SAC</span>
+						</div>
+						<p class="dept-block-desc">Atendimento ao Cliente — reclamações, elogios e suporte</p>
+						<a href="https://wa.me/5511917015902?text=Ol%C3%A1%2C%20preciso%20de%20atendimento%20via%20SAC" class="btn-dept btn-dept-wa js-generate-lead" id="btn_contato_dept_sac" data-cidade="" data-pagina="contato" data-cta-posicao="dept_sac" data-cta-texto="Falar com SAC" data-canal="whatsapp" target="_blank" rel="noopener">
+							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512" fill="white" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+							Falar com SAC
+						</a>
+					</div>
+
+					<!-- Financeiro -->
+					<div class="dept-block">
+						<div class="dept-block-header">
+							<span class="canal-badge badge-fin">Financeiro</span>
+						</div>
+						<p class="dept-block-desc">Boletos, notas fiscais e questões de pagamento</p>
+						<a href="https://wa.me/5511947265367?text=Ol%C3%A1%2C%20preciso%20de%20atendimento%20Financeiro" class="btn-dept btn-dept-wa js-generate-lead" id="btn_contato_dept_fin" data-cidade="" data-pagina="contato" data-cta-posicao="dept_financeiro" data-cta-texto="Falar com Financeiro" data-canal="whatsapp" target="_blank" rel="noopener">
+							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512" fill="white" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+							Falar com Financeiro
+						</a>
+					</div>
+
+					<!-- Comercial / Vendas -->
+					<div class="dept-block">
+						<div class="dept-block-header">
+							<span class="canal-badge badge-com">Comercial</span>
+						</div>
+						<p class="dept-block-desc">Orçamentos, contratos e novas parcerias</p>
+						<a href="https://wa.me/551137122416?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento" class="btn-dept btn-dept-wa js-generate-lead" id="btn_contato_dept_com" data-cidade="" data-pagina="contato" data-cta-posicao="dept_comercial" data-cta-texto="Falar com Comercial" data-canal="whatsapp" target="_blank" rel="noopener">
+							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512" fill="white" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+							Falar com Comercial
+						</a>
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/551137122416" class="whatsapp-float js-generate-lead" id="whatsapp-float"
+   data-cidade="" data-pagina="contato" data-cta-posicao="float_whatsapp" data-cta-texto="Botão flutuante WhatsApp" data-canal="whatsapp"
+   target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" aria-hidden="true"><path fill="rgb(249, 249, 249)" d="M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+</a>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+	<div class="container">
+		<div class="footer-grid">
+			<div>
+				<h3 style="color:white; margin-bottom:12px; font-size:1rem;">RETEC</h3>
+				<p>Referência em gestão sustentável na Grande São Paulo. Atendimento humanizado e focado em resultados.</p>
+				<div class="footer-legal-links">
+					<a href="/termos-uso">Termos de Uso</a>
+					<a href="/privacidade">Política de Privacidade</a>
+				</div>
+			</div>
+			<div class="footer-contact">
+				<h4 style="margin-bottom:12px;">Fale Conosco</h4>
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" fill="#d6b030" style="vertical-align:middle; margin-right:6px;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+					<a href="https://wa.me/551137122416" style="color:white; text-decoration:none;">(11) 3712-2416</a>
+				</p>
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" fill="#d6b030" style="vertical-align:middle; margin-right:6px;"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+					contato@retecsp.com.br
+				</p>
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 384 512" fill="#d6b030" style="vertical-align:middle; margin-right:6px;"><path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/></svg>
+					Av. das Nações Unidas, 99 — Osasco/SP
+				</p>
+			</div>
+			<div>
+				<h4 style="margin-bottom:12px;">Social</h4>
+				<div style="display:flex; flex-direction:row; flex-wrap:wrap; gap:16px; align-items:center;">
+					<a href="#" style="display:flex; align-items:center; gap:8px; color:white; text-decoration:none;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512" fill="#d6b030"><path d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+						Instagram
+					</a>
+					<a href="#" style="display:flex; align-items:center; gap:8px; color:white; text-decoration:none;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512" fill="#d6b030"><path d="M416 32L31.9 32C14.3 32 0 46.5 0 64.3L0 447.7C0 465.5 14.3 480 31.9 480L416 480c17.6 0 32-14.5 32-32.3l0-383.4C448 46.5 433.6 32 416 32zM135.4 416l-66.4 0 0-213.8 66.5 0 0 213.8-.1 0zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77zM384.3 416l-66.4 0 0-104c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9l0 105.8-66.4 0 0-213.8 63.7 0 0 29.2 .9 0c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9l0 117.2z"/></svg>
+						LinkedIn
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>© <span id="year"></span> RETEC — Todos os direitos reservados. Destinação 100% Legalizada.</p>
+			<div style="display:flex; align-items:flex-start; justify-content:center; flex-wrap:nowrap; gap:6px; margin-top:8px; font-size:12px; text-align:center;">
+				<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 512 512" fill="#d6b030" style="flex-shrink:0; margin-top:2px;"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/></svg>
+				<span style="color:#fff;">Site oficial: <strong style="color:#d6b030;">retecsp.com.br</strong>. Desconfie de cópias e sites falsos. Nunca solicitamos pagamento antecipado por outros canais.</span>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+	/* --- ANO NO RODAPÉ --- */
+	const yearEl = document.getElementById('year');
+	if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+	/* --- MENU MOBILE --- */
+	const menuToggle = document.getElementById('mobile-menu');
+	const navMenu = document.getElementById('nav-menu');
+	const navOverlay = document.getElementById('nav-overlay');
+
+	function openMenu() {
+		navMenu.classList.add('active');
+		navOverlay.classList.add('active');
+		menuToggle.classList.add('active');
+		menuToggle.setAttribute('aria-expanded', 'true');
+		document.body.style.overflow = 'hidden';
+	}
+	function closeMenu() {
+		navMenu.classList.remove('active');
+		navOverlay.classList.remove('active');
+		menuToggle.classList.remove('active');
+		menuToggle.setAttribute('aria-expanded', 'false');
+		document.body.style.overflow = '';
+	}
+	if (menuToggle) menuToggle.addEventListener('click', function () {
+		navMenu.classList.contains('active') ? closeMenu() : openMenu();
+	});
+	if (navOverlay) navOverlay.addEventListener('click', closeMenu);
+	navMenu.querySelectorAll('a').forEach(function (link) {
+		link.addEventListener('click', closeMenu);
+	});
+
+	/* --- RASTREAMENTO WHATSAPP --- */
+	document.querySelectorAll('.js-generate-lead').forEach(function (el) {
+		el.addEventListener('click', function () {
+			loadGTM();
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({
+				event: 'generate_lead',
+				click_id: this.id || '',
+				click_text: this.innerText.trim(),
+				click_url: this.href || '',
+				click_classes: this.className || '',
+				cidade: this.dataset.cidade || '',
+				pagina: this.dataset.pagina || '',
+				cta_posicao: this.dataset.ctaPosicao || '',
+				cta_texto: this.dataset.ctaTexto || '',
+				canal: this.dataset.canal || 'whatsapp'
+			});
+		});
+	});
+
+	/* --- CSRF TOKEN --- */
+	function fetchCsrfToken() {
+		return fetch('/csrf_token.php')
+			.then(function (r) { return r.json(); })
+			.then(function (d) {
+				var el = document.getElementById('csrf_token');
+				if (el && d.token) el.value = d.token;
+			})
+			.catch(function () { /* falha silenciosa; validado no servidor */ });
+	}
+	fetchCsrfToken();
+
+	/* --- FORMULÁRIO --- */
+	const formContato = document.getElementById('form-contato');
+	const formSuccess = document.getElementById('form-success');
+
+	if (formContato) {
+		formContato.addEventListener('submit', function (e) {
+			e.preventDefault();
+			const btnSubmit = document.getElementById('btn_contato_enviar');
+			const originalText = btnSubmit.textContent;
+			btnSubmit.disabled = true;
+			btnSubmit.textContent = 'Enviando...';
+
+			fetch(formContato.action, {
+				method: 'POST',
+				body: new FormData(formContato),
+				headers: { 'Accept': 'application/json' }
+			})
+			.then(function (res) { return res.json(); })
+			.then(function (data) {
+				if (data.success) {
+					formContato.style.display = 'none';
+					if (formSuccess) formSuccess.style.display = 'block';
+					formContato.reset();
+					// Renova token para possível reuso da página
+					fetchCsrfToken();
+				} else {
+					btnSubmit.disabled = false;
+					btnSubmit.textContent = originalText;
+					alert(data.error || 'Erro ao enviar. Por favor, tente novamente ou ligue para (11) 3712-2416.');
+					// Renova token após tentativa falha
+					fetchCsrfToken();
+				}
+			})
+			.catch(function () {
+				btnSubmit.disabled = false;
+				btnSubmit.textContent = originalText;
+				alert('Erro ao enviar. Por favor, tente novamente ou ligue para (11) 3712-2416.');
+			});
+		});
+	}
+
+	/* --- WHATSAPP FLOAT: aparece ao rolar --- */
+	const waFloat = document.querySelector('.whatsapp-float');
+	if (waFloat) {
+		window.addEventListener('scroll', function () {
+			waFloat.style.display = window.scrollY > 300 ? 'flex' : 'none';
+		}, { passive: true });
+	}
+
+});
+</script>
+</body>
+</html>

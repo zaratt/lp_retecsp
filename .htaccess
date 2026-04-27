@@ -3,6 +3,20 @@
 # ============================================================
 
 # --------------------------------------------------------------
+# 0. SEGURANÇA — bloquear acesso direto a arquivos sensíveis
+# --------------------------------------------------------------
+<FilesMatch "^(config\.php|consentimento\.log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acesso à pasta de logs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^logs/ - [F,L]
+</IfModule>
+
+# --------------------------------------------------------------
 # 1. COMPRESSÃO GZIP (mod_deflate)
 # Reduz o tamanho de HTML, CSS e JS transferidos pela rede.
 # --------------------------------------------------------------
