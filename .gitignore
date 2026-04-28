@@ -14,6 +14,9 @@ composer.phar
 .env
 *.env
 
+# Segredos SMTP locais
+config.credentials.php
+
 # IDEs
 .vscode/
 .idea/

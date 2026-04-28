@@ -24,6 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── Sessão (CSRF + rate limiting) ─────────────────────────────────────────
+// Endurece cookies de sessão para reduzir risco de sequestro/fixação de sessão.
+$isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+if (!$isHttps) {
+  http_response_code(403);
+  exit(json_encode(['error' => 'Conexão segura obrigatória.']));
+}
+
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', '1');
+
 session_start();
 
 // ── Validar CSRF ──────────────────────────────────────────────────────────
@@ -50,6 +62,75 @@ $_SESSION['form_sends'] = array_values(
 if (count($_SESSION['form_sends']) >= 3) {
     http_response_code(429);
     exit(json_encode(['error' => 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.']));
+}
+
+// ── Rate limiting complementar por hash de IP (10 envios / 10 min) ───────
+$ipLimitWindow = 600;
+$ipLimitMax = 10;
+$rawIp = trim((string) ($_SERVER['REMOTE_ADDR'] ?? ''));
+$ipHash = hash('sha256', $rawIp . '|retecsp-rate-limit-v1');
+$logsDir = __DIR__ . '/logs';
+$ipRateFile = $logsDir . '/rate_limit_ip.json';
+
+if (is_dir($logsDir) && is_writable($logsDir)) {
+  $fp = fopen($ipRateFile, 'c+');
+
+  if ($fp !== false) {
+    $isLimited = false;
+
+    if (flock($fp, LOCK_EX)) {
+      $rawData = stream_get_contents($fp);
+      $bucket = json_decode($rawData ?: '{}', true);
+      if (!is_array($bucket)) {
+        $bucket = [];
+      }
+
+      // Limpa timestamps expirados para todos os hashes.
+      foreach ($bucket as $hashKey => $timestamps) {
+        if (!is_array($timestamps)) {
+          unset($bucket[$hashKey]);
+          continue;
+        }
+
+        $bucket[$hashKey] = array_values(array_filter(
+          $timestamps,
+          static fn($t) => is_int($t) && ($agora - $t) < $ipLimitWindow
+        ));
+
+        if (count($bucket[$hashKey]) === 0) {
+          unset($bucket[$hashKey]);
+        }
+      }
+
+      $currentIpEvents = $bucket[$ipHash] ?? [];
+      if (count($currentIpEvents) >= $ipLimitMax) {
+        $isLimited = true;
+      } else {
+        $currentIpEvents[] = $agora;
+        $bucket[$ipHash] = $currentIpEvents;
+      }
+
+      rewind($fp);
+      ftruncate($fp, 0);
+      fwrite($fp, json_encode($bucket, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+      fflush($fp);
+      flock($fp, LOCK_UN);
+    }
+
+    fclose($fp);
+
+    if ($isLimited) {
+      http_response_code(429);
+      exit(json_encode(['error' => 'Muitas tentativas a partir da sua rede. Aguarde alguns minutos e tente novamente.']));
+    }
+  }
+}
+
+// ── Consentimento LGPD obrigatório (validação server-side) ────────────────
+$consentimento = strtolower(trim((string) ($_POST['consentimento'] ?? '')));
+if (!in_array($consentimento, ['on', '1', 'true', 'sim'], true)) {
+    http_response_code(400);
+    exit(json_encode(['error' => 'Consentimento LGPD obrigatório para envio do formulário.']));
 }
 
 // ── Validar campos obrigatórios ───────────────────────────────────────────
@@ -95,12 +176,12 @@ if (!array_key_exists($departamento, $destinos)) {
 $destinatario = $destinos[$departamento];
 
 // ── Credenciais SMTP (config.php protegido pelo .htaccess) ────────────────
-require __DIR__ . '/config.php';
+require_once __DIR__ . '/config.php';
 
 // ── PHPMailer ─────────────────────────────────────────────────────────────
-require __DIR__ . '/phpmailer/src/Exception.php';
-require __DIR__ . '/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/phpmailer/src/SMTP.php';
+require_once __DIR__ . '/phpmailer/src/Exception.php';
+require_once __DIR__ . '/phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/phpmailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

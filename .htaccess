@@ -5,7 +5,7 @@
 # --------------------------------------------------------------
 # 0. SEGURANÇA — bloquear acesso direto a arquivos sensíveis
 # --------------------------------------------------------------
-<FilesMatch "^(config\.php|consentimento\.log)$">
+<FilesMatch "^(config\.php|config\.credentials\.php|consentimento\.log)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
