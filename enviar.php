@@ -64,6 +64,56 @@ if (count($_SESSION['form_sends']) >= 3) {
     exit(json_encode(['error' => 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.']));
 }
 
+// ── Consentimento LGPD obrigatório (validação server-side) ────────────────
+$consentimento = strtolower(trim((string) ($_POST['consentimento'] ?? '')));
+if (!in_array($consentimento, ['on', '1', 'true', 'sim'], true)) {
+    http_response_code(400);
+    exit(json_encode(['error' => 'Consentimento LGPD obrigatório para envio do formulário.']));
+}
+
+// ── Validar campos obrigatórios ───────────────────────────────────────────
+$camposObrigatorios = ['nome', 'email', 'telefone', 'departamento', 'mensagem'];
+foreach ($camposObrigatorios as $campo) {
+    if (empty(trim($_POST[$campo] ?? ''))) {
+        http_response_code(400);
+        exit(json_encode(['error' => 'Preencha todos os campos obrigatórios.']));
+    }
+}
+
+// ── Sanitização e validação ───────────────────────────────────────────────
+$nome         = htmlspecialchars(trim($_POST['nome']),         ENT_QUOTES, 'UTF-8');
+$emailRaw     = trim($_POST['email']);
+$email        = filter_var($emailRaw, FILTER_VALIDATE_EMAIL);
+$telefone     = htmlspecialchars(trim($_POST['telefone']),     ENT_QUOTES, 'UTF-8');
+$departamento = htmlspecialchars(trim($_POST['departamento']), ENT_QUOTES, 'UTF-8');
+$mensagem     = htmlspecialchars(trim($_POST['mensagem']),     ENT_QUOTES, 'UTF-8');
+
+if (!$email) {
+    http_response_code(400);
+    exit(json_encode(['error' => 'Endereço de e-mail inválido.']));
+}
+
+// Limite de tamanho para prevenir abuso
+if (strlen($mensagem) > 4000 || strlen($nome) > 200 || strlen($telefone) > 30) {
+    http_response_code(400);
+    exit(json_encode(['error' => 'Dados inválidos.']));
+}
+
+// ── Allowlist de departamentos (previne injeção de e-mail) ────────────────
+$inboxContato = 'eliett.designer@gmail.com';
+$destinos = [
+  'SAC'        => $inboxContato,
+  'Financeiro' => $inboxContato,
+  'Comercial'  => $inboxContato,
+];
+
+if (!array_key_exists($departamento, $destinos)) {
+    http_response_code(400);
+    exit(json_encode(['error' => 'Departamento inválido.']));
+}
+
+$destinatario = $destinos[$departamento];
+
 // ── Rate limiting complementar por hash de IP (10 envios / 10 min) ───────
 $ipLimitWindow = 600;
 $ipLimitMax = 10;
@@ -126,58 +176,28 @@ if (is_dir($logsDir) && is_writable($logsDir)) {
   }
 }
 
-// ── Consentimento LGPD obrigatório (validação server-side) ────────────────
-$consentimento = strtolower(trim((string) ($_POST['consentimento'] ?? '')));
-if (!in_array($consentimento, ['on', '1', 'true', 'sim'], true)) {
-    http_response_code(400);
-    exit(json_encode(['error' => 'Consentimento LGPD obrigatório para envio do formulário.']));
-}
-
-// ── Validar campos obrigatórios ───────────────────────────────────────────
-$camposObrigatorios = ['nome', 'email', 'telefone', 'departamento', 'mensagem'];
-foreach ($camposObrigatorios as $campo) {
-    if (empty(trim($_POST[$campo] ?? ''))) {
-        http_response_code(400);
-        exit(json_encode(['error' => 'Preencha todos os campos obrigatórios.']));
-    }
-}
-
-// ── Sanitização e validação ───────────────────────────────────────────────
-$nome         = htmlspecialchars(trim($_POST['nome']),         ENT_QUOTES, 'UTF-8');
-$emailRaw     = trim($_POST['email']);
-$email        = filter_var($emailRaw, FILTER_VALIDATE_EMAIL);
-$telefone     = htmlspecialchars(trim($_POST['telefone']),     ENT_QUOTES, 'UTF-8');
-$departamento = htmlspecialchars(trim($_POST['departamento']), ENT_QUOTES, 'UTF-8');
-$mensagem     = htmlspecialchars(trim($_POST['mensagem']),     ENT_QUOTES, 'UTF-8');
-
-if (!$email) {
-    http_response_code(400);
-    exit(json_encode(['error' => 'Endereço de e-mail inválido.']));
-}
-
-// Limite de tamanho para prevenir abuso
-if (strlen($mensagem) > 4000 || strlen($nome) > 200 || strlen($telefone) > 30) {
-    http_response_code(400);
-    exit(json_encode(['error' => 'Dados inválidos.']));
-}
-
-// ── Allowlist de departamentos (previne injeção de e-mail) ────────────────
-$inboxContato = 'eliett.designer@gmail.com';
-$destinos = [
-  'SAC'        => $inboxContato,
-  'Financeiro' => $inboxContato,
-  'Comercial'  => $inboxContato,
-];
-
-if (!array_key_exists($departamento, $destinos)) {
-    http_response_code(400);
-    exit(json_encode(['error' => 'Departamento inválido.']));
-}
-
-$destinatario = $destinos[$departamento];
-
 // ── Credenciais SMTP (config.php protegido pelo .htaccess) ────────────────
 require_once __DIR__ . '/config.php';
+
+if (SMTP_PASS === '') {
+  error_log('RETEC enviar.php — SMTP_PASS ausente; verifique config.credentials.php');
+  http_response_code(500);
+  exit(json_encode(['error' => 'Falha de configuração do serviço de contato.']));
+}
+
+$phpmailerFiles = [
+  __DIR__ . '/phpmailer/src/Exception.php',
+  __DIR__ . '/phpmailer/src/PHPMailer.php',
+  __DIR__ . '/phpmailer/src/SMTP.php',
+];
+
+foreach ($phpmailerFiles as $phpmailerFile) {
+  if (!is_readable($phpmailerFile)) {
+    error_log('RETEC enviar.php — dependência ausente: ' . $phpmailerFile);
+    http_response_code(500);
+    exit(json_encode(['error' => 'Serviço de contato temporariamente indisponível.']));
+  }
+}
 
 // ── PHPMailer ─────────────────────────────────────────────────────────────
 require_once __DIR__ . '/phpmailer/src/Exception.php';
