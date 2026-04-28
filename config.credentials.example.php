@@ -8,7 +8,10 @@
  */
 
 return [
-    'SMTP_HOST' => 'mail.retecsp.com.br',
+    'SMTP_HOST' => 'email-ssl.com.br',
     'SMTP_USER' => 'noreply@retecsp.com.br',
     'SMTP_PASS' => 'SENHA_AQUI',
+    'SMTP_PORT' => 465,
+    // Opcoes: ssl (porta 465), tls (porta 587), none
+    'SMTP_SECURE' => 'ssl',
 ];

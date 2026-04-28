@@ -20,7 +20,8 @@ if (is_readable($credentialsFile)) {
 define('SMTP_HOST', $smtpCredentials['SMTP_HOST'] ?? 'mail.retecsp.com.br');
 define('SMTP_USER', $smtpCredentials['SMTP_USER'] ?? 'noreply@retecsp.com.br');
 define('SMTP_PASS', $smtpCredentials['SMTP_PASS'] ?? '');
-define('SMTP_PORT', 587);
+define('SMTP_PORT', (int)($smtpCredentials['SMTP_PORT'] ?? 587));
+define('SMTP_SECURE', strtolower((string)($smtpCredentials['SMTP_SECURE'] ?? 'tls')));
 
 // Nome exibido como remetente
 define('SMTP_FROM_NAME', 'RETEC SP — Site');

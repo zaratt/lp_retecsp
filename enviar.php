@@ -346,7 +346,17 @@ try {
     $mail->SMTPAuth   = true;
     $mail->Username   = SMTP_USER;
     $mail->Password   = SMTP_PASS;
+  $secureMode = SMTP_SECURE;
+  if ($secureMode === 'ssl') {
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->SMTPAutoTLS = false;
+  } elseif ($secureMode === 'none' || $secureMode === '') {
+    $mail->SMTPSecure = false;
+    $mail->SMTPAutoTLS = false;
+  } else {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->SMTPAutoTLS = true;
+  }
     $mail->Port       = SMTP_PORT;
     $mail->CharSet    = 'UTF-8';
 
@@ -389,7 +399,13 @@ try {
 
 } catch (Exception $e) {
     // Nunca expõe detalhes técnicos ao cliente
-  error_log($logPrefix . $requestId . '] erro SMTP: ' . $mail->ErrorInfo . ' | exceção: ' . $e->getMessage());
+  error_log(
+    $logPrefix . $requestId . '] erro SMTP: ' . $mail->ErrorInfo
+    . ' | exceção: ' . $e->getMessage()
+    . ' | host=' . SMTP_HOST
+    . ' | port=' . SMTP_PORT
+    . ' | secure=' . SMTP_SECURE
+  );
     http_response_code(500);
   echo json_encode([
     'error' => 'Não foi possível enviar a mensagem agora. Código: ' . $requestId,
