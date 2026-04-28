@@ -16,6 +16,15 @@ error_reporting(0);
 $jsonContentType = 'Content-Type: application/json; charset=UTF-8';
 $logPrefix = 'RETEC enviar.php [';
 
+$appLogDir = __DIR__ . '/logs';
+$appLogFile = $appLogDir . '/app_mail.log';
+$writeAppLog = static function (string $line) use ($appLogDir, $appLogFile): void {
+  if (!is_dir($appLogDir) || !is_writable($appLogDir)) {
+    return;
+  }
+  file_put_contents($appLogFile, date('Y-m-d H:i:s') . ' | ' . $line . PHP_EOL, FILE_APPEND | LOCK_EX);
+};
+
 header($jsonContentType);
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
@@ -30,9 +39,11 @@ try {
 header('X-Request-Id: ' . $requestId);
 
 set_exception_handler(function (Throwable $e) use ($requestId) {
-  global $jsonContentType, $logPrefix;
+  global $jsonContentType, $logPrefix, $writeAppLog;
 
-  error_log($logPrefix . $requestId . '] exceção não tratada: ' . $e->getMessage());
+  $line = $logPrefix . $requestId . '] exceção não tratada: ' . $e->getMessage();
+  error_log($line);
+  $writeAppLog($line);
 
   if (!headers_sent()) {
     http_response_code(500);
@@ -45,7 +56,7 @@ set_exception_handler(function (Throwable $e) use ($requestId) {
 });
 
 register_shutdown_function(function () use ($requestId) {
-  global $jsonContentType, $logPrefix;
+  global $jsonContentType, $logPrefix, $writeAppLog;
 
   $lastError = error_get_last();
   if (!$lastError) {
@@ -57,8 +68,10 @@ register_shutdown_function(function () use ($requestId) {
     return;
   }
 
-  error_log($logPrefix . $requestId . '] fatal: '
-    . $lastError['message'] . ' em ' . $lastError['file'] . ':' . $lastError['line']);
+  $line = $logPrefix . $requestId . '] fatal: '
+    . $lastError['message'] . ' em ' . $lastError['file'] . ':' . $lastError['line'];
+  error_log($line);
+  $writeAppLog($line);
 
   if (!headers_sent()) {
     http_response_code(500);
@@ -171,7 +184,7 @@ $ipLimitWindow = 600;
 $ipLimitMax = 10;
 $rawIp = trim((string) ($_SERVER['REMOTE_ADDR'] ?? ''));
 $ipHash = hash('sha256', $rawIp . '|retecsp-rate-limit-v1');
-$logsDir = __DIR__ . '/logs';
+$logsDir = $appLogDir;
 $ipRateFile = $logsDir . '/rate_limit_ip.json';
 
 if (is_dir($logsDir) && is_writable($logsDir)) {
@@ -232,7 +245,9 @@ if (is_dir($logsDir) && is_writable($logsDir)) {
 require_once __DIR__ . '/config.php';
 
 if (SMTP_PASS === '') {
-  error_log('RETEC enviar.php — SMTP_PASS ausente; verifique config.credentials.php');
+  $line = $logPrefix . $requestId . '] SMTP_PASS ausente; verifique config.credentials.php';
+  error_log($line);
+  $writeAppLog($line);
   http_response_code(500);
   exit(json_encode(['error' => 'Falha de configuração do serviço de contato.']));
 }
@@ -245,7 +260,9 @@ $phpmailerFiles = [
 
 foreach ($phpmailerFiles as $phpmailerFile) {
   if (!is_readable($phpmailerFile)) {
-    error_log('RETEC enviar.php — dependência ausente: ' . $phpmailerFile);
+    $line = $logPrefix . $requestId . '] dependência ausente: ' . $phpmailerFile;
+    error_log($line);
+    $writeAppLog($line);
     http_response_code(500);
     exit(json_encode(['error' => 'Serviço de contato temporariamente indisponível.']));
   }
@@ -376,7 +393,7 @@ try {
     // ── Log de consentimento LGPD ─────────────────────────────────────────
     // Armazena APENAS: timestamp · departamento · hash(email) · hash(IP)
     // NÃO armazena: nome, mensagem, telefone, e-mail em claro.
-    $logDir  = __DIR__ . '/logs';
+    $logDir  = $appLogDir;
     $logFile = $logDir . '/consentimento.log';
 
     if (is_dir($logDir) && is_writable($logDir)) {
@@ -399,13 +416,13 @@ try {
 
 } catch (Exception $e) {
     // Nunca expõe detalhes técnicos ao cliente
-  error_log(
-    $logPrefix . $requestId . '] erro SMTP: ' . $mail->ErrorInfo
+  $line = $logPrefix . $requestId . '] erro SMTP: ' . $mail->ErrorInfo
     . ' | exceção: ' . $e->getMessage()
     . ' | host=' . SMTP_HOST
     . ' | port=' . SMTP_PORT
-    . ' | secure=' . SMTP_SECURE
-  );
+    . ' | secure=' . SMTP_SECURE;
+  error_log($line);
+  $writeAppLog($line);
     http_response_code(500);
   echo json_encode([
     'error' => 'Não foi possível enviar a mensagem agora. Código: ' . $requestId,
