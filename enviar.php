@@ -13,9 +13,61 @@
 ini_set('display_errors', '0');
 error_reporting(0);
 
-header('Content-Type: application/json; charset=UTF-8');
+$jsonContentType = 'Content-Type: application/json; charset=UTF-8';
+$logPrefix = 'RETEC enviar.php [';
+
+header($jsonContentType);
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
+
+// ── Correlação e diagnóstico seguro de falhas internas ───────────────────
+try {
+  $requestId = bin2hex(random_bytes(6));
+} catch (Throwable $e) {
+  $requestId = substr(sha1(uniqid('', true)), 0, 12);
+}
+
+header('X-Request-Id: ' . $requestId);
+
+set_exception_handler(function (Throwable $e) use ($requestId) {
+  global $jsonContentType, $logPrefix;
+
+  error_log($logPrefix . $requestId . '] exceção não tratada: ' . $e->getMessage());
+
+  if (!headers_sent()) {
+    http_response_code(500);
+    header($jsonContentType);
+  }
+
+  echo json_encode([
+    'error' => 'Falha interna ao processar o envio. Código: ' . $requestId,
+  ]);
+});
+
+register_shutdown_function(function () use ($requestId) {
+  global $jsonContentType, $logPrefix;
+
+  $lastError = error_get_last();
+  if (!$lastError) {
+    return;
+  }
+
+  $fatalTypes = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+  if (!in_array($lastError['type'], $fatalTypes, true)) {
+    return;
+  }
+
+  error_log($logPrefix . $requestId . '] fatal: '
+    . $lastError['message'] . ' em ' . $lastError['file'] . ':' . $lastError['line']);
+
+  if (!headers_sent()) {
+    http_response_code(500);
+    header($jsonContentType);
+    echo json_encode([
+      'error' => 'Falha interna ao processar o envio. Código: ' . $requestId,
+    ]);
+  }
+});
 
 // ── Aceitar apenas POST ───────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -337,7 +389,9 @@ try {
 
 } catch (Exception $e) {
     // Nunca expõe detalhes técnicos ao cliente
-    error_log('RETEC enviar.php — erro SMTP: ' . $mail->ErrorInfo);
+  error_log($logPrefix . $requestId . '] erro SMTP: ' . $mail->ErrorInfo . ' | exceção: ' . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Não foi possível enviar a mensagem. Tente novamente ou ligue para (11)&nbsp;3712-2416.']);
+  echo json_encode([
+    'error' => 'Não foi possível enviar a mensagem agora. Código: ' . $requestId,
+  ]);
 }
