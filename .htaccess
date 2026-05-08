@@ -88,13 +88,18 @@
 # --------------------------------------------------------------
 # 4. CANONIZAÇÃO DE HOST E PROTOCOLO (301)
 # Força sempre: https://www.retecsp.com.br
+# LocalWeb usa proxy nginx — checar X-Forwarded-Proto
 # --------------------------------------------------------------
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # 301 único para evitar cadeia de redirecionamentos
-    RewriteCond %{HTTP_HOST} !^www\.retecsp\.com\.br$ [NC,OR]
+    # Redireciona sem www → com www
+    RewriteCond %{HTTP_HOST} !^www\.retecsp\.com\.br$ [NC]
+    RewriteRule ^ https://www.retecsp.com.br%{REQUEST_URI} [R=301,L,NE]
+
+    # Redireciona HTTP → HTTPS (AND obrigatório, não OR — evita loop em proxy)
     RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
     RewriteRule ^ https://www.retecsp.com.br%{REQUEST_URI} [R=301,L,NE]
 </IfModule>
 
