@@ -87,3 +87,10 @@ if (!function_exists('admin_can_access')) {
         return false;
     }
 }
+
+if (!function_exists('admin_is_admin')) {
+    function admin_is_admin(array $user): bool
+    {
+        return ($user['role'] ?? '') === 'admin';
+    }
+}

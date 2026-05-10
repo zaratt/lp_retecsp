@@ -72,6 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         admin_log_event('Tentativa de login invalida para username=' . $username);
                         $loginError = 'Credenciais invalidas.';
                     } else {
+                        if (!admin_is_admin($user)) {
+                            $nextSection = 'comercial';
+                        }
                         admin_login_user($user);
                         admin_log_event('Login realizado por username=' . $username);
                         admin_redirect('/admin/painel.php?sec=' . urlencode($nextSection));
@@ -228,6 +231,11 @@ $currentUser = admin_current_user();
 $isLogged = is_array($currentUser);
 $accessDenied = false;
 
+if ($isLogged && $currentUser && $section === 'dashboard' && !admin_is_admin($currentUser)) {
+    admin_set_flash('error', 'Acesso restrito. O Dashboard e exclusivo para perfil Admin.');
+    admin_redirect('/admin/painel.php?sec=comercial');
+}
+
 if ($isLogged && $currentUser && !admin_can_access($currentUser, $section)) {
     $accessDenied = true;
 }
@@ -251,7 +259,7 @@ if ($isLogged && $currentUser) {
     try {
         $whereClause = '';
         $queryParams = [];
-        if ($currentUser['role'] === 'comercial') {
+        if (!admin_is_admin($currentUser)) {
             $whereClause = ' WHERE vendedor_id = :vendedor_id ';
             $queryParams['vendedor_id'] = (int)$currentUser['id'];
         }
@@ -507,7 +515,9 @@ if ($isLogged && $currentUser) {
                 <p class="subtitle">Area restrita para equipe interna. Dashboard com dados internos e secao Comercial.</p>
             </div>
             <div class="nav-actions">
-                <a class="btn btn-dashboard" href="/admin/painel.php?sec=dashboard">Dashboard</a>
+                <?php if (!$isLogged || ($isLogged && $currentUser && admin_is_admin($currentUser))): ?>
+                    <a class="btn btn-dashboard" href="/admin/painel.php?sec=dashboard">Dashboard</a>
+                <?php endif; ?>
                 <a class="btn btn-comercial" href="/admin/painel.php?sec=comercial">Comercial</a>
                 <?php if ($isLogged): ?>
                     <a class="btn btn-logout" href="/admin/logout.php">Sair</a>
