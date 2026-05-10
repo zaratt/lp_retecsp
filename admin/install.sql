@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS negocios_comerciais (
 -- Trocar imediatamente apos primeiro login.
 INSERT INTO usuarios (username, display_name, role, password_hash, is_active)
 VALUES
-('admretec', 'Adm Retec', 'admin', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('higor', 'Higor', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('gustavo', 'Gustavo', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('nicolas', 'Nicolas', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('kaue', 'Kaue', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('miguel', 'Miguel', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1),
-('carla', 'Carla', 'comercial', '$2y$10$0jE6SLC4mXsRGJx6iv4Br.Hf4Nfq3KzvK5GzM5Q6CGIL44xAnONiS', 1)
+('admretec', 'Adm Retec', 'admin', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('higor', 'Higor', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('gustavo', 'Gustavo', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('nicolas', 'Nicolas', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('kaue', 'Kaue', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('miguel', 'Miguel', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1),
+('carla', 'Carla', 'comercial', '$2y$10$fnT/XF66HCCw2P0LSTrDwu1/fwSF4cggsN888J3x82ZR7Q2Mk96uO', 1)
 ON DUPLICATE KEY UPDATE
     display_name = VALUES(display_name),
     role = VALUES(role),
