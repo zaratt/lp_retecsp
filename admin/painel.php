@@ -66,14 +66,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($username === '' || $password === '') {
                 $loginError = 'Informe usuario e senha.';
             } else {
-                $user = admin_authenticate($username, $password);
-                if (!$user) {
-                    admin_log_event('Tentativa de login invalida para username=' . $username);
-                    $loginError = 'Credenciais invalidas.';
-                } else {
-                    admin_login_user($user);
-                    admin_log_event('Login realizado por username=' . $username);
-                    admin_redirect('/admin/painel.php?sec=' . urlencode($nextSection));
+                try {
+                    $user = admin_authenticate($username, $password);
+                    if (!$user) {
+                        admin_log_event('Tentativa de login invalida para username=' . $username);
+                        $loginError = 'Credenciais invalidas.';
+                    } else {
+                        admin_login_user($user);
+                        admin_log_event('Login realizado por username=' . $username);
+                        admin_redirect('/admin/painel.php?sec=' . urlencode($nextSection));
+                    }
+                } catch (Throwable $e) {
+                    admin_log_event('Erro no login para username=' . $username . ' detalhes=' . $e->getMessage());
+                    $loginError = 'Nao foi possivel autenticar agora. Verifique as credenciais do banco e tente novamente.';
                 }
             }
         }
