@@ -11,6 +11,12 @@
 2. Preencha `DB_PASS` com a senha real do banco.
 3. Execute o script `admin/install.sql` no banco `bd_retecsp` (via phpMyAdmin/Locaweb).
 
+### Opcao recomendada em hospedagem compartilhada
+- Se for mais facil no WebFTP, voce pode criar direto o arquivo `/admin/config.credentials.php`.
+- O painel agora tenta credenciais nesta ordem:
+	1) `/config.credentials.php` (raiz)
+	2) `/admin/config.credentials.php`
+
 ## Primeiro acesso
 - URL: `/admin/painel.php`
 - Usuario inicial: `admretec`

@@ -61,20 +61,29 @@ date_default_timezone_set('America/Sao_Paulo');
 define('ADMIN_ROOT', dirname(__DIR__));
 define('PROJECT_ROOT', dirname(ADMIN_ROOT));
 
-$credentialsFile = PROJECT_ROOT . '/config.credentials.php';
 $credentials = [];
-if (is_readable($credentialsFile)) {
+
+$credentialsFiles = [
+    PROJECT_ROOT . '/config.credentials.php',
+    ADMIN_ROOT . '/config.credentials.php',
+];
+
+foreach ($credentialsFiles as $credentialsFile) {
+    if (!is_readable($credentialsFile)) {
+        continue;
+    }
+
     $loaded = require $credentialsFile;
     if (is_array($loaded)) {
-        $credentials = $loaded;
+        $credentials = array_merge($credentials, $loaded);
     }
 }
 
-define('DB_HOST', (string)($credentials['DB_HOST'] ?? 'bd_retecsp.mysql.dbaas.com.br'));
-define('DB_NAME', (string)($credentials['DB_NAME'] ?? 'bd_retecsp'));
-define('DB_USER', (string)($credentials['DB_USER'] ?? 'bd_retecsp'));
-define('DB_PASS', (string)($credentials['DB_PASS'] ?? ''));
-define('DB_PORT', (int)($credentials['DB_PORT'] ?? 3306));
+define('DB_HOST', (string)($credentials['DB_HOST'] ?? getenv('DB_HOST') ?: 'bd_retecsp.mysql.dbaas.com.br'));
+define('DB_NAME', (string)($credentials['DB_NAME'] ?? getenv('DB_NAME') ?: 'bd_retecsp'));
+define('DB_USER', (string)($credentials['DB_USER'] ?? getenv('DB_USER') ?: 'bd_retecsp'));
+define('DB_PASS', (string)($credentials['DB_PASS'] ?? getenv('DB_PASS') ?: ''));
+define('DB_PORT', (int)($credentials['DB_PORT'] ?? getenv('DB_PORT') ?: 3306));
 
 if (!function_exists('admin_db')) {
     function admin_db(): PDO
