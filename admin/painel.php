@@ -5,12 +5,6 @@ require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/csrf.php';
 require_once __DIR__ . '/includes/options.php';
 
-function admin_validate_date(string $value): bool
-{
-    $dt = DateTime::createFromFormat('Y-m-d', $value);
-    return $dt instanceof DateTime && $dt->format('Y-m-d') === $value;
-}
-
 function admin_parse_money(string $raw): ?float
 {
     $value = trim($raw);
@@ -38,8 +32,34 @@ function admin_value_in_list(string $value, array $list): bool
     return in_array($value, $list, true);
 }
 
+function admin_proxima_acao_por_status(string $status): string
+{
+    if ($status === 'Venda Perdida') {
+        return 'Pos-Perda';
+    }
+    if ($status === 'Em negociacao') {
+        return 'Acompanhar Follow-up';
+    }
+    if ($status === 'Venda Realizada') {
+        return 'Pos-Venda';
+    }
+    if ($status === 'Venda Cancelada') {
+        return 'Pos-Perda';
+    }
+
+    return '';
+}
+
+function admin_data_fim_por_status(string $status): ?string
+{
+    if (in_array($status, ['Venda Perdida', 'Venda Realizada', 'Venda Cancelada'], true)) {
+        return date('Y-m-d');
+    }
+    return null;
+}
+
 $section = (string)($_GET['sec'] ?? 'dashboard');
-if (!in_array($section, ['dashboard', 'comercial'], true)) {
+if (!in_array($section, ['dashboard', 'comercial', 'clientes'], true)) {
     $section = 'dashboard';
 }
 
@@ -59,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = strtolower(trim((string)($_POST['username'] ?? '')));
             $password = (string)($_POST['password'] ?? '');
             $nextSection = (string)($_POST['next_section'] ?? 'dashboard');
-            if (!in_array($nextSection, ['dashboard', 'comercial'], true)) {
+            if (!in_array($nextSection, ['dashboard', 'comercial', 'clientes'], true)) {
                 $nextSection = 'dashboard';
             }
 
@@ -87,6 +107,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    if ($action === 'create_cliente') {
+        if (!$isLogged || !$currentUser || !admin_is_admin($currentUser)) {
+            admin_set_flash('error', 'Acesso negado para cadastro de clientes.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        }
+
+        $csrfToken = (string)($_POST['csrf_token'] ?? '');
+        if (!admin_csrf_validate('cliente_form', $csrfToken)) {
+            admin_set_flash('error', 'Sessao invalida. Recarregue e tente novamente.');
+            admin_redirect('/admin/painel.php?sec=clientes');
+        }
+
+        $nome = trim((string)($_POST['nome'] ?? ''));
+        $bairro = trim((string)($_POST['bairro'] ?? ''));
+        $cep = trim((string)($_POST['cep'] ?? ''));
+
+        if ($nome === '' || strlen($nome) > 150 || $bairro === '' || strlen($bairro) > 120 || $cep === '' || strlen($cep) > 10) {
+            admin_set_flash('error', 'Preencha Nome, Bairro e CEP corretamente.');
+            admin_redirect('/admin/painel.php?sec=clientes');
+        }
+
+        try {
+            $stmt = admin_db()->prepare('INSERT INTO clientes (nome, bairro, cep) VALUES (:nome, :bairro, :cep)');
+            $stmt->execute([
+                'nome' => $nome,
+                'bairro' => $bairro,
+                'cep' => $cep,
+            ]);
+            admin_set_flash('success', 'Cliente cadastrado com sucesso.');
+        } catch (Throwable $e) {
+            admin_log_event('Erro ao cadastrar cliente: ' . $e->getMessage());
+            admin_set_flash('error', 'Nao foi possivel cadastrar cliente agora.');
+        }
+
+        admin_redirect('/admin/painel.php?sec=clientes');
+    }
+
+    if ($action === 'delete_cliente') {
+        if (!$isLogged || !$currentUser || !admin_is_admin($currentUser)) {
+            admin_set_flash('error', 'Acesso negado para exclusao de clientes.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        }
+
+        $csrfToken = (string)($_POST['csrf_token'] ?? '');
+        if (!admin_csrf_validate('delete_cliente_form', $csrfToken)) {
+            admin_set_flash('error', 'Sessao invalida. Recarregue e tente novamente.');
+            admin_redirect('/admin/painel.php?sec=clientes');
+        }
+
+        $clienteId = filter_var((string)($_POST['cliente_id'] ?? ''), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($clienteId === false) {
+            admin_set_flash('error', 'Cliente invalido.');
+            admin_redirect('/admin/painel.php?sec=clientes');
+        }
+
+        try {
+            $stmt = admin_db()->prepare('DELETE FROM clientes WHERE id = :id LIMIT 1');
+            $stmt->execute(['id' => (int)$clienteId]);
+            admin_set_flash('success', 'Cliente excluido com sucesso.');
+        } catch (Throwable $e) {
+            admin_log_event('Erro ao excluir cliente id=' . (string)$clienteId . ' detalhes=' . $e->getMessage());
+            admin_set_flash('error', 'Nao foi possivel excluir cliente. Verifique se ele esta vinculado a negocios.');
+        }
+
+        admin_redirect('/admin/painel.php?sec=clientes');
+    }
+
     if ($action === 'create_negocio') {
         if (!$isLogged || !$currentUser) {
             admin_set_flash('error', 'Sessao expirada. Faca login novamente.');
@@ -105,15 +192,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $origem = trim((string)($_POST['origem'] ?? ''));
         $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
-        $dataInicio = trim((string)($_POST['data_inicio'] ?? ''));
-        $dataFim = trim((string)($_POST['data_fim'] ?? ''));
-        $status = trim((string)($_POST['status'] ?? ''));
-        $proximaAcao = trim((string)($_POST['proxima_acao'] ?? ''));
-        $motivoPerda = trim((string)($_POST['motivo_perda'] ?? ''));
         $regiao = trim((string)($_POST['regiao'] ?? ''));
+        $status = trim((string)($_POST['status'] ?? ''));
+        $motivoPerda = trim((string)($_POST['motivo_perda'] ?? ''));
         $perfil = trim((string)($_POST['perfil'] ?? ''));
         $nomeCliente = trim((string)($_POST['nome'] ?? ''));
-        $contato = trim((string)($_POST['contato'] ?? ''));
+        $clienteIdRaw = trim((string)($_POST['cliente_id'] ?? ''));
+        $telefone = trim((string)($_POST['telefone'] ?? ''));
+        $email = trim((string)($_POST['email'] ?? ''));
         $servico = trim((string)($_POST['servico'] ?? ''));
         $observacao = trim((string)($_POST['observacao'] ?? ''));
         $totalCacambasRaw = trim((string)($_POST['total_cacambas'] ?? '0'));
@@ -129,9 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!admin_value_in_list($status, RETEC_STATUS)) {
             $formErrors[] = 'Status invalido.';
         }
-        if (!admin_value_in_list($proximaAcao, RETEC_PROXIMA_ACAO)) {
-            $formErrors[] = 'Proxima acao invalida.';
-        }
         if (!admin_value_in_list($perfil, RETEC_PERFIS)) {
             $formErrors[] = 'Perfil invalido.';
         }
@@ -139,11 +222,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $formErrors[] = 'Servico invalido. Use somente 4m ou 26m.';
         }
 
-        if ($dataInicio === '' || !admin_validate_date($dataInicio)) {
-            $formErrors[] = 'Data de inicio invalida. Use formato de data.';
+        if ($regiao !== '' && strlen($regiao) > 120) {
+            $formErrors[] = 'Regiao deve ter no maximo 120 caracteres.';
         }
-        if ($dataFim !== '' && !admin_validate_date($dataFim)) {
-            $formErrors[] = 'Data de fim invalida. Use formato de data.';
+        if ($telefone !== '' && strlen($telefone) > 120) {
+            $formErrors[] = 'Telefone invalido.';
+        }
+        if ($email !== '' && (strlen($email) > 150 || !filter_var($email, FILTER_VALIDATE_EMAIL))) {
+            $formErrors[] = 'Email invalido.';
+        }
+
+        $clienteId = null;
+        if ($origem === 'Cliente') {
+            $clienteIdValue = filter_var($clienteIdRaw, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            if ($clienteIdValue === false) {
+                $formErrors[] = 'Selecione um cliente valido na lista.';
+            } else {
+                try {
+                    $stmtCliente = admin_db()->prepare('SELECT id, nome FROM clientes WHERE id = :id LIMIT 1');
+                    $stmtCliente->execute(['id' => (int)$clienteIdValue]);
+                    $cliente = $stmtCliente->fetch();
+                    if (!is_array($cliente)) {
+                        $formErrors[] = 'Cliente selecionado nao encontrado.';
+                    } else {
+                        $clienteId = (int)$cliente['id'];
+                        $nomeCliente = (string)$cliente['nome'];
+                    }
+                } catch (Throwable $e) {
+                    admin_log_event('Erro ao validar cliente no create_negocio: ' . $e->getMessage());
+                    $formErrors[] = 'Nao foi possivel validar cliente agora.';
+                }
+            }
+        } else {
+            if ($nomeCliente === '' || strlen($nomeCliente) > 150) {
+                $formErrors[] = 'Nome invalido.';
+            }
+        }
+
+        $proximaAcao = admin_proxima_acao_por_status($status);
+        if ($proximaAcao === '' || !admin_value_in_list($proximaAcao, RETEC_PROXIMA_ACAO)) {
+            $formErrors[] = 'Nao foi possivel determinar a proxima acao para o status selecionado.';
         }
 
         if ($status === 'Venda Perdida') {
@@ -152,16 +270,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } else {
             $motivoPerda = '';
-        }
-
-        if ($nomeCliente === '' || strlen($nomeCliente) > 150) {
-            $formErrors[] = 'Nome invalido.';
-        }
-        if ($contato === '' || strlen($contato) > 120) {
-            $formErrors[] = 'Contato invalido.';
-        }
-        if ($regiao !== '' && strlen($regiao) > 120) {
-            $formErrors[] = 'Regiao deve ter no maximo 120 caracteres.';
         }
 
         $totalCacambas = filter_var($totalCacambasRaw, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
@@ -182,17 +290,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $valorPerdido = 0.0;
         }
 
+        $valorPorCacamba = 0.0;
+        if ($totalCacambas && $valorTotal !== null && $totalCacambas > 0) {
+            $valorPorCacamba = round($valorTotal / $totalCacambas, 2);
+        }
+
+        $dataInicio = date('Y-m-d');
+        $dataFim = admin_data_fim_por_status($status);
+
         if (!$formErrors) {
             try {
                 $stmt = admin_db()->prepare(
                     'INSERT INTO negocios_comerciais (
                         vendedor_id, vendedor_nome, origem, forma_contato, data_inicio, data_fim,
-                        status, proxima_acao, motivo_perda, regiao, perfil, nome_cliente, contato,
-                        servico, total_cacambas, valor_total, valor_perdido, observacao
+                        status, proxima_acao, motivo_perda, regiao, perfil, nome_cliente, cliente_id,
+                        telefone, email, servico, total_cacambas, valor_total, valor_por_cacamba,
+                        valor_perdido, observacao
                     ) VALUES (
                         :vendedor_id, :vendedor_nome, :origem, :forma_contato, :data_inicio, :data_fim,
-                        :status, :proxima_acao, :motivo_perda, :regiao, :perfil, :nome_cliente, :contato,
-                        :servico, :total_cacambas, :valor_total, :valor_perdido, :observacao
+                        :status, :proxima_acao, :motivo_perda, :regiao, :perfil, :nome_cliente, :cliente_id,
+                        :telefone, :email, :servico, :total_cacambas, :valor_total, :valor_por_cacamba,
+                        :valor_perdido, :observacao
                     )'
                 );
 
@@ -202,27 +320,230 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'origem' => $origem,
                     'forma_contato' => $formaContato,
                     'data_inicio' => $dataInicio,
-                    'data_fim' => $dataFim !== '' ? $dataFim : null,
+                    'data_fim' => $dataFim,
                     'status' => $status,
                     'proxima_acao' => $proximaAcao,
                     'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
                     'regiao' => $regiao !== '' ? $regiao : null,
                     'perfil' => $perfil,
                     'nome_cliente' => $nomeCliente,
-                    'contato' => $contato,
+                    'cliente_id' => $clienteId,
+                    'telefone' => $telefone !== '' ? $telefone : null,
+                    'email' => $email !== '' ? $email : null,
                     'servico' => $servico,
                     'total_cacambas' => (int)$totalCacambas,
                     'valor_total' => $valorTotal,
+                    'valor_por_cacamba' => $valorPorCacamba,
                     'valor_perdido' => $valorPerdido,
                     'observacao' => $observacao !== '' ? $observacao : null,
                 ]);
 
-                admin_set_flash('success', 'Negocio registrado com sucesso.');
+                admin_set_flash('success', 'Registro salvo com sucesso.');
                 admin_redirect('/admin/painel.php?sec=comercial');
             } catch (Throwable $e) {
                 admin_log_event('Erro ao inserir negocio: ' . $e->getMessage());
-                $formErrors[] = 'Nao foi possivel salvar no banco. Verifique se as tabelas foram criadas.';
+                $formErrors[] = 'Nao foi possivel salvar no banco. Verifique se as tabelas foram atualizadas.';
             }
+        }
+    }
+
+    if ($action === 'update_negocio') {
+        if (!$isLogged || !$currentUser || !admin_can_access($currentUser, 'comercial')) {
+            admin_set_flash('error', 'Acesso negado.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        }
+
+        $csrfToken = (string)($_POST['csrf_token'] ?? '');
+        if (!admin_csrf_validate('deal_update_form', $csrfToken)) {
+            admin_set_flash('error', 'Sessao invalida. Recarregue e tente novamente.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        }
+
+        $negocioId = filter_var((string)($_POST['negocio_id'] ?? ''), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($negocioId === false) {
+            admin_set_flash('error', 'Negocio invalido.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        }
+
+        try {
+            $query = 'SELECT * FROM negocios_comerciais WHERE id = :id';
+            $params = ['id' => (int)$negocioId];
+            if (!admin_is_admin($currentUser)) {
+                $query .= ' AND vendedor_id = :vendedor_id';
+                $params['vendedor_id'] = (int)$currentUser['id'];
+            }
+            $query .= ' LIMIT 1';
+
+            $stmt = admin_db()->prepare($query);
+            $stmt->execute($params);
+            $existing = $stmt->fetch();
+            if (!is_array($existing)) {
+                admin_set_flash('error', 'Registro nao encontrado para edicao.');
+                admin_redirect('/admin/painel.php?sec=comercial');
+            }
+
+            if ((string)$existing['status'] !== 'Em negociacao') {
+                admin_set_flash('error', 'Somente registros em negociacao podem ser editados.');
+                admin_redirect('/admin/painel.php?sec=comercial');
+            }
+
+            $origem = trim((string)($_POST['origem'] ?? ''));
+            $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
+            $regiao = trim((string)($_POST['regiao'] ?? ''));
+            $status = trim((string)($_POST['status'] ?? ''));
+            $motivoPerda = trim((string)($_POST['motivo_perda'] ?? ''));
+            $perfil = trim((string)($_POST['perfil'] ?? ''));
+            $nomeCliente = trim((string)($_POST['nome'] ?? ''));
+            $clienteIdRaw = trim((string)($_POST['cliente_id'] ?? ''));
+            $telefone = trim((string)($_POST['telefone'] ?? ''));
+            $email = trim((string)($_POST['email'] ?? ''));
+            $servico = trim((string)($_POST['servico'] ?? ''));
+            $observacao = trim((string)($_POST['observacao'] ?? ''));
+            $totalCacambasRaw = trim((string)($_POST['total_cacambas'] ?? '0'));
+            $valorTotalRaw = trim((string)($_POST['valor_total'] ?? '0'));
+            $valorPerdidoRaw = trim((string)($_POST['valor_perdido'] ?? '0'));
+
+            $editErrors = [];
+            if (!admin_value_in_list($origem, RETEC_ORIGENS)) {
+                $editErrors[] = 'Origem invalida.';
+            }
+            if (!admin_value_in_list($formaContato, RETEC_FORMAS_CONTATO)) {
+                $editErrors[] = 'Forma de contato invalida.';
+            }
+            if (!in_array($status, ['Venda Perdida', 'Venda Realizada', 'Venda Cancelada'], true)) {
+                $editErrors[] = 'Status de fechamento invalido.';
+            }
+            if (!admin_value_in_list($perfil, RETEC_PERFIS)) {
+                $editErrors[] = 'Perfil invalido.';
+            }
+            if (!admin_value_in_list($servico, RETEC_SERVICOS)) {
+                $editErrors[] = 'Servico invalido.';
+            }
+            if ($regiao !== '' && strlen($regiao) > 120) {
+                $editErrors[] = 'Regiao deve ter no maximo 120 caracteres.';
+            }
+            if ($telefone !== '' && strlen($telefone) > 120) {
+                $editErrors[] = 'Telefone invalido.';
+            }
+            if ($email !== '' && (strlen($email) > 150 || !filter_var($email, FILTER_VALIDATE_EMAIL))) {
+                $editErrors[] = 'Email invalido.';
+            }
+
+            $clienteId = null;
+            if ($origem === 'Cliente') {
+                $clienteIdValue = filter_var($clienteIdRaw, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+                if ($clienteIdValue === false) {
+                    $editErrors[] = 'Selecione um cliente valido na lista.';
+                } else {
+                    $stmtCliente = admin_db()->prepare('SELECT id, nome FROM clientes WHERE id = :id LIMIT 1');
+                    $stmtCliente->execute(['id' => (int)$clienteIdValue]);
+                    $cliente = $stmtCliente->fetch();
+                    if (!is_array($cliente)) {
+                        $editErrors[] = 'Cliente selecionado nao encontrado.';
+                    } else {
+                        $clienteId = (int)$cliente['id'];
+                        $nomeCliente = (string)$cliente['nome'];
+                    }
+                }
+            } else {
+                if ($nomeCliente === '' || strlen($nomeCliente) > 150) {
+                    $editErrors[] = 'Nome invalido.';
+                }
+            }
+
+            $proximaAcao = admin_proxima_acao_por_status($status);
+            if ($proximaAcao === '' || !admin_value_in_list($proximaAcao, RETEC_PROXIMA_ACAO)) {
+                $editErrors[] = 'Nao foi possivel determinar a proxima acao para o status selecionado.';
+            }
+
+            if ($status === 'Venda Perdida') {
+                if (!admin_value_in_list($motivoPerda, RETEC_MOTIVOS_PERDA)) {
+                    $editErrors[] = 'Motivo da perda obrigatorio para venda perdida.';
+                }
+            } else {
+                $motivoPerda = '';
+            }
+
+            $totalCacambas = filter_var($totalCacambasRaw, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+            if ($totalCacambas === false) {
+                $editErrors[] = 'Total de cacambas invalido.';
+            }
+
+            $valorTotal = admin_parse_money($valorTotalRaw);
+            $valorPerdido = admin_parse_money($valorPerdidoRaw);
+            if ($valorTotal === null || $valorTotal < 0) {
+                $editErrors[] = 'Valor total invalido.';
+            }
+            if ($valorPerdido === null || $valorPerdido < 0) {
+                $editErrors[] = 'Valor perdido invalido.';
+            }
+            if ($status !== 'Venda Perdida') {
+                $valorPerdido = 0.0;
+            }
+
+            $valorPorCacamba = 0.0;
+            if ($totalCacambas && $valorTotal !== null && $totalCacambas > 0) {
+                $valorPorCacamba = round($valorTotal / $totalCacambas, 2);
+            }
+
+            if ($editErrors) {
+                admin_set_flash('error', implode(' | ', $editErrors));
+                admin_redirect('/admin/painel.php?sec=comercial');
+            }
+
+            $stmtUpdate = admin_db()->prepare(
+                'UPDATE negocios_comerciais
+                SET
+                    origem = :origem,
+                    forma_contato = :forma_contato,
+                    status = :status,
+                    proxima_acao = :proxima_acao,
+                    motivo_perda = :motivo_perda,
+                    regiao = :regiao,
+                    perfil = :perfil,
+                    nome_cliente = :nome_cliente,
+                    cliente_id = :cliente_id,
+                    telefone = :telefone,
+                    email = :email,
+                    servico = :servico,
+                    total_cacambas = :total_cacambas,
+                    valor_total = :valor_total,
+                    valor_por_cacamba = :valor_por_cacamba,
+                    valor_perdido = :valor_perdido,
+                    observacao = :observacao,
+                    data_fim = :data_fim,
+                    updated_at = NOW()
+                WHERE id = :id'
+            );
+
+            $stmtUpdate->execute([
+                'origem' => $origem,
+                'forma_contato' => $formaContato,
+                'status' => $status,
+                'proxima_acao' => $proximaAcao,
+                'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
+                'regiao' => $regiao !== '' ? $regiao : null,
+                'perfil' => $perfil,
+                'nome_cliente' => $nomeCliente,
+                'cliente_id' => $clienteId,
+                'telefone' => $telefone !== '' ? $telefone : null,
+                'email' => $email !== '' ? $email : null,
+                'servico' => $servico,
+                'total_cacambas' => (int)$totalCacambas,
+                'valor_total' => $valorTotal,
+                'valor_por_cacamba' => $valorPorCacamba,
+                'valor_perdido' => $valorPerdido,
+                'observacao' => $observacao !== '' ? $observacao : null,
+                'data_fim' => date('Y-m-d'),
+                'id' => (int)$negocioId,
+            ]);
+
+            admin_set_flash('success', 'Registro atualizado com sucesso.');
+            admin_redirect('/admin/painel.php?sec=comercial');
+        } catch (Throwable $e) {
+            admin_log_event('Erro ao atualizar negocio id=' . (string)$negocioId . ' detalhes=' . $e->getMessage());
+            admin_set_flash('error', 'Nao foi possivel atualizar o registro agora.');
+            admin_redirect('/admin/painel.php?sec=comercial');
         }
     }
 }
@@ -233,6 +554,11 @@ $accessDenied = false;
 
 if ($isLogged && $currentUser && $section === 'dashboard' && !admin_is_admin($currentUser)) {
     admin_set_flash('error', 'Acesso restrito. O Dashboard e exclusivo para perfil Admin.');
+    admin_redirect('/admin/painel.php?sec=comercial');
+}
+
+if ($isLogged && $currentUser && $section === 'clientes' && !admin_is_admin($currentUser)) {
+    admin_set_flash('error', 'Acesso restrito. A secao Clientes e exclusiva para perfil Admin.');
     admin_redirect('/admin/painel.php?sec=comercial');
 }
 
@@ -254,6 +580,7 @@ $dashboard = [
 ];
 
 $recentDeals = [];
+$clientes = [];
 
 if ($isLogged && $currentUser) {
     try {
@@ -284,14 +611,28 @@ if ($isLogged && $currentUser) {
 
         $stmtRecent = admin_db()->prepare(
             'SELECT
+                id,
+                vendedor_id,
                 vendedor_nome,
-                nome_cliente,
+                origem,
+                forma_contato,
+                data_inicio,
+                data_fim,
                 status,
+                proxima_acao,
+                motivo_perda,
+                regiao,
+                perfil,
+                nome_cliente,
+                cliente_id,
+                telefone,
+                email,
                 servico,
                 total_cacambas,
                 valor_total,
+                valor_por_cacamba,
                 valor_perdido,
-                data_inicio,
+                observacao,
                 created_at
             FROM negocios_comerciais ' . $whereClause . '
             ORDER BY id DESC
@@ -299,9 +640,14 @@ if ($isLogged && $currentUser) {
         );
         $stmtRecent->execute($queryParams);
         $recentDeals = $stmtRecent->fetchAll();
+
+        if (admin_is_admin($currentUser)) {
+            $stmtClientes = admin_db()->query('SELECT id, nome, bairro, cep, created_at FROM clientes ORDER BY nome ASC');
+            $clientes = $stmtClientes->fetchAll();
+        }
     } catch (Throwable $e) {
         admin_log_event('Erro ao carregar dashboard/listagem: ' . $e->getMessage());
-        if ($section === 'dashboard') {
+        if (in_array($section, ['dashboard', 'comercial', 'clientes'], true)) {
             $flash = [
                 'type' => 'error',
                 'message' => 'Nao foi possivel carregar os dados. Verifique se o banco foi configurado.',
@@ -339,7 +685,7 @@ if ($isLogged && $currentUser) {
         }
 
         .wrap {
-            max-width: 1240px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 24px 16px 40px;
         }
@@ -390,6 +736,7 @@ if ($isLogged && $currentUser) {
         .btn:hover { transform: translateY(-1px); opacity: .95; }
         .btn-dashboard { background: #0f6ea7; }
         .btn-comercial { background: #1f9f5a; }
+        .btn-clientes { background: #7c3aed; }
         .btn-logout { background: #9b1f2a; }
 
         .panel {
@@ -466,12 +813,13 @@ if ($isLogged && $currentUser) {
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 10px;
         }
 
         .span-2 { grid-column: span 2; }
         .span-3 { grid-column: span 3; }
+        .span-4 { grid-column: span 4; }
 
         table {
             width: 100%;
@@ -484,8 +832,9 @@ if ($isLogged && $currentUser) {
             text-align: left;
             border-bottom: 1px solid var(--line);
             padding: 9px 6px;
+            vertical-align: top;
         }
-        th { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: .3px; }
+        th { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
 
         .hint {
             color: var(--muted);
@@ -493,16 +842,48 @@ if ($isLogged && $currentUser) {
             margin-top: 6px;
         }
 
-        @media (max-width: 980px) {
+        .hidden {
+            display: none !important;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-inline {
+            border: 0;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-edit { background: #0f6ea7; color: #fff; }
+        .btn-delete { background: #b42318; color: #fff; }
+
+        .inline-edit-wrap {
+            background: #f8fbff;
+            border: 1px solid #dce4ec;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .money-readonly {
+            background: #f1f5f9;
+        }
+
+        @media (max-width: 1200px) {
             .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .span-3 { grid-column: span 2; }
+            .span-4 { grid-column: span 2; }
         }
 
         @media (max-width: 640px) {
             .cards { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
-            .span-2, .span-3 { grid-column: span 1; }
+            .span-2, .span-3, .span-4 { grid-column: span 1; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
         }
     </style>
@@ -517,6 +898,7 @@ if ($isLogged && $currentUser) {
             <div class="nav-actions">
                 <?php if (!$isLogged || ($isLogged && $currentUser && admin_is_admin($currentUser))): ?>
                     <a class="btn btn-dashboard" href="/admin/painel.php?sec=dashboard">Dashboard</a>
+                    <a class="btn btn-clientes" href="/admin/painel.php?sec=clientes">Clientes</a>
                 <?php endif; ?>
                 <a class="btn btn-comercial" href="/admin/painel.php?sec=comercial">Comercial</a>
                 <?php if ($isLogged): ?>
@@ -577,8 +959,66 @@ if ($isLogged && $currentUser) {
                         <div class="card"><span class="k">Venda perdida</span><div class="v"><?php echo admin_h((string)$dashboard['venda_perdida']); ?></div></div>
                         <div class="card"><span class="k">Venda cancelada</span><div class="v"><?php echo admin_h((string)$dashboard['venda_cancelada']); ?></div></div>
                     </div>
+                <?php elseif ($section === 'clientes'): ?>
+                    <h2 class="section-title">Clientes</h2>
 
-                    <p class="hint">Integracao Google Ads: estrutura preparada para etapa seguinte.</p>
+                    <form method="post" action="/admin/painel.php?sec=clientes" class="form-grid" style="margin-bottom: 18px;">
+                        <input type="hidden" name="action" value="create_cliente">
+                        <input type="hidden" name="csrf_token" value="<?php echo admin_h(admin_csrf_token('cliente_form')); ?>">
+
+                        <div>
+                            <label for="cliente_nome">Nome</label>
+                            <input type="text" id="cliente_nome" name="nome" maxlength="150" required>
+                        </div>
+                        <div>
+                            <label for="cliente_bairro">Bairro</label>
+                            <input type="text" id="cliente_bairro" name="bairro" maxlength="120" required>
+                        </div>
+                        <div>
+                            <label for="cliente_cep">CEP</label>
+                            <input type="text" id="cliente_cep" name="cep" maxlength="10" placeholder="00000-000" required>
+                        </div>
+                        <div>
+                            <label>&nbsp;</label>
+                            <button type="submit" class="submit">Salvar Cliente</button>
+                        </div>
+                    </form>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Bairro</th>
+                                <th>CEP</th>
+                                <th>Criado em</th>
+                                <th>Acoes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!$clientes): ?>
+                                <tr><td colspan="6">Nenhum cliente cadastrado.</td></tr>
+                            <?php else: ?>
+                                <?php foreach ($clientes as $cliente): ?>
+                                    <tr>
+                                        <td><?php echo admin_h((string)$cliente['id']); ?></td>
+                                        <td><?php echo admin_h((string)$cliente['nome']); ?></td>
+                                        <td><?php echo admin_h((string)$cliente['bairro']); ?></td>
+                                        <td><?php echo admin_h((string)$cliente['cep']); ?></td>
+                                        <td><?php echo admin_h((string)$cliente['created_at']); ?></td>
+                                        <td>
+                                            <form method="post" action="/admin/painel.php?sec=clientes" onsubmit="return confirm('Excluir este cliente?');">
+                                                <input type="hidden" name="action" value="delete_cliente">
+                                                <input type="hidden" name="csrf_token" value="<?php echo admin_h(admin_csrf_token('delete_cliente_form')); ?>">
+                                                <input type="hidden" name="cliente_id" value="<?php echo admin_h((string)$cliente['id']); ?>">
+                                                <button type="submit" class="btn-inline btn-delete">Excluir</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 <?php else: ?>
                     <h2 class="section-title">Comercial - Registro de negocios</h2>
 
@@ -590,7 +1030,7 @@ if ($isLogged && $currentUser) {
                         </div>
                     <?php endif; ?>
 
-                    <form method="post" action="/admin/painel.php?sec=comercial">
+                    <form method="post" action="/admin/painel.php?sec=comercial" class="deal-form" data-mode="create">
                         <input type="hidden" name="action" value="create_negocio">
                         <input type="hidden" name="csrf_token" value="<?php echo admin_h(admin_csrf_token('deal_form')); ?>">
 
@@ -602,7 +1042,7 @@ if ($isLogged && $currentUser) {
 
                             <div>
                                 <label for="origem">Origem</label>
-                                <select id="origem" name="origem" required>
+                                <select id="origem" name="origem" data-role="origem" required>
                                     <option value="">Selecione</option>
                                     <?php foreach (RETEC_ORIGENS as $opt): ?>
                                         <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
@@ -621,48 +1061,34 @@ if ($isLogged && $currentUser) {
                             </div>
 
                             <div>
-                                <label for="data_inicio">Data inicio</label>
-                                <input type="date" id="data_inicio" name="data_inicio" required>
-                            </div>
-
-                            <div>
-                                <label for="data_fim">Data fim</label>
-                                <input type="date" id="data_fim" name="data_fim">
-                            </div>
-
-                            <div>
-                                <label for="status">Status</label>
-                                <select id="status" name="status" required>
-                                    <option value="">Selecione</option>
-                                    <?php foreach (RETEC_STATUS as $opt): ?>
-                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="proxima_acao">Proxima acao</label>
-                                <select id="proxima_acao" name="proxima_acao" required>
-                                    <option value="">Selecione</option>
-                                    <?php foreach (RETEC_PROXIMA_ACAO as $opt): ?>
-                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="span-2">
-                                <label for="motivo_perda">Motivo perda</label>
-                                <select id="motivo_perda" name="motivo_perda">
-                                    <option value="">Selecione</option>
-                                    <?php foreach (RETEC_MOTIVOS_PERDA as $opt): ?>
-                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div>
                                 <label for="regiao">Regiao</label>
                                 <input type="text" id="regiao" name="regiao" maxlength="120">
+                            </div>
+
+                            <div>
+                                <label>Nome</label>
+                                <input type="hidden" name="nome" data-role="nome-hidden">
+                                <input type="hidden" name="cliente_id" data-role="cliente-id-hidden">
+
+                                <div data-role="nome-text-wrap">
+                                    <input type="text" data-role="nome-text" maxlength="150" placeholder="Digite o nome" autocomplete="off">
+                                </div>
+
+                                <div data-role="nome-client-wrap" class="hidden">
+                                    <input type="text" data-role="nome-client-search" list="clientes_datalist_create" maxlength="150" placeholder="Digite para buscar cliente" autocomplete="off">
+                                    <datalist id="clientes_datalist_create"></datalist>
+                                    <div class="hint">Digite ao menos 2 letras para buscar cliente cadastrado.</div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="telefone">Telefone</label>
+                                <input type="text" id="telefone" name="telefone" maxlength="120">
+                            </div>
+
+                            <div>
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" maxlength="150">
                             </div>
 
                             <div>
@@ -673,16 +1099,6 @@ if ($isLogged && $currentUser) {
                                         <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                            </div>
-
-                            <div>
-                                <label for="nome">Nome</label>
-                                <input type="text" id="nome" name="nome" maxlength="150" required>
-                            </div>
-
-                            <div>
-                                <label for="contato">Contato</label>
-                                <input type="text" id="contato" name="contato" maxlength="120" required>
                             </div>
 
                             <div>
@@ -697,12 +1113,17 @@ if ($isLogged && $currentUser) {
 
                             <div>
                                 <label for="total_cacambas">Total cacambas</label>
-                                <input type="number" id="total_cacambas" name="total_cacambas" min="0" step="1" value="0" required>
+                                <input type="number" id="total_cacambas" name="total_cacambas" data-role="total-cacambas" min="0" step="1" value="0" required>
                             </div>
 
                             <div>
-                                <label for="valor_total">Valor total (R$)</label>
-                                <input type="text" id="valor_total" name="valor_total" inputmode="decimal" placeholder="0,00" required>
+                                <label for="valor_total">Valor total cacambas (R$)</label>
+                                <input type="text" id="valor_total" name="valor_total" data-role="valor-total" inputmode="decimal" placeholder="0,00" required>
+                            </div>
+
+                            <div>
+                                <label for="valor_por_cacamba">Valor por cacamba (R$)</label>
+                                <input type="text" id="valor_por_cacamba" data-role="valor-por-cacamba" class="money-readonly" inputmode="decimal" placeholder="0,00" readonly>
                             </div>
 
                             <div>
@@ -710,13 +1131,43 @@ if ($isLogged && $currentUser) {
                                 <input type="text" id="valor_perdido" name="valor_perdido" inputmode="decimal" placeholder="0,00" required>
                             </div>
 
-                            <div class="span-3">
+                            <div class="span-4">
                                 <label for="observacao">Observacao</label>
-                                <textarea id="observacao" name="observacao" rows="4"></textarea>
+                                <textarea id="observacao" name="observacao" rows="3"></textarea>
                             </div>
 
-                            <div class="span-3">
-                                <button type="submit" class="submit">Salvar negocio</button>
+                            <div>
+                                <label for="status">Status</label>
+                                <select id="status" name="status" data-role="status" required>
+                                    <option value="">Selecione</option>
+                                    <?php foreach (RETEC_STATUS as $opt): ?>
+                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div data-role="motivo-wrap" class="hidden">
+                                <label for="motivo_perda">Motivo da perda</label>
+                                <select id="motivo_perda" name="motivo_perda" data-role="motivo-perda">
+                                    <option value="">Selecione</option>
+                                    <?php foreach (RETEC_MOTIVOS_PERDA as $opt): ?>
+                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div data-role="proxima-wrap" class="hidden">
+                                <label for="proxima_acao">Proxima acao</label>
+                                <select id="proxima_acao" name="proxima_acao" data-role="proxima-acao">
+                                    <option value="">Selecione</option>
+                                    <?php foreach (RETEC_PROXIMA_ACAO as $opt): ?>
+                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="span-4">
+                                <button type="submit" class="submit">Salvar Registro</button>
                             </div>
                         </div>
                     </form>
@@ -725,31 +1176,201 @@ if ($isLogged && $currentUser) {
                     <table>
                         <thead>
                             <tr>
-                                <th>Data</th>
+                                <th>Data Inicio</th>
+                                <th>Data Fim</th>
                                 <th>Vendedor</th>
+                                <th>Origem</th>
+                                <th>Forma Contato</th>
+                                <th>Regiao</th>
                                 <th>Nome</th>
-                                <th>Status</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                                <th>Perfil</th>
                                 <th>Servico</th>
                                 <th>Cacambas</th>
-                                <th>Valor total</th>
-                                <th>Valor perdido</th>
+                                <th>Valor Total</th>
+                                <th>Valor/Cacamba</th>
+                                <th>Valor Perdido</th>
+                                <th>Observacao</th>
+                                <th>Status</th>
+                                <th>Motivo Perda</th>
+                                <th>Proxima Acao</th>
+                                <th>Acoes</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!$recentDeals): ?>
-                                <tr><td colspan="8">Nenhum registro encontrado.</td></tr>
+                                <tr><td colspan="20">Nenhum registro encontrado.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($recentDeals as $deal): ?>
                                     <tr>
                                         <td><?php echo admin_h((string)$deal['data_inicio']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['data_fim']); ?></td>
                                         <td><?php echo admin_h((string)$deal['vendedor_nome']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['origem']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['forma_contato']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['regiao']); ?></td>
                                         <td><?php echo admin_h((string)$deal['nome_cliente']); ?></td>
-                                        <td><?php echo admin_h((string)$deal['status']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['telefone']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['email']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['perfil']); ?></td>
                                         <td><?php echo admin_h((string)$deal['servico']); ?></td>
                                         <td><?php echo admin_h((string)$deal['total_cacambas']); ?></td>
                                         <td>R$ <?php echo admin_h(number_format((float)$deal['valor_total'], 2, ',', '.')); ?></td>
+                                        <td>R$ <?php echo admin_h(number_format((float)$deal['valor_por_cacamba'], 2, ',', '.')); ?></td>
                                         <td>R$ <?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?></td>
+                                        <td><?php echo admin_h((string)$deal['observacao']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['status']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['motivo_perda']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['proxima_acao']); ?></td>
+                                        <td>
+                                            <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
+                                                <button type="button" class="btn-inline btn-edit" data-toggle-edit="edit-<?php echo admin_h((string)$deal['id']); ?>">Editar</button>
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
+                                    <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
+                                        <tr id="edit-<?php echo admin_h((string)$deal['id']); ?>" class="hidden">
+                                            <td colspan="20">
+                                                <div class="inline-edit-wrap">
+                                                    <form method="post" action="/admin/painel.php?sec=comercial" class="deal-form" data-mode="edit">
+                                                        <input type="hidden" name="action" value="update_negocio">
+                                                        <input type="hidden" name="csrf_token" value="<?php echo admin_h(admin_csrf_token('deal_update_form')); ?>">
+                                                        <input type="hidden" name="negocio_id" value="<?php echo admin_h((string)$deal['id']); ?>">
+
+                                                        <div class="form-grid">
+                                                            <div>
+                                                                <label>Origem</label>
+                                                                <select name="origem" data-role="origem" required>
+                                                                    <?php foreach (RETEC_ORIGENS as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>" <?php echo ((string)$deal['origem'] === $opt) ? 'selected' : ''; ?>><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Forma de contato</label>
+                                                                <select name="forma_contato" required>
+                                                                    <?php foreach (RETEC_FORMAS_CONTATO as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>" <?php echo ((string)$deal['forma_contato'] === $opt) ? 'selected' : ''; ?>><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Regiao</label>
+                                                                <input type="text" name="regiao" maxlength="120" value="<?php echo admin_h((string)$deal['regiao']); ?>">
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Nome</label>
+                                                                <input type="hidden" name="nome" data-role="nome-hidden" value="<?php echo admin_h((string)$deal['nome_cliente']); ?>">
+                                                                <input type="hidden" name="cliente_id" data-role="cliente-id-hidden" value="<?php echo admin_h((string)$deal['cliente_id']); ?>">
+
+                                                                <div data-role="nome-text-wrap" class="<?php echo ((string)$deal['origem'] === 'Cliente') ? 'hidden' : ''; ?>">
+                                                                    <input type="text" data-role="nome-text" maxlength="150" value="<?php echo admin_h((string)$deal['nome_cliente']); ?>">
+                                                                </div>
+
+                                                                <div data-role="nome-client-wrap" class="<?php echo ((string)$deal['origem'] === 'Cliente') ? '' : 'hidden'; ?>">
+                                                                    <?php $datalistId = 'clientes_datalist_edit_' . (string)$deal['id']; ?>
+                                                                    <input type="text" data-role="nome-client-search" list="<?php echo admin_h($datalistId); ?>" maxlength="150" value="<?php echo admin_h((string)$deal['nome_cliente']); ?>">
+                                                                    <datalist id="<?php echo admin_h($datalistId); ?>"></datalist>
+                                                                </div>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Telefone</label>
+                                                                <input type="text" name="telefone" maxlength="120" value="<?php echo admin_h((string)$deal['telefone']); ?>">
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Email</label>
+                                                                <input type="email" name="email" maxlength="150" value="<?php echo admin_h((string)$deal['email']); ?>">
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Perfil</label>
+                                                                <select name="perfil" required>
+                                                                    <?php foreach (RETEC_PERFIS as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>" <?php echo ((string)$deal['perfil'] === $opt) ? 'selected' : ''; ?>><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Servico</label>
+                                                                <select name="servico" required>
+                                                                    <?php foreach (RETEC_SERVICOS as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>" <?php echo ((string)$deal['servico'] === $opt) ? 'selected' : ''; ?>><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Total cacambas</label>
+                                                                <input type="number" name="total_cacambas" data-role="total-cacambas" min="0" step="1" value="<?php echo admin_h((string)$deal['total_cacambas']); ?>" required>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Valor total (R$)</label>
+                                                                <input type="text" name="valor_total" data-role="valor-total" inputmode="decimal" value="<?php echo admin_h(number_format((float)$deal['valor_total'], 2, ',', '.')); ?>" required>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Valor por cacamba (R$)</label>
+                                                                <input type="text" data-role="valor-por-cacamba" class="money-readonly" value="<?php echo admin_h(number_format((float)$deal['valor_por_cacamba'], 2, ',', '.')); ?>" readonly>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Valor perdido (R$)</label>
+                                                                <input type="text" name="valor_perdido" inputmode="decimal" value="<?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?>" required>
+                                                            </div>
+
+                                                            <div class="span-4">
+                                                                <label>Observacao</label>
+                                                                <textarea name="observacao" rows="2"><?php echo admin_h((string)$deal['observacao']); ?></textarea>
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Status final</label>
+                                                                <select name="status" data-role="status" required>
+                                                                    <option value="Venda Perdida">Venda Perdida</option>
+                                                                    <option value="Venda Realizada">Venda Realizada</option>
+                                                                    <option value="Venda Cancelada">Venda Cancelada</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div data-role="motivo-wrap" class="hidden">
+                                                                <label>Motivo da perda</label>
+                                                                <select name="motivo_perda" data-role="motivo-perda">
+                                                                    <option value="">Selecione</option>
+                                                                    <?php foreach (RETEC_MOTIVOS_PERDA as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div data-role="proxima-wrap" class="hidden">
+                                                                <label>Proxima acao</label>
+                                                                <select name="proxima_acao" data-role="proxima-acao">
+                                                                    <?php foreach (RETEC_PROXIMA_ACAO as $opt): ?>
+                                                                        <option value="<?php echo admin_h($opt); ?>"><?php echo admin_h($opt); ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="span-4 row-actions">
+                                                                <button type="submit" class="submit">Salvar Atualizacao</button>
+                                                                <button type="button" class="btn-inline btn-delete" data-toggle-edit="edit-<?php echo admin_h((string)$deal['id']); ?>">Cancelar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
@@ -758,5 +1379,253 @@ if ($isLogged && $currentUser) {
             <?php endif; ?>
         </div>
     </div>
+
+    <script>
+        function parseMoney(value) {
+            if (!value) {
+                return 0;
+            }
+            let normalized = String(value).trim().replace(/R\$/g, '').replace(/\s/g, '');
+            if (normalized.includes(',') && normalized.includes('.')) {
+                normalized = normalized.replace(/\./g, '').replace(',', '.');
+            } else if (normalized.includes(',')) {
+                normalized = normalized.replace(',', '.');
+            }
+            const num = Number(normalized);
+            return Number.isFinite(num) ? num : 0;
+        }
+
+        function formatMoney(value) {
+            return Number(value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function autoActionByStatus(status) {
+            if (status === 'Venda Perdida') return 'Pos-Perda';
+            if (status === 'Em negociacao') return 'Acompanhar Follow-up';
+            if (status === 'Venda Realizada') return 'Pos-Venda';
+            if (status === 'Venda Cancelada') return 'Pos-Perda';
+            return '';
+        }
+
+        function wireDealForm(form) {
+            const origem = form.querySelector('[data-role="origem"]');
+            const nomeTextWrap = form.querySelector('[data-role="nome-text-wrap"]');
+            const nomeClientWrap = form.querySelector('[data-role="nome-client-wrap"]');
+            const nomeText = form.querySelector('[data-role="nome-text"]');
+            const nomeClientSearch = form.querySelector('[data-role="nome-client-search"]');
+            const nomeHidden = form.querySelector('[data-role="nome-hidden"]');
+            const clienteIdHidden = form.querySelector('[data-role="cliente-id-hidden"]');
+
+            const totalCacambas = form.querySelector('[data-role="total-cacambas"]');
+            const valorTotal = form.querySelector('[data-role="valor-total"]');
+            const valorPorCacamba = form.querySelector('[data-role="valor-por-cacamba"]');
+
+            const status = form.querySelector('[data-role="status"]');
+            const motivoWrap = form.querySelector('[data-role="motivo-wrap"]');
+            const proximaWrap = form.querySelector('[data-role="proxima-wrap"]');
+            const motivoPerda = form.querySelector('[data-role="motivo-perda"]');
+            const proximaAcao = form.querySelector('[data-role="proxima-acao"]');
+
+            const clientMap = new Map();
+            let debounceTimer = null;
+
+            function syncNome() {
+                if (!nomeHidden) {
+                    return;
+                }
+                if (origem && origem.value === 'Cliente') {
+                    nomeHidden.value = nomeClientSearch ? nomeClientSearch.value.trim() : '';
+                } else {
+                    nomeHidden.value = nomeText ? nomeText.value.trim() : '';
+                    if (clienteIdHidden) {
+                        clienteIdHidden.value = '';
+                    }
+                }
+            }
+
+            function refreshNomeMode() {
+                if (!origem) {
+                    return;
+                }
+                const isCliente = origem.value === 'Cliente';
+                if (nomeTextWrap) {
+                    nomeTextWrap.classList.toggle('hidden', isCliente);
+                }
+                if (nomeClientWrap) {
+                    nomeClientWrap.classList.toggle('hidden', !isCliente);
+                }
+                syncNome();
+            }
+
+            function refreshValorPorCacamba() {
+                if (!totalCacambas || !valorTotal || !valorPorCacamba) {
+                    return;
+                }
+                const qtd = parseInt(totalCacambas.value || '0', 10);
+                const total = parseMoney(valorTotal.value || '0');
+                const calc = qtd > 0 ? (total / qtd) : 0;
+                valorPorCacamba.value = formatMoney(calc);
+            }
+
+            function refreshStatusRules() {
+                if (!status) {
+                    return;
+                }
+                const value = status.value;
+                const next = autoActionByStatus(value);
+
+                if (value === 'Venda Perdida') {
+                    if (motivoWrap) motivoWrap.classList.remove('hidden');
+                    if (proximaWrap) proximaWrap.classList.remove('hidden');
+                    if (motivoPerda) motivoPerda.required = true;
+                } else if (value === 'Em negociacao' || value === 'Venda Realizada' || value === 'Venda Cancelada') {
+                    if (motivoWrap) motivoWrap.classList.add('hidden');
+                    if (proximaWrap) proximaWrap.classList.remove('hidden');
+                    if (motivoPerda) {
+                        motivoPerda.required = false;
+                        motivoPerda.value = '';
+                    }
+                } else {
+                    if (motivoWrap) motivoWrap.classList.add('hidden');
+                    if (proximaWrap) proximaWrap.classList.add('hidden');
+                    if (motivoPerda) {
+                        motivoPerda.required = false;
+                        motivoPerda.value = '';
+                    }
+                }
+
+                if (proximaAcao && next !== '') {
+                    proximaAcao.value = next;
+                }
+            }
+
+            async function searchClientes(term) {
+                if (!nomeClientSearch) {
+                    return;
+                }
+                const listId = nomeClientSearch.getAttribute('list');
+                if (!listId) {
+                    return;
+                }
+                const datalist = document.getElementById(listId);
+                if (!datalist) {
+                    return;
+                }
+
+                if (term.length < 2) {
+                    datalist.innerHTML = '';
+                    clientMap.clear();
+                    if (clienteIdHidden) {
+                        clienteIdHidden.value = '';
+                    }
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/admin/clientes_search.php?q=' + encodeURIComponent(term));
+                    if (!response.ok) {
+                        return;
+                    }
+                    const data = await response.json();
+                    const items = Array.isArray(data.items) ? data.items : [];
+
+                    clientMap.clear();
+                    datalist.innerHTML = '';
+
+                    items.forEach((item) => {
+                        const option = document.createElement('option');
+                        option.value = item.nome || '';
+                        option.label = [item.bairro || '', item.cep || ''].filter(Boolean).join(' - ');
+                        datalist.appendChild(option);
+                        clientMap.set(option.value, String(item.id || ''));
+                    });
+
+                    const selectedId = clientMap.get(nomeClientSearch.value.trim()) || '';
+                    if (clienteIdHidden) {
+                        clienteIdHidden.value = selectedId;
+                    }
+                } catch (e) {
+                    // Sem throw para nao quebrar o fluxo do formulario.
+                }
+            }
+
+            if (origem) {
+                origem.addEventListener('change', refreshNomeMode);
+            }
+            if (nomeText) {
+                nomeText.addEventListener('input', syncNome);
+            }
+            if (nomeClientSearch) {
+                nomeClientSearch.addEventListener('input', function () {
+                    syncNome();
+                    if (clienteIdHidden) {
+                        clienteIdHidden.value = clientMap.get(nomeClientSearch.value.trim()) || '';
+                    }
+
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(function () {
+                        searchClientes(nomeClientSearch.value.trim());
+                    }, 300);
+                });
+                nomeClientSearch.addEventListener('change', function () {
+                    syncNome();
+                    if (clienteIdHidden) {
+                        clienteIdHidden.value = clientMap.get(nomeClientSearch.value.trim()) || '';
+                    }
+                });
+            }
+
+            if (totalCacambas) {
+                totalCacambas.addEventListener('input', refreshValorPorCacamba);
+            }
+            if (valorTotal) {
+                valorTotal.addEventListener('input', refreshValorPorCacamba);
+            }
+
+            if (status) {
+                status.addEventListener('change', refreshStatusRules);
+            }
+
+            form.addEventListener('submit', function (event) {
+                syncNome();
+                if (origem && origem.value === 'Cliente' && clienteIdHidden && clienteIdHidden.value === '') {
+                    event.preventDefault();
+                    alert('Selecione um cliente valido na lista para a origem Cliente.');
+                    return;
+                }
+
+                if (origem && origem.value !== 'Cliente' && nomeHidden && nomeHidden.value.trim() === '') {
+                    event.preventDefault();
+                    alert('Informe o nome do cliente.');
+                    return;
+                }
+            });
+
+            refreshNomeMode();
+            refreshValorPorCacamba();
+            refreshStatusRules();
+            syncNome();
+
+            if (origem && origem.value === 'Cliente' && nomeClientSearch && nomeClientSearch.value.trim().length >= 2) {
+                searchClientes(nomeClientSearch.value.trim());
+            }
+        }
+
+        document.querySelectorAll('.deal-form').forEach(wireDealForm);
+
+        document.querySelectorAll('[data-toggle-edit]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const rowId = btn.getAttribute('data-toggle-edit');
+                if (!rowId) {
+                    return;
+                }
+                const row = document.getElementById(rowId);
+                if (!row) {
+                    return;
+                }
+                row.classList.toggle('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 const RETEC_ORIGENS = [
     'Google',
+    'Instagram',
+    'Prosp. Comercial',
+    'Osasco Facil',
+    'Outro',
+    'Cliente',
 ];
 
 const RETEC_FORMAS_CONTATO = [

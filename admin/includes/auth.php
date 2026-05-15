@@ -79,7 +79,7 @@ if (!function_exists('admin_can_access')) {
     {
         $role = $user['role'] ?? '';
         if ($role === 'admin') {
-            return in_array($section, ['dashboard', 'comercial'], true);
+            return in_array($section, ['dashboard', 'comercial', 'clientes'], true);
         }
         if ($role === 'comercial') {
             return $section === 'comercial';
