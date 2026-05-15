@@ -649,6 +649,9 @@ $financeiro = [
 $operacional = [
     'forma_contato' => [],
     'origem' => [],
+    'motivo_perda' => [],
+    'perfil' => [],
+    'servico' => [],
 ];
 
 $recentDeals = [];
@@ -735,6 +738,39 @@ if ($isLogged && $currentUser) {
         $stmtOrigem->execute($dashboardParams);
         foreach ($stmtOrigem->fetchAll() as $row) {
             $operacional['origem'][(string)$row['origem']] = (int)$row['total'];
+        }
+
+        $stmtMotivoPerda = admin_db()->prepare(
+            'SELECT motivo_perda, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . ' AND TRIM(COALESCE(motivo_perda, "")) <> ""
+             GROUP BY motivo_perda
+             ORDER BY total DESC'
+        );
+        $stmtMotivoPerda->execute($dashboardParams);
+        foreach ($stmtMotivoPerda->fetchAll() as $row) {
+            $operacional['motivo_perda'][(string)$row['motivo_perda']] = (int)$row['total'];
+        }
+
+        $stmtPerfil = admin_db()->prepare(
+            'SELECT perfil, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . '
+             GROUP BY perfil
+             ORDER BY total DESC'
+        );
+        $stmtPerfil->execute($dashboardParams);
+        foreach ($stmtPerfil->fetchAll() as $row) {
+            $operacional['perfil'][(string)$row['perfil']] = (int)$row['total'];
+        }
+
+        $stmtServico = admin_db()->prepare(
+            'SELECT servico, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . '
+             GROUP BY servico
+             ORDER BY total DESC'
+        );
+        $stmtServico->execute($dashboardParams);
+        foreach ($stmtServico->fetchAll() as $row) {
+            $operacional['servico'][(string)$row['servico']] = (int)$row['total'];
         }
 
         $stmtRecent = admin_db()->prepare(
@@ -1052,7 +1088,7 @@ if ($isLogged && $currentUser) {
         .chart-grid {
             display: grid;
             gap: 12px;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             margin-top: 10px;
         }
 
@@ -1074,11 +1110,22 @@ if ($isLogged && $currentUser) {
             margin: 0 auto;
         }
 
+        .chart-wrap-wide {
+            max-width: 100%;
+            min-height: 320px;
+        }
+
+        .chart-card-wide {
+            grid-column: span 3;
+        }
+
         @media (max-width: 1200px) {
             .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .span-4 { grid-column: span 2; }
             .cards-finance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .chart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .chart-card-wide { grid-column: span 2; }
         }
 
         @media (max-width: 640px) {
@@ -1087,6 +1134,7 @@ if ($isLogged && $currentUser) {
             .span-2, .span-3, .span-4 { grid-column: span 1; }
             .cards-finance { grid-template-columns: 1fr; }
             .chart-grid { grid-template-columns: 1fr; }
+            .chart-card-wide { grid-column: span 1; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
         }
     </style>
@@ -1197,6 +1245,18 @@ if ($isLogged && $currentUser) {
                         <div class="chart-card">
                             <h4 class="chart-title">Origem (quantidades)</h4>
                             <div class="chart-wrap"><canvas id="chartOrigem"></canvas></div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 class="chart-title">Perfil (quantidades)</h4>
+                            <div class="chart-wrap"><canvas id="chartPerfil"></canvas></div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 class="chart-title">Servico (quantidades)</h4>
+                            <div class="chart-wrap"><canvas id="chartServico"></canvas></div>
+                        </div>
+                        <div class="chart-card chart-card-wide">
+                            <h4 class="chart-title">Motivo da Perda (quantidades)</h4>
+                            <div class="chart-wrap-wide"><canvas id="chartMotivoPerda"></canvas></div>
                         </div>
                     </div>
                 <?php elseif ($section === 'clientes'): ?>
@@ -1630,6 +1690,9 @@ if ($isLogged && $currentUser) {
         const dashboardSectionActive = <?php echo ($section === 'dashboard') ? 'true' : 'false'; ?>;
         const dashboardFormaContatoData = <?php echo json_encode($operacional['forma_contato'], JSON_UNESCAPED_UNICODE); ?>;
         const dashboardOrigemData = <?php echo json_encode($operacional['origem'], JSON_UNESCAPED_UNICODE); ?>;
+        const dashboardPerfilData = <?php echo json_encode($operacional['perfil'], JSON_UNESCAPED_UNICODE); ?>;
+        const dashboardServicoData = <?php echo json_encode($operacional['servico'], JSON_UNESCAPED_UNICODE); ?>;
+        const dashboardMotivoPerdaData = <?php echo json_encode($operacional['motivo_perda'], JSON_UNESCAPED_UNICODE); ?>;
 
         function renderDashboardDonut(canvasId, rawData) {
             if (!dashboardSectionActive || typeof Chart === 'undefined') {
@@ -1647,6 +1710,13 @@ if ($isLogged && $currentUser) {
                 labels = ['Sem dados'];
                 values = [1];
             }
+
+            const zipped = labels.map((label, index) => ({ label, value: values[index] || 0 }));
+            zipped.sort((a, b) => b.value - a.value);
+            labels = zipped.map((item) => item.label);
+            values = zipped.map((item) => item.value);
+
+            const total = values.reduce((sum, value) => sum + value, 0);
 
             const palette = ['#0ea5e9', '#22c55e', '#f97316', '#a855f7', '#eab308', '#ef4444', '#14b8a6', '#64748b'];
 
@@ -1668,6 +1738,79 @@ if ($isLogged && $currentUser) {
                     plugins: {
                         legend: {
                             position: 'bottom',
+                            labels: {
+                                generateLabels(chart) {
+                                    const defaultLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                                    return defaultLabels.map((legendItem, index) => {
+                                        const value = values[index] || 0;
+                                        const pct = total > 0 ? ((value / total) * 100) : 0;
+                                        return {
+                                            ...legendItem,
+                                            text: labels[index] + ' (' + pct.toFixed(1).replace('.', ',') + '%)',
+                                        };
+                                    });
+                                },
+                            },
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label(context) {
+                                    const value = Number(context.parsed || 0);
+                                    const pct = total > 0 ? ((value / total) * 100) : 0;
+                                    return context.label + ': ' + value + ' (' + pct.toFixed(1).replace('.', ',') + '%)';
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        function renderDashboardHorizontalBar(canvasId, rawData) {
+            if (!dashboardSectionActive || typeof Chart === 'undefined') {
+                return;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                return;
+            }
+
+            let labels = Object.keys(rawData || {});
+            let values = Object.values(rawData || {}).map((value) => Number(value || 0));
+            if (!labels.length) {
+                labels = ['Sem dados'];
+                values = [0];
+            }
+
+            const palette = ['#2563eb', '#0ea5e9', '#22c55e', '#f97316', '#eab308', '#ef4444', '#a855f7', '#14b8a6', '#64748b'];
+
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Quantidade',
+                        data: values,
+                        backgroundColor: labels.map((_, index) => palette[index % palette.length]),
+                        borderRadius: 8,
+                    }],
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                            },
                         },
                     },
                 },
@@ -1959,6 +2102,9 @@ if ($isLogged && $currentUser) {
 
         renderDashboardDonut('chartFormaContato', dashboardFormaContatoData);
         renderDashboardDonut('chartOrigem', dashboardOrigemData);
+        renderDashboardDonut('chartPerfil', dashboardPerfilData);
+        renderDashboardDonut('chartServico', dashboardServicoData);
+        renderDashboardHorizontalBar('chartMotivoPerda', dashboardMotivoPerdaData);
     </script>
 </body>
 </html>
