@@ -235,7 +235,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $origem = trim((string)($_POST['origem'] ?? ''));
         $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
-        $regiao = trim((string)($_POST['regiao'] ?? ''));
+        $bairro = trim((string)($_POST['bairro'] ?? ''));
+        $municipio = trim((string)($_POST['municipio'] ?? ''));
         $status = trim((string)($_POST['status'] ?? ''));
         $motivoPerda = trim((string)($_POST['motivo_perda'] ?? ''));
         $perfil = trim((string)($_POST['perfil'] ?? ''));
@@ -265,8 +266,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $formErrors[] = 'Servico invalido. Use somente 4m ou 26m.';
         }
 
-        if ($regiao !== '' && strlen($regiao) > 120) {
-            $formErrors[] = 'Regiao deve ter no maximo 120 caracteres.';
+        if ($bairro !== '' && strlen($bairro) > 120) {
+            $formErrors[] = 'Bairro deve ter no maximo 120 caracteres.';
+        }
+        if ($municipio !== '' && strlen($municipio) > 120) {
+            $formErrors[] = 'Municipio deve ter no maximo 120 caracteres.';
         }
         if ($telefone !== '' && strlen($telefone) > 120) {
             $formErrors[] = 'Telefone invalido.';
@@ -348,12 +352,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = admin_db()->prepare(
                     'INSERT INTO negocios_comerciais (
                         vendedor_id, vendedor_nome, origem, forma_contato, data_inicio, data_fim,
-                        status, proxima_acao, motivo_perda, regiao, perfil, nome_cliente, cliente_id,
+                        status, proxima_acao, motivo_perda, bairro, municipio, perfil, nome_cliente, cliente_id,
                         telefone, email, servico, total_cacambas, valor_total, valor_por_cacamba,
                         valor_perdido, observacao
                     ) VALUES (
                         :vendedor_id, :vendedor_nome, :origem, :forma_contato, :data_inicio, :data_fim,
-                        :status, :proxima_acao, :motivo_perda, :regiao, :perfil, :nome_cliente, :cliente_id,
+                        :status, :proxima_acao, :motivo_perda, :bairro, :municipio, :perfil, :nome_cliente, :cliente_id,
                         :telefone, :email, :servico, :total_cacambas, :valor_total, :valor_por_cacamba,
                         :valor_perdido, :observacao
                     )'
@@ -369,7 +373,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'status' => $status,
                     'proxima_acao' => $proximaAcao,
                     'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
-                    'regiao' => $regiao !== '' ? $regiao : null,
+                    'bairro' => $bairro !== '' ? $bairro : null,
+                    'municipio' => $municipio !== '' ? $municipio : null,
                     'perfil' => $perfil,
                     'nome_cliente' => $nomeCliente,
                     'cliente_id' => $clienteId,
@@ -434,7 +439,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $origem = trim((string)($_POST['origem'] ?? ''));
             $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
-            $regiao = trim((string)($_POST['regiao'] ?? ''));
+            $bairro = trim((string)($_POST['bairro'] ?? ''));
+            $municipio = trim((string)($_POST['municipio'] ?? ''));
             $status = trim((string)($_POST['status'] ?? ''));
             $motivoPerda = trim((string)($_POST['motivo_perda'] ?? ''));
             $perfil = trim((string)($_POST['perfil'] ?? ''));
@@ -464,8 +470,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!admin_value_in_list($servico, RETEC_SERVICOS)) {
                 $editErrors[] = 'Servico invalido.';
             }
-            if ($regiao !== '' && strlen($regiao) > 120) {
-                $editErrors[] = 'Regiao deve ter no maximo 120 caracteres.';
+            if ($bairro !== '' && strlen($bairro) > 120) {
+                $editErrors[] = 'Bairro deve ter no maximo 120 caracteres.';
+            }
+            if ($municipio !== '' && strlen($municipio) > 120) {
+                $editErrors[] = 'Municipio deve ter no maximo 120 caracteres.';
             }
             if ($telefone !== '' && strlen($telefone) > 120) {
                 $editErrors[] = 'Telefone invalido.';
@@ -546,7 +555,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     status = :status,
                     proxima_acao = :proxima_acao,
                     motivo_perda = :motivo_perda,
-                    regiao = :regiao,
+                    bairro = :bairro,
+                    municipio = :municipio,
                     perfil = :perfil,
                     nome_cliente = :nome_cliente,
                     cliente_id = :cliente_id,
@@ -569,7 +579,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'status' => $status,
                 'proxima_acao' => $proximaAcao,
                 'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
-                'regiao' => $regiao !== '' ? $regiao : null,
+                'bairro' => $bairro !== '' ? $bairro : null,
+                'municipio' => $municipio !== '' ? $municipio : null,
                 'perfil' => $perfil,
                 'nome_cliente' => $nomeCliente,
                 'cliente_id' => $clienteId,
@@ -785,7 +796,8 @@ if ($isLogged && $currentUser) {
                 status,
                 proxima_acao,
                 motivo_perda,
-                regiao,
+                bairro,
+                municipio,
                 perfil,
                 nome_cliente,
                 cliente_id,
@@ -1361,8 +1373,13 @@ if ($isLogged && $currentUser) {
                             </div>
 
                             <div>
-                                <label for="regiao">Regiao</label>
-                                <input type="text" id="regiao" name="regiao" maxlength="120">
+                                <label for="bairro">Bairro</label>
+                                <input type="text" id="bairro" name="bairro" maxlength="120">
+                            </div>
+
+                            <div>
+                                <label for="municipio">Municipio</label>
+                                <input type="text" id="municipio" name="municipio" maxlength="120">
                             </div>
 
                             <div>
@@ -1481,7 +1498,8 @@ if ($isLogged && $currentUser) {
                                 <th>Vendedor</th>
                                 <th>Origem</th>
                                 <th>Forma Contato</th>
-                                <th>Regiao</th>
+                                <th>Bairro</th>
+                                <th>Municipio</th>
                                 <th>Nome</th>
                                 <th>Telefone</th>
                                 <th>Email</th>
@@ -1500,7 +1518,7 @@ if ($isLogged && $currentUser) {
                         </thead>
                         <tbody>
                             <?php if (!$recentDeals): ?>
-                                <tr><td colspan="20">Nenhum registro encontrado.</td></tr>
+                                <tr><td colspan="21">Nenhum registro encontrado.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($recentDeals as $deal): ?>
                                     <tr>
@@ -1509,7 +1527,8 @@ if ($isLogged && $currentUser) {
                                         <td><?php echo admin_h((string)$deal['vendedor_nome']); ?></td>
                                         <td><?php echo admin_h((string)$deal['origem']); ?></td>
                                         <td><?php echo admin_h((string)$deal['forma_contato']); ?></td>
-                                        <td><?php echo admin_h((string)$deal['regiao']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['bairro']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['municipio']); ?></td>
                                         <td><?php echo admin_h((string)$deal['nome_cliente']); ?></td>
                                         <td><?php echo admin_h((string)$deal['telefone']); ?></td>
                                         <td><?php echo admin_h((string)$deal['email']); ?></td>
@@ -1538,7 +1557,7 @@ if ($isLogged && $currentUser) {
                                     </tr>
                                     <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
                                         <tr id="edit-<?php echo admin_h((string)$deal['id']); ?>" class="hidden">
-                                            <td colspan="20">
+                                            <td colspan="21">
                                                 <div class="inline-edit-wrap">
                                                     <form method="post" action="/admin/painel.php?sec=comercial" class="deal-form" data-mode="edit">
                                                         <input type="hidden" name="action" value="update_negocio">
@@ -1565,8 +1584,13 @@ if ($isLogged && $currentUser) {
                                                             </div>
 
                                                             <div>
-                                                                <label>Regiao</label>
-                                                                <input type="text" name="regiao" maxlength="120" value="<?php echo admin_h((string)$deal['regiao']); ?>">
+                                                                <label>Bairro</label>
+                                                                <input type="text" name="bairro" maxlength="120" value="<?php echo admin_h((string)$deal['bairro']); ?>">
+                                                            </div>
+
+                                                            <div>
+                                                                <label>Municipio</label>
+                                                                <input type="text" name="municipio" maxlength="120" value="<?php echo admin_h((string)$deal['municipio']); ?>">
                                                             </div>
 
                                                             <div>

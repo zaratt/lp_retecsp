@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS negocios_comerciais (
     status VARCHAR(40) NOT NULL,
     proxima_acao VARCHAR(80) NOT NULL,
     motivo_perda VARCHAR(255) NULL,
-    regiao VARCHAR(120) NULL,
+    bairro VARCHAR(120) NULL,
+    municipio VARCHAR(120) NULL,
     perfil VARCHAR(50) NOT NULL,
     nome_cliente VARCHAR(150) NOT NULL,
     cliente_id INT UNSIGNED NULL,
@@ -105,6 +106,49 @@ SET @has_valor_por_cacamba := (
             AND COLUMN_NAME = 'valor_por_cacamba'
 );
 SET @sql := IF(@has_valor_por_cacamba = 0, 'ALTER TABLE negocios_comerciais ADD COLUMN valor_por_cacamba DECIMAL(12,2) NOT NULL DEFAULT 0.00 AFTER valor_total', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_bairro := (
+        SELECT COUNT(*)
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'negocios_comerciais'
+            AND COLUMN_NAME = 'bairro'
+);
+SET @sql := IF(@has_bairro = 0, 'ALTER TABLE negocios_comerciais ADD COLUMN bairro VARCHAR(120) NULL AFTER motivo_perda', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_municipio := (
+        SELECT COUNT(*)
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'negocios_comerciais'
+            AND COLUMN_NAME = 'municipio'
+);
+SET @sql := IF(@has_municipio = 0, 'ALTER TABLE negocios_comerciais ADD COLUMN municipio VARCHAR(120) NULL AFTER bairro', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_regiao := (
+        SELECT COUNT(*)
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'negocios_comerciais'
+            AND COLUMN_NAME = 'regiao'
+);
+SET @has_bairro_now := (
+        SELECT COUNT(*)
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'negocios_comerciais'
+            AND COLUMN_NAME = 'bairro'
+);
+SET @sql := IF(@has_regiao = 1 AND @has_bairro_now = 1, 'UPDATE negocios_comerciais SET bairro = COALESCE(bairro, regiao) WHERE TRIM(COALESCE(bairro, "")) = ""', 'SELECT 1');
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
