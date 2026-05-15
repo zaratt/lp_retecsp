@@ -19,6 +19,18 @@ CREATE TABLE IF NOT EXISTS clientes (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS localidades_cache (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cep VARCHAR(10) NOT NULL,
+    bairro VARCHAR(120) NOT NULL,
+    municipio VARCHAR(120) NOT NULL,
+    uf VARCHAR(2) NULL,
+    source VARCHAR(30) NOT NULL DEFAULT 'brasilapi_cep_v2',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_localidades_cache_cep (cep)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS negocios_comerciais (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     vendedor_id INT UNSIGNED NOT NULL,
@@ -30,6 +42,7 @@ CREATE TABLE IF NOT EXISTS negocios_comerciais (
     status VARCHAR(40) NOT NULL,
     proxima_acao VARCHAR(80) NOT NULL,
     motivo_perda VARCHAR(255) NULL,
+    cep VARCHAR(10) NULL,
     bairro VARCHAR(120) NULL,
     municipio VARCHAR(120) NULL,
     perfil VARCHAR(50) NOT NULL,
@@ -58,6 +71,45 @@ SET @has_idx_clientes_nome := (
             AND INDEX_NAME = 'idx_clientes_nome'
 );
 SET @sql := IF(@has_idx_clientes_nome = 0, 'CREATE INDEX idx_clientes_nome ON clientes (nome)', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_localidades_cache_table := (
+        SELECT COUNT(*)
+        FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'localidades_cache'
+);
+SET @sql := IF(
+        @has_localidades_cache_table = 0,
+        'CREATE TABLE localidades_cache (id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, cep VARCHAR(10) NOT NULL, bairro VARCHAR(120) NOT NULL, municipio VARCHAR(120) NOT NULL, uf VARCHAR(2) NULL, source VARCHAR(30) NOT NULL DEFAULT ''brasilapi_cep_v2'', created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UNIQUE KEY uk_localidades_cache_cep (cep)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4',
+        'SELECT 1'
+    );
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_idx_localidades_cache_bairro := (
+        SELECT COUNT(*)
+        FROM information_schema.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'localidades_cache'
+            AND INDEX_NAME = 'idx_localidades_cache_bairro'
+);
+SET @sql := IF(@has_idx_localidades_cache_bairro = 0, 'CREATE INDEX idx_localidades_cache_bairro ON localidades_cache (bairro)', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_idx_localidades_cache_municipio := (
+        SELECT COUNT(*)
+        FROM information_schema.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'localidades_cache'
+            AND INDEX_NAME = 'idx_localidades_cache_municipio'
+);
+SET @sql := IF(@has_idx_localidades_cache_municipio = 0, 'CREATE INDEX idx_localidades_cache_municipio ON localidades_cache (municipio)', 'SELECT 1');
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
@@ -130,6 +182,18 @@ SET @has_municipio := (
             AND COLUMN_NAME = 'municipio'
 );
 SET @sql := IF(@has_municipio = 0, 'ALTER TABLE negocios_comerciais ADD COLUMN municipio VARCHAR(120) NULL AFTER bairro', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @has_cep := (
+        SELECT COUNT(*)
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'negocios_comerciais'
+            AND COLUMN_NAME = 'cep'
+);
+SET @sql := IF(@has_cep = 0, 'ALTER TABLE negocios_comerciais ADD COLUMN cep VARCHAR(10) NULL AFTER motivo_perda', 'SELECT 1');
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;

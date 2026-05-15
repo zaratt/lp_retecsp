@@ -101,6 +101,84 @@ function admin_dashboard_range(string $periodo): array
     ];
 }
 
+function admin_normalize_cep(string $raw): string
+{
+    $digits = preg_replace('/\D+/', '', trim($raw));
+    if (!is_string($digits) || strlen($digits) !== 8) {
+        return '';
+    }
+    return substr($digits, 0, 5) . '-' . substr($digits, 5, 3);
+}
+
+function admin_find_localidade_by_cep(string $cep): ?array
+{
+    $normalized = admin_normalize_cep($cep);
+    if ($normalized === '') {
+        return null;
+    }
+
+    $stmt = admin_db()->prepare(
+        'SELECT id, cep, bairro, municipio
+         FROM localidades_cache
+         WHERE REPLACE(cep, "-", "") = :cep
+         LIMIT 1'
+    );
+    $stmt->execute(['cep' => str_replace('-', '', $normalized)]);
+    $row = $stmt->fetch();
+    return is_array($row) ? $row : null;
+}
+
+function admin_find_localidade_by_bairro(string $bairro, ?string $municipio = null): ?array
+{
+    $bairro = trim($bairro);
+    if ($bairro === '') {
+        return null;
+    }
+
+    if ($municipio !== null && trim($municipio) !== '') {
+        $stmt = admin_db()->prepare(
+            'SELECT id, cep, bairro, municipio
+             FROM localidades_cache
+             WHERE LOWER(bairro) = LOWER(:bairro)
+               AND LOWER(municipio) = LOWER(:municipio)
+             LIMIT 1'
+        );
+        $stmt->execute([
+            'bairro' => $bairro,
+            'municipio' => trim($municipio),
+        ]);
+    } else {
+        $stmt = admin_db()->prepare(
+            'SELECT id, cep, bairro, municipio
+             FROM localidades_cache
+             WHERE LOWER(bairro) = LOWER(:bairro)
+             ORDER BY id ASC
+             LIMIT 1'
+        );
+        $stmt->execute(['bairro' => $bairro]);
+    }
+
+    $row = $stmt->fetch();
+    return is_array($row) ? $row : null;
+}
+
+function admin_localidade_exists_municipio(string $municipio): bool
+{
+    $municipio = trim($municipio);
+    if ($municipio === '') {
+        return false;
+    }
+
+    $stmt = admin_db()->prepare(
+        'SELECT 1
+         FROM localidades_cache
+         WHERE LOWER(municipio) = LOWER(:municipio)
+         LIMIT 1'
+    );
+    $stmt->execute(['municipio' => $municipio]);
+    return (bool)$stmt->fetchColumn();
+}
+
 $section = (string)($_GET['sec'] ?? 'dashboard');
 if (!in_array($section, ['dashboard', 'comercial', 'clientes'], true)) {
     $section = 'dashboard';
@@ -235,6 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $origem = trim((string)($_POST['origem'] ?? ''));
         $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
+        $cep = admin_normalize_cep((string)($_POST['cep'] ?? ''));
         $bairro = trim((string)($_POST['bairro'] ?? ''));
         $municipio = trim((string)($_POST['municipio'] ?? ''));
         $status = trim((string)($_POST['status'] ?? ''));
@@ -277,6 +356,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         if ($email !== '' && (strlen($email) > 150 || !filter_var($email, FILTER_VALIDATE_EMAIL))) {
             $formErrors[] = 'Email invalido.';
+        }
+
+        // Regras de integracao CEP/Bairro/Municipio com selecao estrita da lista.
+        if ($cep !== '') {
+            try {
+                $localidadeCep = admin_find_localidade_by_cep($cep);
+                if (!$localidadeCep) {
+                    $formErrors[] = 'CEP invalido. Selecione um CEP valido da lista.';
+                } else {
+                    $bairro = trim((string)($localidadeCep['bairro'] ?? ''));
+                    $municipio = trim((string)($localidadeCep['municipio'] ?? ''));
+                }
+            } catch (Throwable $e) {
+                admin_log_event('Erro ao validar CEP no create_negocio: ' . $e->getMessage());
+                $formErrors[] = 'Nao foi possivel validar o CEP agora.';
+            }
+        } elseif ($bairro !== '') {
+            // Se Bairro for informado, CEP deve ficar vazio e Municipio deve vir da selecao valida.
+            $cep = '';
+            try {
+                $localidadeBairro = admin_find_localidade_by_bairro($bairro, $municipio !== '' ? $municipio : null);
+                if (!$localidadeBairro) {
+                    $formErrors[] = 'Bairro invalido. Selecione um Bairro da lista.';
+                } else {
+                    $bairro = trim((string)($localidadeBairro['bairro'] ?? $bairro));
+                    if ($municipio === '') {
+                        $municipio = trim((string)($localidadeBairro['municipio'] ?? ''));
+                    }
+                }
+            } catch (Throwable $e) {
+                admin_log_event('Erro ao validar Bairro no create_negocio: ' . $e->getMessage());
+                $formErrors[] = 'Nao foi possivel validar o Bairro agora.';
+            }
+        } elseif ($municipio !== '') {
+            try {
+                if (!admin_localidade_exists_municipio($municipio)) {
+                    $formErrors[] = 'Municipio invalido. Selecione um Municipio da lista.';
+                }
+            } catch (Throwable $e) {
+                admin_log_event('Erro ao validar Municipio no create_negocio: ' . $e->getMessage());
+                $formErrors[] = 'Nao foi possivel validar o Municipio agora.';
+            }
         }
 
         $clienteId = null;
@@ -352,12 +473,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = admin_db()->prepare(
                     'INSERT INTO negocios_comerciais (
                         vendedor_id, vendedor_nome, origem, forma_contato, data_inicio, data_fim,
-                        status, proxima_acao, motivo_perda, bairro, municipio, perfil, nome_cliente, cliente_id,
+                        status, proxima_acao, motivo_perda, cep, bairro, municipio, perfil, nome_cliente, cliente_id,
                         telefone, email, servico, total_cacambas, valor_total, valor_por_cacamba,
                         valor_perdido, observacao
                     ) VALUES (
                         :vendedor_id, :vendedor_nome, :origem, :forma_contato, :data_inicio, :data_fim,
-                        :status, :proxima_acao, :motivo_perda, :bairro, :municipio, :perfil, :nome_cliente, :cliente_id,
+                        :status, :proxima_acao, :motivo_perda, :cep, :bairro, :municipio, :perfil, :nome_cliente, :cliente_id,
                         :telefone, :email, :servico, :total_cacambas, :valor_total, :valor_por_cacamba,
                         :valor_perdido, :observacao
                     )'
@@ -373,6 +494,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'status' => $status,
                     'proxima_acao' => $proximaAcao,
                     'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
+                    'cep' => $cep !== '' ? $cep : null,
                     'bairro' => $bairro !== '' ? $bairro : null,
                     'municipio' => $municipio !== '' ? $municipio : null,
                     'perfil' => $perfil,
@@ -439,6 +561,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $origem = trim((string)($_POST['origem'] ?? ''));
             $formaContato = trim((string)($_POST['forma_contato'] ?? ''));
+            $cep = admin_normalize_cep((string)($_POST['cep'] ?? ''));
             $bairro = trim((string)($_POST['bairro'] ?? ''));
             $municipio = trim((string)($_POST['municipio'] ?? ''));
             $status = trim((string)($_POST['status'] ?? ''));
@@ -481,6 +604,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             if ($email !== '' && (strlen($email) > 150 || !filter_var($email, FILTER_VALIDATE_EMAIL))) {
                 $editErrors[] = 'Email invalido.';
+            }
+
+            if ($cep !== '') {
+                try {
+                    $localidadeCep = admin_find_localidade_by_cep($cep);
+                    if (!$localidadeCep) {
+                        $editErrors[] = 'CEP invalido. Selecione um CEP valido da lista.';
+                    } else {
+                        $bairro = trim((string)($localidadeCep['bairro'] ?? ''));
+                        $municipio = trim((string)($localidadeCep['municipio'] ?? ''));
+                    }
+                } catch (Throwable $e) {
+                    admin_log_event('Erro ao validar CEP no update_negocio: ' . $e->getMessage());
+                    $editErrors[] = 'Nao foi possivel validar o CEP agora.';
+                }
+            } elseif ($bairro !== '') {
+                $cep = '';
+                try {
+                    $localidadeBairro = admin_find_localidade_by_bairro($bairro, $municipio !== '' ? $municipio : null);
+                    if (!$localidadeBairro) {
+                        $editErrors[] = 'Bairro invalido. Selecione um Bairro da lista.';
+                    } else {
+                        $bairro = trim((string)($localidadeBairro['bairro'] ?? $bairro));
+                        if ($municipio === '') {
+                            $municipio = trim((string)($localidadeBairro['municipio'] ?? ''));
+                        }
+                    }
+                } catch (Throwable $e) {
+                    admin_log_event('Erro ao validar Bairro no update_negocio: ' . $e->getMessage());
+                    $editErrors[] = 'Nao foi possivel validar o Bairro agora.';
+                }
+            } elseif ($municipio !== '') {
+                try {
+                    if (!admin_localidade_exists_municipio($municipio)) {
+                        $editErrors[] = 'Municipio invalido. Selecione um Municipio da lista.';
+                    }
+                } catch (Throwable $e) {
+                    admin_log_event('Erro ao validar Municipio no update_negocio: ' . $e->getMessage());
+                    $editErrors[] = 'Nao foi possivel validar o Municipio agora.';
+                }
             }
 
             $clienteId = null;
@@ -555,6 +718,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     status = :status,
                     proxima_acao = :proxima_acao,
                     motivo_perda = :motivo_perda,
+                    cep = :cep,
                     bairro = :bairro,
                     municipio = :municipio,
                     perfil = :perfil,
@@ -579,6 +743,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'status' => $status,
                 'proxima_acao' => $proximaAcao,
                 'motivo_perda' => $motivoPerda !== '' ? $motivoPerda : null,
+                'cep' => $cep !== '' ? $cep : null,
                 'bairro' => $bairro !== '' ? $bairro : null,
                 'municipio' => $municipio !== '' ? $municipio : null,
                 'perfil' => $perfil,
@@ -796,6 +961,7 @@ if ($isLogged && $currentUser) {
                 status,
                 proxima_acao,
                 motivo_perda,
+                cep,
                 bairro,
                 municipio,
                 perfil,
@@ -1410,13 +1576,21 @@ if ($isLogged && $currentUser) {
                             </div>
 
                             <div>
+                                <label for="cep">CEP</label>
+                                <input type="text" id="cep" name="cep" data-role="cep" list="ceps_datalist_create" maxlength="10" placeholder="00000-000" inputmode="numeric" autocomplete="off">
+                                <datalist id="ceps_datalist_create"></datalist>
+                            </div>
+
+                            <div>
                                 <label for="bairro">Bairro</label>
-                                <input type="text" id="bairro" name="bairro" maxlength="120">
+                                <input type="text" id="bairro" name="bairro" data-role="bairro" list="bairros_datalist_create" maxlength="120" autocomplete="off">
+                                <datalist id="bairros_datalist_create"></datalist>
                             </div>
 
                             <div>
                                 <label for="municipio">Municipio</label>
-                                <input type="text" id="municipio" name="municipio" maxlength="120">
+                                <input type="text" id="municipio" name="municipio" data-role="municipio" list="municipios_datalist_create" maxlength="120" autocomplete="off">
+                                <datalist id="municipios_datalist_create"></datalist>
                             </div>
 
                             <div>
@@ -1531,11 +1705,13 @@ if ($isLogged && $currentUser) {
                     <table class="records-table">
                         <thead>
                             <tr>
+                                <th>Acoes</th>
                                 <th>Vendedor</th>
                                 <th>Data Inicio</th>
                                 <th>Data Fim</th>
                                 <th>Origem</th>
                                 <th>Forma Contato</th>
+                                <th>CEP</th>
                                 <th>Bairro</th>
                                 <th>Municipio</th>
                                 <th>Nome</th>
@@ -1551,20 +1727,27 @@ if ($isLogged && $currentUser) {
                                 <th>Status</th>
                                 <th>Motivo Perda</th>
                                 <th>Proxima Acao</th>
-                                <th>Acoes</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!$recentDeals): ?>
-                                <tr><td colspan="21">Nenhum registro encontrado.</td></tr>
+                                <tr><td colspan="22">Nenhum registro encontrado.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($recentDeals as $deal): ?>
                                     <tr>
+                                        <td>
+                                            <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
+                                                <button type="button" class="btn-inline btn-edit" data-toggle-edit="edit-<?php echo admin_h((string)$deal['id']); ?>">Editar</button>
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?php echo admin_h((string)$deal['vendedor_nome']); ?></td>
                                         <td><?php echo admin_h((string)$deal['data_inicio']); ?></td>
                                         <td><?php echo admin_h((string)$deal['data_fim']); ?></td>
                                         <td><?php echo admin_h((string)$deal['origem']); ?></td>
                                         <td><?php echo admin_h((string)$deal['forma_contato']); ?></td>
+                                        <td><?php echo admin_h((string)$deal['cep']); ?></td>
                                         <td><?php echo admin_h((string)$deal['bairro']); ?></td>
                                         <td><?php echo admin_h((string)$deal['municipio']); ?></td>
                                         <td><?php echo admin_h((string)$deal['nome_cliente']); ?></td>
@@ -1585,17 +1768,10 @@ if ($isLogged && $currentUser) {
                                         <td><?php echo admin_h((string)$deal['status']); ?></td>
                                         <td><?php echo admin_h((string)$deal['motivo_perda']); ?></td>
                                         <td><?php echo admin_h((string)$deal['proxima_acao']); ?></td>
-                                        <td>
-                                            <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
-                                                <button type="button" class="btn-inline btn-edit" data-toggle-edit="edit-<?php echo admin_h((string)$deal['id']); ?>">Editar</button>
-                                            <?php else: ?>
-                                                -
-                                            <?php endif; ?>
-                                        </td>
                                     </tr>
                                     <?php if ((string)$deal['status'] === 'Em negociacao'): ?>
                                         <tr id="edit-<?php echo admin_h((string)$deal['id']); ?>" class="hidden">
-                                            <td colspan="21">
+                                            <td colspan="22">
                                                 <div class="inline-edit-wrap">
                                                     <form method="post" action="/admin/painel.php?sec=comercial" class="deal-form" data-mode="edit">
                                                         <input type="hidden" name="action" value="update_negocio">
@@ -1622,13 +1798,24 @@ if ($isLogged && $currentUser) {
                                                             </div>
 
                                                             <div>
+                                                                <label>CEP</label>
+                                                                <?php $cepListId = 'ceps_datalist_edit_' . (string)$deal['id']; ?>
+                                                                <input type="text" name="cep" data-role="cep" list="<?php echo admin_h($cepListId); ?>" maxlength="10" inputmode="numeric" value="<?php echo admin_h((string)$deal['cep']); ?>" autocomplete="off">
+                                                                <datalist id="<?php echo admin_h($cepListId); ?>"></datalist>
+                                                            </div>
+
+                                                            <div>
                                                                 <label>Bairro</label>
-                                                                <input type="text" name="bairro" maxlength="120" value="<?php echo admin_h((string)$deal['bairro']); ?>">
+                                                                <?php $bairroListId = 'bairros_datalist_edit_' . (string)$deal['id']; ?>
+                                                                <input type="text" name="bairro" data-role="bairro" list="<?php echo admin_h($bairroListId); ?>" maxlength="120" value="<?php echo admin_h((string)$deal['bairro']); ?>" autocomplete="off">
+                                                                <datalist id="<?php echo admin_h($bairroListId); ?>"></datalist>
                                                             </div>
 
                                                             <div>
                                                                 <label>Municipio</label>
-                                                                <input type="text" name="municipio" maxlength="120" value="<?php echo admin_h((string)$deal['municipio']); ?>">
+                                                                <?php $municipioListId = 'municipios_datalist_edit_' . (string)$deal['id']; ?>
+                                                                <input type="text" name="municipio" data-role="municipio" list="<?php echo admin_h($municipioListId); ?>" maxlength="120" value="<?php echo admin_h((string)$deal['municipio']); ?>" autocomplete="off">
+                                                                <datalist id="<?php echo admin_h($municipioListId); ?>"></datalist>
                                                             </div>
 
                                                             <div>
@@ -1927,8 +2114,35 @@ if ($isLogged && $currentUser) {
             const valorPerdidoWrap = form.querySelector('[data-role="valor-perdido-wrap"]');
             const valorPerdidoInput = form.querySelector('[data-role="valor-perdido"]');
 
+            const cepInput = form.querySelector('[data-role="cep"]');
+            const bairroInput = form.querySelector('[data-role="bairro"]');
+            const municipioInput = form.querySelector('[data-role="municipio"]');
+
             const clientMap = new Map();
+            const cepMap = new Map();
+            const bairroToMunicipioMap = new Map();
+            const municipioSet = new Set();
+
             let debounceTimer = null;
+            let bairroTimer = null;
+            let municipioTimer = null;
+            let cepTimer = null;
+
+            let cepValidated = !cepInput || String(cepInput.value || '').trim() === '';
+            let bairroValidated = !bairroInput || String(bairroInput.value || '').trim() === '';
+            let municipioValidated = !municipioInput || String(municipioInput.value || '').trim() === '';
+
+            function normalizeCepDigits(value) {
+                return String(value || '').replace(/\D/g, '');
+            }
+
+            function formatCep(value) {
+                const digits = normalizeCepDigits(value);
+                if (digits.length !== 8) {
+                    return String(value || '');
+                }
+                return digits.replace(/(\d{5})(\d{3})/, '$1-$2');
+            }
 
             function syncNome() {
                 if (!nomeHidden) {
@@ -2035,6 +2249,41 @@ if ($isLogged && $currentUser) {
                 }
             }
 
+            function applyLocalidade(cepValue, bairroValue, municipioValue, mode) {
+                if (cepInput) {
+                    cepInput.value = cepValue !== '' ? formatCep(cepValue) : '';
+                }
+                if (bairroInput) {
+                    bairroInput.value = bairroValue || '';
+                }
+                if (municipioInput) {
+                    municipioInput.value = municipioValue || '';
+                }
+
+                if (mode === 'cep') {
+                    cepValidated = true;
+                    bairroValidated = String(bairroValue || '').trim() !== '';
+                    municipioValidated = String(municipioValue || '').trim() !== '';
+                    return;
+                }
+
+                if (mode === 'bairro') {
+                    if (cepInput) {
+                        cepInput.value = '';
+                    }
+                    cepValidated = true;
+                    bairroValidated = String(bairroValue || '').trim() !== '';
+                    municipioValidated = String(municipioValue || '').trim() !== '';
+                    return;
+                }
+
+                if (mode === 'municipio') {
+                    cepValidated = !cepInput || String(cepInput.value || '').trim() === '';
+                    bairroValidated = !bairroInput || String(bairroInput.value || '').trim() === '';
+                    municipioValidated = String(municipioValue || '').trim() !== '';
+                }
+            }
+
             async function searchClientes(term) {
                 if (!nomeClientSearch) {
                     return;
@@ -2085,12 +2334,194 @@ if ($isLogged && $currentUser) {
                 }
             }
 
+            async function searchLocalidades(type, term) {
+                const minLength = type === 'cep' ? 3 : 2;
+                if (term.length < minLength) {
+                    return [];
+                }
+
+                try {
+                    const response = await fetch('/admin/localidades_search.php?type=' + encodeURIComponent(type) + '&q=' + encodeURIComponent(term));
+                    if (!response.ok) {
+                        return [];
+                    }
+                    const data = await response.json();
+                    return Array.isArray(data.items) ? data.items : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            async function searchCeps(term) {
+                if (!cepInput) {
+                    return;
+                }
+                const listId = cepInput.getAttribute('list');
+                if (!listId) {
+                    return;
+                }
+                const datalist = document.getElementById(listId);
+                if (!datalist) {
+                    return;
+                }
+
+                const queryDigits = normalizeCepDigits(term);
+                if (queryDigits.length < 3) {
+                    datalist.innerHTML = '';
+                    cepMap.clear();
+                    return;
+                }
+
+                const items = await searchLocalidades('cep', queryDigits);
+                datalist.innerHTML = '';
+                cepMap.clear();
+
+                items.forEach((item) => {
+                    const cepValue = formatCep(item.cep || '');
+                    if (cepValue === '') {
+                        return;
+                    }
+                    const bairro = String(item.bairro || '').trim();
+                    const municipio = String(item.municipio || '').trim();
+
+                    const option = document.createElement('option');
+                    option.value = cepValue;
+                    option.label = [bairro, municipio].filter(Boolean).join(' - ');
+                    datalist.appendChild(option);
+
+                    cepMap.set(cepValue, {
+                        cep: cepValue,
+                        bairro,
+                        municipio,
+                    });
+                });
+
+                const currentCep = formatCep(String(cepInput.value || '').trim());
+                cepValidated = currentCep === '' || cepMap.has(currentCep);
+            }
+
+            async function searchBairros(term) {
+                if (!bairroInput) {
+                    return;
+                }
+                const listId = bairroInput.getAttribute('list');
+                if (!listId) {
+                    return;
+                }
+                const datalist = document.getElementById(listId);
+                if (!datalist) {
+                    return;
+                }
+
+                if (term.length < 2) {
+                    datalist.innerHTML = '';
+                    bairroToMunicipioMap.clear();
+                    return;
+                }
+
+                const items = await searchLocalidades('bairro', term);
+                datalist.innerHTML = '';
+                bairroToMunicipioMap.clear();
+
+                items.forEach((item) => {
+                    const bairro = String(item.bairro || '').trim();
+                    const municipio = String(item.municipio || '').trim();
+                    if (bairro === '') {
+                        return;
+                    }
+
+                    const option = document.createElement('option');
+                    option.value = bairro;
+                    option.label = municipio !== '' ? municipio : 'Municipio nao informado';
+                    datalist.appendChild(option);
+
+                    if (municipio !== '') {
+                        bairroToMunicipioMap.set(bairro.toLowerCase(), municipio);
+                    }
+                });
+
+                const currentBairro = String(bairroInput.value || '').trim().toLowerCase();
+                if (currentBairro !== '' && bairroToMunicipioMap.has(currentBairro)) {
+                    bairroValidated = true;
+                    if (municipioInput && String(municipioInput.value || '').trim() === '') {
+                        municipioInput.value = bairroToMunicipioMap.get(currentBairro) || '';
+                    }
+                }
+            }
+
+            async function searchMunicipios(term) {
+                if (!municipioInput) {
+                    return;
+                }
+                const listId = municipioInput.getAttribute('list');
+                if (!listId) {
+                    return;
+                }
+                const datalist = document.getElementById(listId);
+                if (!datalist) {
+                    return;
+                }
+
+                if (term.length < 2) {
+                    datalist.innerHTML = '';
+                    municipioSet.clear();
+                    return;
+                }
+
+                const items = await searchLocalidades('municipio', term);
+                datalist.innerHTML = '';
+                municipioSet.clear();
+
+                items.forEach((item) => {
+                    const municipio = String(item.municipio || '').trim();
+                    if (municipio === '') {
+                        return;
+                    }
+                    const option = document.createElement('option');
+                    option.value = municipio;
+                    datalist.appendChild(option);
+                    municipioSet.add(municipio.toLowerCase());
+                });
+
+                const currentMunicipio = String(municipioInput.value || '').trim().toLowerCase();
+                municipioValidated = currentMunicipio === '' || municipioSet.has(currentMunicipio);
+            }
+
+            async function lookupCepInBackend(cepRaw) {
+                const cepDigits = normalizeCepDigits(cepRaw);
+                if (cepDigits.length !== 8) {
+                    return null;
+                }
+
+                try {
+                    const response = await fetch('/admin/cep_lookup.php?cep=' + encodeURIComponent(cepDigits));
+                    if (!response.ok) {
+                        return null;
+                    }
+                    const data = await response.json();
+                    const item = data && data.item ? data.item : null;
+                    if (!item) {
+                        return null;
+                    }
+
+                    return {
+                        cep: formatCep(item.cep || cepDigits),
+                        bairro: String(item.bairro || '').trim(),
+                        municipio: String(item.municipio || '').trim(),
+                    };
+                } catch (e) {
+                    return null;
+                }
+            }
+
             if (origem) {
                 origem.addEventListener('change', refreshNomeMode);
             }
+
             if (nomeText) {
                 nomeText.addEventListener('input', syncNome);
             }
+
             if (nomeClientSearch) {
                 nomeClientSearch.addEventListener('input', function () {
                     syncNome();
@@ -2111,6 +2542,81 @@ if ($isLogged && $currentUser) {
                 });
             }
 
+            if (cepInput) {
+                cepInput.addEventListener('input', function () {
+                    cepValidated = String(cepInput.value || '').trim() === '';
+                    clearTimeout(cepTimer);
+                    cepTimer = setTimeout(function () {
+                        searchCeps(String(cepInput.value || '').trim());
+                    }, 250);
+                });
+
+                cepInput.addEventListener('change', async function () {
+                    const typed = formatCep(String(cepInput.value || '').trim());
+                    if (typed !== '') {
+                        cepInput.value = typed;
+                    }
+
+                    const cached = cepMap.get(typed);
+                    if (cached) {
+                        applyLocalidade(cached.cep, cached.bairro, cached.municipio, 'cep');
+                        return;
+                    }
+
+                    const item = await lookupCepInBackend(typed);
+                    if (item) {
+                        applyLocalidade(item.cep, item.bairro, item.municipio, 'cep');
+                        return;
+                    }
+
+                    cepValidated = String(cepInput.value || '').trim() === '';
+                });
+            }
+
+            if (bairroInput) {
+                bairroInput.addEventListener('input', function () {
+                    bairroValidated = String(bairroInput.value || '').trim() === '';
+                    if (cepInput) {
+                        cepInput.value = '';
+                    }
+                    cepValidated = true;
+
+                    clearTimeout(bairroTimer);
+                    bairroTimer = setTimeout(function () {
+                        searchBairros(String(bairroInput.value || '').trim());
+                    }, 250);
+                });
+
+                bairroInput.addEventListener('change', function () {
+                    const selectedMunicipio = bairroToMunicipioMap.get(String(bairroInput.value || '').trim().toLowerCase()) || '';
+                    if (selectedMunicipio !== '') {
+                        applyLocalidade('', String(bairroInput.value || '').trim(), selectedMunicipio, 'bairro');
+                        return;
+                    }
+                    bairroValidated = String(bairroInput.value || '').trim() === '';
+                });
+            }
+
+            if (municipioInput) {
+                municipioInput.addEventListener('input', function () {
+                    municipioValidated = String(municipioInput.value || '').trim() === '';
+
+                    clearTimeout(municipioTimer);
+                    municipioTimer = setTimeout(function () {
+                        searchMunicipios(String(municipioInput.value || '').trim());
+                    }, 250);
+                });
+
+                municipioInput.addEventListener('change', function () {
+                    const typed = String(municipioInput.value || '').trim().toLowerCase();
+                    if (typed !== '' && municipioSet.has(typed)) {
+                        municipioValidated = true;
+                        return;
+                    }
+                    municipioValidated = String(municipioInput.value || '').trim() === '';
+                });
+            }
+
             if (totalCacambas) {
                 totalCacambas.addEventListener('input', refreshValorPorCacamba);
             }
@@ -2124,6 +2630,7 @@ if ($isLogged && $currentUser) {
 
             form.addEventListener('submit', function (event) {
                 syncNome();
+
                 if (origem && origem.value === 'Cliente' && clienteIdHidden && clienteIdHidden.value === '') {
                     event.preventDefault();
                     alert('Selecione um cliente valido na lista para a origem Cliente.');
@@ -2135,6 +2642,23 @@ if ($isLogged && $currentUser) {
                     alert('Informe o nome do cliente.');
                     return;
                 }
+
+                if (bairroInput && String(bairroInput.value || '').trim() !== '' && !bairroValidated) {
+                    event.preventDefault();
+                    alert('Selecione um Bairro valido na lista.');
+                    return;
+                }
+
+                if (municipioInput && String(municipioInput.value || '').trim() !== '' && !municipioValidated) {
+                    event.preventDefault();
+                    alert('Selecione um Municipio valido na lista.');
+                    return;
+                }
+
+                if (cepInput && String(cepInput.value || '').trim() !== '' && !cepValidated) {
+                    event.preventDefault();
+                    alert('Informe um CEP valido para preencher localidade.');
+                }
             });
 
             refreshNomeMode();
@@ -2144,6 +2668,16 @@ if ($isLogged && $currentUser) {
 
             if (origem && origem.value === 'Cliente' && nomeClientSearch && nomeClientSearch.value.trim().length >= 2) {
                 searchClientes(nomeClientSearch.value.trim());
+            }
+
+            if (cepInput && normalizeCepDigits(cepInput.value).length >= 3) {
+                searchCeps(cepInput.value);
+            }
+            if (bairroInput && String(bairroInput.value || '').trim().length >= 2) {
+                searchBairros(String(bairroInput.value || '').trim());
+            }
+            if (municipioInput && String(municipioInput.value || '').trim().length >= 2) {
+                searchMunicipios(String(municipioInput.value || '').trim());
             }
         }
 
