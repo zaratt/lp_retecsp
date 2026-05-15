@@ -286,7 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $formErrors[] = 'Valor perdido invalido.';
         }
 
-        if ($status !== 'Venda Perdida') {
+        if (!in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
             $valorPerdido = 0.0;
         }
 
@@ -477,7 +477,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($valorPerdido === null || $valorPerdido < 0) {
                 $editErrors[] = 'Valor perdido invalido.';
             }
-            if ($status !== 'Venda Perdida') {
+            if (!in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
                 $valorPerdido = 0.0;
             }
 
@@ -874,6 +874,15 @@ if ($isLogged && $currentUser) {
             background: #f1f5f9;
         }
 
+        .money-loss-highlight {
+            background: #fff1f2;
+            color: #9f1239;
+            font-weight: 700;
+            border-radius: 6px;
+            display: inline-block;
+            padding: 2px 6px;
+        }
+
         @media (max-width: 1200px) {
             .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1126,9 +1135,9 @@ if ($isLogged && $currentUser) {
                                 <input type="text" id="valor_por_cacamba" data-role="valor-por-cacamba" class="money-readonly" inputmode="decimal" placeholder="0,00" readonly>
                             </div>
 
-                            <div>
+                            <div data-role="valor-perdido-wrap" class="hidden">
                                 <label for="valor_perdido">Valor perdido (R$)</label>
-                                <input type="text" id="valor_perdido" name="valor_perdido" inputmode="decimal" placeholder="0,00" required>
+                                <input type="text" id="valor_perdido" name="valor_perdido" data-role="valor-perdido" inputmode="decimal" placeholder="0,00">
                             </div>
 
                             <div class="span-4">
@@ -1218,7 +1227,12 @@ if ($isLogged && $currentUser) {
                                         <td><?php echo admin_h((string)$deal['total_cacambas']); ?></td>
                                         <td>R$ <?php echo admin_h(number_format((float)$deal['valor_total'], 2, ',', '.')); ?></td>
                                         <td>R$ <?php echo admin_h(number_format((float)$deal['valor_por_cacamba'], 2, ',', '.')); ?></td>
-                                        <td>R$ <?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?></td>
+                                        <td>
+                                            <?php $hasValorPerdido = ((float)$deal['valor_perdido']) > 0; ?>
+                                            <span class="<?php echo $hasValorPerdido ? 'money-loss-highlight' : ''; ?>">
+                                                R$ <?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?>
+                                            </span>
+                                        </td>
                                         <td><?php echo admin_h((string)$deal['observacao']); ?></td>
                                         <td><?php echo admin_h((string)$deal['status']); ?></td>
                                         <td><?php echo admin_h((string)$deal['motivo_perda']); ?></td>
@@ -1323,9 +1337,9 @@ if ($isLogged && $currentUser) {
                                                                 <input type="text" data-role="valor-por-cacamba" class="money-readonly" value="<?php echo admin_h(number_format((float)$deal['valor_por_cacamba'], 2, ',', '.')); ?>" readonly>
                                                             </div>
 
-                                                            <div>
+                                                            <div data-role="valor-perdido-wrap" class="hidden">
                                                                 <label>Valor perdido (R$)</label>
-                                                                <input type="text" name="valor_perdido" inputmode="decimal" value="<?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?>" required>
+                                                                <input type="text" name="valor_perdido" data-role="valor-perdido" inputmode="decimal" value="<?php echo admin_h(number_format((float)$deal['valor_perdido'], 2, ',', '.')); ?>">
                                                             </div>
 
                                                             <div class="span-4">
@@ -1425,6 +1439,8 @@ if ($isLogged && $currentUser) {
             const proximaWrap = form.querySelector('[data-role="proxima-wrap"]');
             const motivoPerda = form.querySelector('[data-role="motivo-perda"]');
             const proximaAcao = form.querySelector('[data-role="proxima-acao"]');
+            const valorPerdidoWrap = form.querySelector('[data-role="valor-perdido-wrap"]');
+            const valorPerdidoInput = form.querySelector('[data-role="valor-perdido"]');
 
             const clientMap = new Map();
             let debounceTimer = null;
@@ -1478,12 +1494,28 @@ if ($isLogged && $currentUser) {
                     if (motivoWrap) motivoWrap.classList.remove('hidden');
                     if (proximaWrap) proximaWrap.classList.remove('hidden');
                     if (motivoPerda) motivoPerda.required = true;
-                } else if (value === 'Em negociacao' || value === 'Venda Realizada' || value === 'Venda Cancelada') {
+                    if (valorPerdidoWrap) valorPerdidoWrap.classList.remove('hidden');
+                    if (valorPerdidoInput) valorPerdidoInput.required = true;
+                } else if (value === 'Venda Cancelada') {
                     if (motivoWrap) motivoWrap.classList.add('hidden');
                     if (proximaWrap) proximaWrap.classList.remove('hidden');
                     if (motivoPerda) {
                         motivoPerda.required = false;
                         motivoPerda.value = '';
+                    }
+                    if (valorPerdidoWrap) valorPerdidoWrap.classList.remove('hidden');
+                    if (valorPerdidoInput) valorPerdidoInput.required = true;
+                } else if (value === 'Em negociacao' || value === 'Venda Realizada') {
+                    if (motivoWrap) motivoWrap.classList.add('hidden');
+                    if (proximaWrap) proximaWrap.classList.remove('hidden');
+                    if (motivoPerda) {
+                        motivoPerda.required = false;
+                        motivoPerda.value = '';
+                    }
+                    if (valorPerdidoWrap) valorPerdidoWrap.classList.add('hidden');
+                    if (valorPerdidoInput) {
+                        valorPerdidoInput.required = false;
+                        valorPerdidoInput.value = '0,00';
                     }
                 } else {
                     if (motivoWrap) motivoWrap.classList.add('hidden');
@@ -1491,6 +1523,11 @@ if ($isLogged && $currentUser) {
                     if (motivoPerda) {
                         motivoPerda.required = false;
                         motivoPerda.value = '';
+                    }
+                    if (valorPerdidoWrap) valorPerdidoWrap.classList.add('hidden');
+                    if (valorPerdidoInput) {
+                        valorPerdidoInput.required = false;
+                        valorPerdidoInput.value = '0,00';
                     }
                 }
 
