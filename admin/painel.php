@@ -58,6 +58,49 @@ function admin_data_fim_por_status(string $status): ?string
     return null;
 }
 
+function admin_dashboard_range(string $periodo): array
+{
+    $today = new DateTimeImmutable('today');
+    $year = (int)$today->format('Y');
+    $month = (int)$today->format('n');
+
+    if ($periodo === 'anual') {
+        return [
+            'inicio' => sprintf('%04d-01-01', $year),
+            'fim' => sprintf('%04d-12-31', $year),
+            'label' => 'Anual',
+        ];
+    }
+
+    if ($periodo === 'semestral') {
+        $isSecondSemester = $month >= 7;
+        return [
+            'inicio' => sprintf('%04d-%02d-01', $year, $isSecondSemester ? 7 : 1),
+            'fim' => sprintf('%04d-%02d-%02d', $year, $isSecondSemester ? 12 : 6, $isSecondSemester ? 31 : 30),
+            'label' => 'Semestral',
+        ];
+    }
+
+    if ($periodo === 'trimestral') {
+        $quarterStartMonth = (int)(floor(($month - 1) / 3) * 3) + 1;
+        $start = new DateTimeImmutable(sprintf('%04d-%02d-01', $year, $quarterStartMonth));
+        $end = $start->modify('+2 months')->modify('last day of this month');
+        return [
+            'inicio' => $start->format('Y-m-d'),
+            'fim' => $end->format('Y-m-d'),
+            'label' => 'Trimestral',
+        ];
+    }
+
+    $start = new DateTimeImmutable($today->format('Y-m-01'));
+    $end = $start->modify('last day of this month');
+    return [
+        'inicio' => $start->format('Y-m-d'),
+        'fim' => $end->format('Y-m-d'),
+        'label' => 'Mensal',
+    ];
+}
+
 $section = (string)($_GET['sec'] ?? 'dashboard');
 if (!in_array($section, ['dashboard', 'comercial', 'clientes'], true)) {
     $section = 'dashboard';
@@ -286,7 +329,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $formErrors[] = 'Valor perdido invalido.';
         }
 
-        if (!in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
+        if (in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
+            $valorPerdido = $valorTotal ?? 0.0;
+        } else {
             $valorPerdido = 0.0;
         }
 
@@ -477,7 +522,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($valorPerdido === null || $valorPerdido < 0) {
                 $editErrors[] = 'Valor perdido invalido.';
             }
-            if (!in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
+            if (in_array($status, ['Venda Perdida', 'Venda Cancelada'], true)) {
+                $valorPerdido = $valorTotal ?? 0.0;
+            } else {
                 $valorPerdido = 0.0;
             }
 
@@ -568,15 +615,40 @@ if ($isLogged && $currentUser && !admin_can_access($currentUser, $section)) {
 
 $flash = admin_get_flash();
 
+$dashboardPeriodo = (string)($_GET['periodo'] ?? 'mensal');
+if (!in_array($dashboardPeriodo, ['mensal', 'trimestral', 'semestral', 'anual'], true)) {
+    $dashboardPeriodo = 'mensal';
+}
+$dashboardRange = admin_dashboard_range($dashboardPeriodo);
+
 $dashboard = [
     'total_negocios' => 0,
     'total_cacambas' => 0,
     'valor_total' => 0,
-    'valor_perdido' => 0,
     'em_negociacao' => 0,
     'venda_realizada' => 0,
     'venda_perdida' => 0,
     'venda_cancelada' => 0,
+    'valor_total_realizada' => 0,
+    'cacambas_realizada' => 0,
+    'valor_total_perdida' => 0,
+    'cacambas_perdida' => 0,
+    'valor_total_cancelada' => 0,
+    'cacambas_cancelada' => 0,
+];
+
+$financeiro = [
+    'realizadas_total' => 0.0,
+    'realizadas_media' => 0.0,
+    'perdidas_total' => 0.0,
+    'perdidas_media' => 0.0,
+    'canceladas_total' => 0.0,
+    'canceladas_media' => 0.0,
+];
+
+$operacional = [
+    'forma_contato' => [],
+    'origem' => [],
 ];
 
 $recentDeals = [];
@@ -584,11 +656,25 @@ $clientes = [];
 
 if ($isLogged && $currentUser) {
     try {
-        $whereClause = '';
-        $queryParams = [];
+        $dashboardWhere = [
+            'data_inicio >= :dash_inicio',
+            'data_inicio <= :dash_fim',
+        ];
+        $dashboardParams = [
+            'dash_inicio' => $dashboardRange['inicio'],
+            'dash_fim' => $dashboardRange['fim'],
+        ];
         if (!admin_is_admin($currentUser)) {
-            $whereClause = ' WHERE vendedor_id = :vendedor_id ';
-            $queryParams['vendedor_id'] = (int)$currentUser['id'];
+            $dashboardWhere[] = 'vendedor_id = :dash_vendedor_id';
+            $dashboardParams['dash_vendedor_id'] = (int)$currentUser['id'];
+        }
+        $dashboardWhereClause = ' WHERE ' . implode(' AND ', $dashboardWhere) . ' ';
+
+        $recentWhereClause = '';
+        $recentQueryParams = [];
+        if (!admin_is_admin($currentUser)) {
+            $recentWhereClause = ' WHERE vendedor_id = :vendedor_id ';
+            $recentQueryParams['vendedor_id'] = (int)$currentUser['id'];
         }
 
         $stmtDash = admin_db()->prepare(
@@ -596,17 +682,59 @@ if ($isLogged && $currentUser) {
                 COUNT(*) AS total_negocios,
                 COALESCE(SUM(total_cacambas), 0) AS total_cacambas,
                 COALESCE(SUM(valor_total), 0) AS valor_total,
-                COALESCE(SUM(valor_perdido), 0) AS valor_perdido,
                 SUM(CASE WHEN status = "Em negociacao" THEN 1 ELSE 0 END) AS em_negociacao,
                 SUM(CASE WHEN status = "Venda Realizada" THEN 1 ELSE 0 END) AS venda_realizada,
                 SUM(CASE WHEN status = "Venda Perdida" THEN 1 ELSE 0 END) AS venda_perdida,
-                SUM(CASE WHEN status = "Venda Cancelada" THEN 1 ELSE 0 END) AS venda_cancelada
-            FROM negocios_comerciais' . $whereClause
+                SUM(CASE WHEN status = "Venda Cancelada" THEN 1 ELSE 0 END) AS venda_cancelada,
+                COALESCE(SUM(CASE WHEN status = "Venda Realizada" THEN valor_total ELSE 0 END), 0) AS valor_total_realizada,
+                COALESCE(SUM(CASE WHEN status = "Venda Realizada" THEN total_cacambas ELSE 0 END), 0) AS cacambas_realizada,
+                COALESCE(SUM(CASE WHEN status = "Venda Perdida" THEN valor_total ELSE 0 END), 0) AS valor_total_perdida,
+                COALESCE(SUM(CASE WHEN status = "Venda Perdida" THEN total_cacambas ELSE 0 END), 0) AS cacambas_perdida,
+                COALESCE(SUM(CASE WHEN status = "Venda Cancelada" THEN valor_total ELSE 0 END), 0) AS valor_total_cancelada,
+                COALESCE(SUM(CASE WHEN status = "Venda Cancelada" THEN total_cacambas ELSE 0 END), 0) AS cacambas_cancelada
+            FROM negocios_comerciais' . $dashboardWhereClause
         );
-        $stmtDash->execute($queryParams);
+        $stmtDash->execute($dashboardParams);
         $dashData = $stmtDash->fetch();
         if (is_array($dashData)) {
             $dashboard = array_merge($dashboard, $dashData);
+        }
+
+        $financeiro['realizadas_total'] = (float)$dashboard['valor_total_realizada'];
+        $financeiro['realizadas_media'] = ((float)$dashboard['cacambas_realizada'] > 0)
+            ? round(((float)$dashboard['valor_total_realizada'] / (float)$dashboard['cacambas_realizada']), 2)
+            : 0.0;
+
+        $financeiro['perdidas_total'] = (float)$dashboard['valor_total_perdida'];
+        $financeiro['perdidas_media'] = ((float)$dashboard['cacambas_perdida'] > 0)
+            ? round(((float)$dashboard['valor_total_perdida'] / (float)$dashboard['cacambas_perdida']), 2)
+            : 0.0;
+
+        $financeiro['canceladas_total'] = (float)$dashboard['valor_total_cancelada'];
+        $financeiro['canceladas_media'] = ((float)$dashboard['cacambas_cancelada'] > 0)
+            ? round(((float)$dashboard['valor_total_cancelada'] / (float)$dashboard['cacambas_cancelada']), 2)
+            : 0.0;
+
+        $stmtFormaContato = admin_db()->prepare(
+            'SELECT forma_contato, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . '
+             GROUP BY forma_contato
+             ORDER BY total DESC'
+        );
+        $stmtFormaContato->execute($dashboardParams);
+        foreach ($stmtFormaContato->fetchAll() as $row) {
+            $operacional['forma_contato'][(string)$row['forma_contato']] = (int)$row['total'];
+        }
+
+        $stmtOrigem = admin_db()->prepare(
+            'SELECT origem, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . '
+             GROUP BY origem
+             ORDER BY total DESC'
+        );
+        $stmtOrigem->execute($dashboardParams);
+        foreach ($stmtOrigem->fetchAll() as $row) {
+            $operacional['origem'][(string)$row['origem']] = (int)$row['total'];
         }
 
         $stmtRecent = admin_db()->prepare(
@@ -634,11 +762,11 @@ if ($isLogged && $currentUser) {
                 valor_perdido,
                 observacao,
                 created_at
-            FROM negocios_comerciais ' . $whereClause . '
+            FROM negocios_comerciais ' . $recentWhereClause . '
             ORDER BY id DESC
             LIMIT 12'
         );
-        $stmtRecent->execute($queryParams);
+        $stmtRecent->execute($recentQueryParams);
         $recentDeals = $stmtRecent->fetchAll();
 
         if (admin_is_admin($currentUser)) {
@@ -811,6 +939,37 @@ if ($isLogged && $currentUser) {
             font-size: 1.08rem;
         }
 
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .filter-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f7fafc;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+
+        .filter-inline label {
+            margin: 0;
+            font-size: 0.82rem;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .filter-inline select {
+            min-width: 160px;
+            padding: 7px 9px;
+        }
+
         .form-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -883,16 +1042,51 @@ if ($isLogged && $currentUser) {
             padding: 2px 6px;
         }
 
+        .cards-finance {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 10px;
+        }
+
+        .chart-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 10px;
+        }
+
+        .chart-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px;
+            background: #fff;
+        }
+
+        .chart-title {
+            margin: 0 0 10px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .chart-wrap {
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
         @media (max-width: 1200px) {
             .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .span-4 { grid-column: span 2; }
+            .cards-finance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
         @media (max-width: 640px) {
             .cards { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
             .span-2, .span-3, .span-4 { grid-column: span 1; }
+            .cards-finance { grid-template-columns: 1fr; }
+            .chart-grid { grid-template-columns: 1fr; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
         }
     </style>
@@ -954,12 +1148,25 @@ if ($isLogged && $currentUser) {
                 <?php if ($accessDenied): ?>
                     <div class="alert error">Seu perfil nao possui acesso para a secao <?php echo admin_h($section); ?>.</div>
                 <?php elseif ($section === 'dashboard'): ?>
-                    <h2 class="section-title">Dashboard</h2>
+                    <div class="section-head">
+                        <h2 class="section-title">Dashboard</h2>
+                        <form method="get" class="filter-inline">
+                            <input type="hidden" name="sec" value="dashboard">
+                            <label for="periodo">Filtro</label>
+                            <select id="periodo" name="periodo" onchange="this.form.submit()">
+                                <option value="mensal" <?php echo $dashboardPeriodo === 'mensal' ? 'selected' : ''; ?>>Mensal</option>
+                                <option value="trimestral" <?php echo $dashboardPeriodo === 'trimestral' ? 'selected' : ''; ?>>Trimestral</option>
+                                <option value="semestral" <?php echo $dashboardPeriodo === 'semestral' ? 'selected' : ''; ?>>Semestral</option>
+                                <option value="anual" <?php echo $dashboardPeriodo === 'anual' ? 'selected' : ''; ?>>Anual</option>
+                            </select>
+                        </form>
+                    </div>
+                    <p class="hint">Periodo aplicado: <?php echo admin_h((string)$dashboardRange['label']); ?> (<?php echo admin_h((string)$dashboardRange['inicio']); ?> ate <?php echo admin_h((string)$dashboardRange['fim']); ?>)</p>
+
                     <div class="cards">
                         <div class="card primary"><span class="k">Total negocios</span><div class="v"><?php echo admin_h((string)$dashboard['total_negocios']); ?></div></div>
                         <div class="card green"><span class="k">Total cacambas</span><div class="v"><?php echo admin_h((string)$dashboard['total_cacambas']); ?></div></div>
-                        <div class="card yellow"><span class="k">Valor total (R$)</span><div class="v"><?php echo admin_h(number_format((float)$dashboard['valor_total'], 2, ',', '.')); ?></div></div>
-                        <div class="card red"><span class="k">Valor perdido (R$)</span><div class="v"><?php echo admin_h(number_format((float)$dashboard['valor_perdido'], 2, ',', '.')); ?></div></div>
+                        <div class="card yellow"><span class="k">Valor total Cacambas</span><div class="v"><?php echo admin_h(number_format((float)$dashboard['valor_total'], 2, ',', '.')); ?></div></div>
                     </div>
 
                     <div class="cards">
@@ -967,6 +1174,30 @@ if ($isLogged && $currentUser) {
                         <div class="card"><span class="k">Venda realizada</span><div class="v"><?php echo admin_h((string)$dashboard['venda_realizada']); ?></div></div>
                         <div class="card"><span class="k">Venda perdida</span><div class="v"><?php echo admin_h((string)$dashboard['venda_perdida']); ?></div></div>
                         <div class="card"><span class="k">Venda cancelada</span><div class="v"><?php echo admin_h((string)$dashboard['venda_cancelada']); ?></div></div>
+                    </div>
+
+                    <h3 class="section-title" style="margin-top: 18px;">Financeiro</h3>
+                    <div class="cards-finance">
+                        <div class="card green"><span class="k">Vendas Realizadas - Total (R$)</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['realizadas_total'], 2, ',', '.')); ?></div></div>
+                        <div class="card"><span class="k">Valor Medio (Realizadas) - R$</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['realizadas_media'], 2, ',', '.')); ?></div></div>
+
+                        <div class="card red"><span class="k">Vendas Perdidas - Total (R$)</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['perdidas_total'], 2, ',', '.')); ?></div></div>
+                        <div class="card"><span class="k">Valor Medio (Perdido) - R$</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['perdidas_media'], 2, ',', '.')); ?></div></div>
+
+                        <div class="card yellow"><span class="k">Vendas Canceladas - Total (R$)</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['canceladas_total'], 2, ',', '.')); ?></div></div>
+                        <div class="card"><span class="k">Valor Medio (Cancelado) - R$</span><div class="v"><?php echo admin_h(number_format((float)$financeiro['canceladas_media'], 2, ',', '.')); ?></div></div>
+                    </div>
+
+                    <h3 class="section-title" style="margin-top: 18px;">Operacional</h3>
+                    <div class="chart-grid">
+                        <div class="chart-card">
+                            <h4 class="chart-title">Forma de Contato (quantidades)</h4>
+                            <div class="chart-wrap"><canvas id="chartFormaContato"></canvas></div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 class="chart-title">Origem (quantidades)</h4>
+                            <div class="chart-wrap"><canvas id="chartOrigem"></canvas></div>
+                        </div>
                     </div>
                 <?php elseif ($section === 'clientes'): ?>
                     <h2 class="section-title">Clientes</h2>
@@ -1394,7 +1625,55 @@ if ($isLogged && $currentUser) {
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script>
+        const dashboardSectionActive = <?php echo ($section === 'dashboard') ? 'true' : 'false'; ?>;
+        const dashboardFormaContatoData = <?php echo json_encode($operacional['forma_contato'], JSON_UNESCAPED_UNICODE); ?>;
+        const dashboardOrigemData = <?php echo json_encode($operacional['origem'], JSON_UNESCAPED_UNICODE); ?>;
+
+        function renderDashboardDonut(canvasId, rawData) {
+            if (!dashboardSectionActive || typeof Chart === 'undefined') {
+                return;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                return;
+            }
+
+            let labels = Object.keys(rawData || {});
+            let values = Object.values(rawData || {}).map((value) => Number(value || 0));
+            if (!labels.length) {
+                labels = ['Sem dados'];
+                values = [1];
+            }
+
+            const palette = ['#0ea5e9', '#22c55e', '#f97316', '#a855f7', '#eab308', '#ef4444', '#14b8a6', '#64748b'];
+
+            new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: labels.map((_, index) => palette[index % palette.length]),
+                        borderWidth: 1,
+                        borderColor: '#ffffff',
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    cutout: '62%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+        }
+
         function parseMoney(value) {
             if (!value) {
                 return 0;
@@ -1481,6 +1760,10 @@ if ($isLogged && $currentUser) {
                 const total = parseMoney(valorTotal.value || '0');
                 const calc = qtd > 0 ? (total / qtd) : 0;
                 valorPorCacamba.value = formatMoney(calc);
+
+                if (status && valorPerdidoInput && (status.value === 'Venda Perdida' || status.value === 'Venda Cancelada')) {
+                    valorPerdidoInput.value = formatMoney(total);
+                }
             }
 
             function refreshStatusRules() {
@@ -1495,7 +1778,11 @@ if ($isLogged && $currentUser) {
                     if (proximaWrap) proximaWrap.classList.remove('hidden');
                     if (motivoPerda) motivoPerda.required = true;
                     if (valorPerdidoWrap) valorPerdidoWrap.classList.remove('hidden');
-                    if (valorPerdidoInput) valorPerdidoInput.required = true;
+                    if (valorPerdidoInput) {
+                        valorPerdidoInput.required = true;
+                        valorPerdidoInput.readOnly = true;
+                        valorPerdidoInput.value = formatMoney(parseMoney(valorTotal ? valorTotal.value : '0'));
+                    }
                 } else if (value === 'Venda Cancelada') {
                     if (motivoWrap) motivoWrap.classList.add('hidden');
                     if (proximaWrap) proximaWrap.classList.remove('hidden');
@@ -1504,7 +1791,11 @@ if ($isLogged && $currentUser) {
                         motivoPerda.value = '';
                     }
                     if (valorPerdidoWrap) valorPerdidoWrap.classList.remove('hidden');
-                    if (valorPerdidoInput) valorPerdidoInput.required = true;
+                    if (valorPerdidoInput) {
+                        valorPerdidoInput.required = true;
+                        valorPerdidoInput.readOnly = true;
+                        valorPerdidoInput.value = formatMoney(parseMoney(valorTotal ? valorTotal.value : '0'));
+                    }
                 } else if (value === 'Em negociacao' || value === 'Venda Realizada') {
                     if (motivoWrap) motivoWrap.classList.add('hidden');
                     if (proximaWrap) proximaWrap.classList.remove('hidden');
@@ -1515,6 +1806,7 @@ if ($isLogged && $currentUser) {
                     if (valorPerdidoWrap) valorPerdidoWrap.classList.add('hidden');
                     if (valorPerdidoInput) {
                         valorPerdidoInput.required = false;
+                        valorPerdidoInput.readOnly = false;
                         valorPerdidoInput.value = '0,00';
                     }
                 } else {
@@ -1527,6 +1819,7 @@ if ($isLogged && $currentUser) {
                     if (valorPerdidoWrap) valorPerdidoWrap.classList.add('hidden');
                     if (valorPerdidoInput) {
                         valorPerdidoInput.required = false;
+                        valorPerdidoInput.readOnly = false;
                         valorPerdidoInput.value = '0,00';
                     }
                 }
@@ -1663,6 +1956,9 @@ if ($isLogged && $currentUser) {
                 row.classList.toggle('hidden');
             });
         });
+
+        renderDashboardDonut('chartFormaContato', dashboardFormaContatoData);
+        renderDashboardDonut('chartOrigem', dashboardOrigemData);
     </script>
 </body>
 </html>
