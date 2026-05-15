@@ -1043,6 +1043,42 @@ if ($isLogged && $currentUser) {
         }
         th { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
 
+        .records-table-wrap {
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 420px;
+            background: #fff;
+            margin-top: 12px;
+        }
+
+        .records-table {
+            margin-top: 0;
+            min-width: 2200px;
+        }
+
+        .records-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            background: #fff;
+        }
+
+        .records-table th:first-child,
+        .records-table td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #fff;
+        }
+
+        .records-table thead th:first-child {
+            z-index: 4;
+        }
+
         .hint {
             color: var(--muted);
             font-size: 0.82rem;
@@ -1148,6 +1184,7 @@ if ($isLogged && $currentUser) {
             .chart-grid { grid-template-columns: 1fr; }
             .chart-card-wide { grid-column: span 1; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
+            .records-table-wrap .records-table { display: table; white-space: nowrap; }
         }
     </style>
 </head>
@@ -1490,12 +1527,13 @@ if ($isLogged && $currentUser) {
                     </form>
 
                     <h3 class="section-title" style="margin-top:22px;">Ultimos registros</h3>
-                    <table>
+                    <div class="records-table-wrap">
+                    <table class="records-table">
                         <thead>
                             <tr>
+                                <th>Vendedor</th>
                                 <th>Data Inicio</th>
                                 <th>Data Fim</th>
-                                <th>Vendedor</th>
                                 <th>Origem</th>
                                 <th>Forma Contato</th>
                                 <th>Bairro</th>
@@ -1522,9 +1560,9 @@ if ($isLogged && $currentUser) {
                             <?php else: ?>
                                 <?php foreach ($recentDeals as $deal): ?>
                                     <tr>
+                                        <td><?php echo admin_h((string)$deal['vendedor_nome']); ?></td>
                                         <td><?php echo admin_h((string)$deal['data_inicio']); ?></td>
                                         <td><?php echo admin_h((string)$deal['data_fim']); ?></td>
-                                        <td><?php echo admin_h((string)$deal['vendedor_nome']); ?></td>
                                         <td><?php echo admin_h((string)$deal['origem']); ?></td>
                                         <td><?php echo admin_h((string)$deal['forma_contato']); ?></td>
                                         <td><?php echo admin_h((string)$deal['bairro']); ?></td>
@@ -1704,6 +1742,7 @@ if ($isLogged && $currentUser) {
                             <?php endif; ?>
                         </tbody>
                     </table>
+                    </div>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
