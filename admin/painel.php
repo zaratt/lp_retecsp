@@ -797,6 +797,11 @@ if (!in_array($dashboardPeriodo, ['mensal', 'trimestral', 'semestral', 'anual'],
 }
 $dashboardRange = admin_dashboard_range($dashboardPeriodo);
 
+$comercialStatusFiltro = trim((string)($_GET['filtro_status'] ?? ''));
+if ($comercialStatusFiltro !== '' && !in_array($comercialStatusFiltro, RETEC_STATUS, true)) {
+    $comercialStatusFiltro = '';
+}
+
 $dashboard = [
     'total_negocios' => 0,
     'total_cacambas' => 0,
@@ -828,6 +833,8 @@ $operacional = [
     'motivo_perda' => [],
     'perfil' => [],
     'servico' => [],
+    'mensal_status' => [],
+    'bairro_status' => [],
 ];
 
 $recentDeals = [];
@@ -849,12 +856,17 @@ if ($isLogged && $currentUser) {
         }
         $dashboardWhereClause = ' WHERE ' . implode(' AND ', $dashboardWhere) . ' ';
 
-        $recentWhereClause = '';
+        $recentWhereParts = [];
         $recentQueryParams = [];
         if (!admin_is_admin($currentUser)) {
-            $recentWhereClause = ' WHERE vendedor_id = :vendedor_id ';
+            $recentWhereParts[] = 'vendedor_id = :vendedor_id';
             $recentQueryParams['vendedor_id'] = (int)$currentUser['id'];
         }
+        if ($section === 'comercial' && $comercialStatusFiltro !== '') {
+            $recentWhereParts[] = 'status = :recent_status';
+            $recentQueryParams['recent_status'] = $comercialStatusFiltro;
+        }
+        $recentWhereClause = $recentWhereParts ? (' WHERE ' . implode(' AND ', $recentWhereParts) . ' ') : '';
 
         $stmtDash = admin_db()->prepare(
             'SELECT
@@ -947,6 +959,48 @@ if ($isLogged && $currentUser) {
         $stmtServico->execute($dashboardParams);
         foreach ($stmtServico->fetchAll() as $row) {
             $operacional['servico'][(string)$row['servico']] = (int)$row['total'];
+        }
+
+        $stmtMensalStatus = admin_db()->prepare(
+            'SELECT DATE_FORMAT(data_inicio, "%Y-%m") AS ano_mes, status, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . '
+             GROUP BY ano_mes, status
+             ORDER BY ano_mes ASC, status ASC'
+        );
+        $stmtMensalStatus->execute($dashboardParams);
+        foreach ($stmtMensalStatus->fetchAll() as $row) {
+            $mes = (string)($row['ano_mes'] ?? '');
+            $status = trim((string)($row['status'] ?? ''));
+            $total = (int)($row['total'] ?? 0);
+            if ($mes === '' || $status === '') {
+                continue;
+            }
+            $operacional['mensal_status'][] = [
+                'mes' => $mes,
+                'status' => $status,
+                'total' => $total,
+            ];
+        }
+
+        $stmtBairroStatus = admin_db()->prepare(
+            'SELECT bairro, status, COUNT(*) AS total
+             FROM negocios_comerciais' . $dashboardWhereClause . ' AND TRIM(COALESCE(bairro, "")) <> ""
+             GROUP BY bairro, status
+             ORDER BY bairro ASC, status ASC'
+        );
+        $stmtBairroStatus->execute($dashboardParams);
+        foreach ($stmtBairroStatus->fetchAll() as $row) {
+            $bairro = trim((string)($row['bairro'] ?? ''));
+            $status = trim((string)($row['status'] ?? ''));
+            $total = (int)($row['total'] ?? 0);
+            if ($bairro === '' || $status === '') {
+                continue;
+            }
+            $operacional['bairro_status'][] = [
+                'bairro' => $bairro,
+                'status' => $status,
+                'total' => $total,
+            ];
         }
 
         $stmtRecent = admin_db()->prepare(
@@ -1299,11 +1353,18 @@ if ($isLogged && $currentUser) {
             margin-top: 10px;
         }
 
-        .chart-grid {
+        .chart-grid-donuts {
             display: grid;
             gap: 12px;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             margin-top: 10px;
+        }
+
+        .chart-grid-analytics {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 12px;
         }
 
         .chart-card {
@@ -1320,17 +1381,67 @@ if ($isLogged && $currentUser) {
         }
 
         .chart-wrap {
-            max-width: 380px;
+            max-width: 260px;
+            height: 240px;
             margin: 0 auto;
         }
 
         .chart-wrap-wide {
             max-width: 100%;
-            min-height: 320px;
+            min-height: 300px;
         }
 
         .chart-card-wide {
-            grid-column: span 3;
+            grid-column: span 2;
+        }
+
+        .matrix-wrap {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: auto;
+            background: #fff;
+            margin-top: 12px;
+            max-height: 360px;
+        }
+
+        .matrix-table {
+            margin-top: 0;
+            min-width: 860px;
+            font-size: 0.86rem;
+        }
+
+        .matrix-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: #f8fafc;
+        }
+
+        .matrix-table .is-total {
+            font-weight: 700;
+            background: #f1f5f9;
+        }
+
+        .matrix-table tr.top-bairro td {
+            background: #eef9f2;
+        }
+
+        .matrix-table tr.top-bairro td:first-child {
+            font-weight: 700;
+            color: #11623f;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .submit-secondary {
+            background: #475569;
+            color: #fff;
         }
 
         @media (max-width: 1200px) {
@@ -1338,8 +1449,9 @@ if ($isLogged && $currentUser) {
             .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .span-4 { grid-column: span 2; }
             .cards-finance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .chart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .chart-card-wide { grid-column: span 2; }
+            .chart-grid-donuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .chart-grid-analytics { grid-template-columns: 1fr; }
+            .chart-card-wide { grid-column: span 1; }
         }
 
         @media (max-width: 640px) {
@@ -1347,7 +1459,8 @@ if ($isLogged && $currentUser) {
             .form-grid { grid-template-columns: 1fr; }
             .span-2, .span-3, .span-4 { grid-column: span 1; }
             .cards-finance { grid-template-columns: 1fr; }
-            .chart-grid { grid-template-columns: 1fr; }
+            .chart-grid-donuts { grid-template-columns: 1fr; }
+            .chart-grid-analytics { grid-template-columns: 1fr; }
             .chart-card-wide { grid-column: span 1; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
             .records-table-wrap .records-table { display: table; white-space: nowrap; }
@@ -1452,27 +1565,132 @@ if ($isLogged && $currentUser) {
                     </div>
 
                     <h3 class="section-title" style="margin-top: 18px;">Operacional</h3>
-                    <div class="chart-grid">
+                    <div class="chart-grid-donuts">
                         <div class="chart-card">
-                            <h4 class="chart-title">Forma de Contato (quantidades)</h4>
+                            <h4 class="chart-title">Forma de Contato</h4>
                             <div class="chart-wrap"><canvas id="chartFormaContato"></canvas></div>
                         </div>
                         <div class="chart-card">
-                            <h4 class="chart-title">Origem (quantidades)</h4>
+                            <h4 class="chart-title">Origem (Canais)</h4>
                             <div class="chart-wrap"><canvas id="chartOrigem"></canvas></div>
                         </div>
                         <div class="chart-card">
-                            <h4 class="chart-title">Perfil (quantidades)</h4>
+                            <h4 class="chart-title">Tipo de Perfil</h4>
                             <div class="chart-wrap"><canvas id="chartPerfil"></canvas></div>
                         </div>
                         <div class="chart-card">
-                            <h4 class="chart-title">Servico (quantidades)</h4>
+                            <h4 class="chart-title">Serviço (Tipo de Caçamba)</h4>
                             <div class="chart-wrap"><canvas id="chartServico"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-grid-analytics">
+                        <div class="chart-card chart-card-wide">
+                            <h4 class="chart-title">Negócios por Mês x Status (linha)</h4>
+                            <div class="chart-wrap-wide"><canvas id="chartMensalStatusLinha"></canvas></div>
+                        </div>
+                        <div class="chart-card chart-card-wide">
+                            <h4 class="chart-title">Comparativo por Status (area)</h4>
+                            <div class="chart-wrap-wide"><canvas id="chartMensalStatusArea"></canvas></div>
                         </div>
                         <div class="chart-card chart-card-wide">
                             <h4 class="chart-title">Motivo da Perda (quantidades)</h4>
                             <div class="chart-wrap-wide"><canvas id="chartMotivoPerda"></canvas></div>
                         </div>
+                    </div>
+
+                    <?php
+                        $statusHeader = ['Em negociacao', 'Venda Realizada', 'Venda Perdida', 'Venda Cancelada'];
+                        $bairroMatrix = [];
+                        foreach ($operacional['bairro_status'] as $item) {
+                            $bairro = (string)($item['bairro'] ?? '');
+                            $status = (string)($item['status'] ?? '');
+                            $total = (int)($item['total'] ?? 0);
+                            if ($bairro === '' || $status === '') {
+                                continue;
+                            }
+                            if (!array_key_exists($bairro, $bairroMatrix)) {
+                                $bairroMatrix[$bairro] = array_fill_keys($statusHeader, 0);
+                            }
+                            if (!array_key_exists($status, $bairroMatrix[$bairro])) {
+                                $bairroMatrix[$bairro][$status] = 0;
+                                if (!in_array($status, $statusHeader, true)) {
+                                    $statusHeader[] = $status;
+                                }
+                            }
+                            $bairroMatrix[$bairro][$status] = (int)$bairroMatrix[$bairro][$status] + $total;
+                        }
+                        $bairroMatrixRows = [];
+                        foreach ($bairroMatrix as $bairroNome => $statusValues) {
+                            $rowTotal = 0;
+                            foreach ($statusHeader as $status) {
+                                $rowTotal += (int)($statusValues[$status] ?? 0);
+                            }
+                            $bairroMatrixRows[] = [
+                                'bairro' => $bairroNome,
+                                'values' => $statusValues,
+                                'total' => $rowTotal,
+                            ];
+                        }
+                        usort($bairroMatrixRows, static function (array $a, array $b): int {
+                            if ((int)$a['total'] === (int)$b['total']) {
+                                return strcasecmp((string)$a['bairro'], (string)$b['bairro']);
+                            }
+                            return ((int)$b['total'] <=> (int)$a['total']);
+                        });
+                    ?>
+
+                    <h3 class="section-title" style="margin-top: 18px;">Bairros x Status (quantidades)</h3>
+                    <div class="matrix-wrap">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Bairro</th>
+                                    <?php foreach ($statusHeader as $status): ?>
+                                        <th><?php echo admin_h($status); ?></th>
+                                    <?php endforeach; ?>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!$bairroMatrixRows): ?>
+                                    <tr><td colspan="<?php echo admin_h((string)(count($statusHeader) + 2)); ?>">Sem dados para o período selecionado.</td></tr>
+                                <?php else: ?>
+                                    <?php
+                                        $colTotals = array_fill_keys($statusHeader, 0);
+                                        $grandTotal = 0;
+                                    ?>
+                                    <?php foreach ($bairroMatrixRows as $rowIndex => $rowItem): ?>
+                                        <?php
+                                            $bairroNome = (string)$rowItem['bairro'];
+                                            $row = (array)$rowItem['values'];
+                                            $rowTotal = 0;
+                                            $isTopBairro = $rowIndex < 5;
+                                        ?>
+                                        <tr class="<?php echo $isTopBairro ? 'top-bairro' : ''; ?>">
+                                            <td><?php echo admin_h((string)$bairroNome); ?></td>
+                                            <?php foreach ($statusHeader as $status): ?>
+                                                <?php
+                                                    $value = (int)($row[$status] ?? 0);
+                                                    $rowTotal += $value;
+                                                    $colTotals[$status] = (int)$colTotals[$status] + $value;
+                                                ?>
+                                                <td><?php echo admin_h((string)$value); ?></td>
+                                            <?php endforeach; ?>
+                                            <?php $grandTotal += $rowTotal; ?>
+                                            <td class="is-total"><?php echo admin_h((string)$rowTotal); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr>
+                                        <td class="is-total">Total geral</td>
+                                        <?php foreach ($statusHeader as $status): ?>
+                                            <td class="is-total"><?php echo admin_h((string)$colTotals[$status]); ?></td>
+                                        <?php endforeach; ?>
+                                        <td class="is-total"><?php echo admin_h((string)$grandTotal); ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php elseif ($section === 'clientes'): ?>
                     <h2 class="section-title">Clientes</h2>
@@ -1694,13 +1912,26 @@ if ($isLogged && $currentUser) {
                                 </select>
                             </div>
 
-                            <div class="span-4">
+                            <div class="span-4 form-actions">
                                 <button type="submit" class="submit">Salvar Registro</button>
+                                <button type="button" class="submit submit-secondary" data-role="clear-form">Limpar</button>
                             </div>
                         </div>
                     </form>
 
-                    <h3 class="section-title" style="margin-top:22px;">Ultimos registros</h3>
+                    <div class="section-head" style="margin-top:22px;">
+                        <h3 class="section-title" style="margin:0;">Últimos Registros</h3>
+                        <form method="get" class="filter-inline">
+                            <input type="hidden" name="sec" value="comercial">
+                            <label for="filtro_status">Status</label>
+                            <select id="filtro_status" name="filtro_status" onchange="this.form.submit()">
+                                <option value="">Todos</option>
+                                <?php foreach (RETEC_STATUS as $opt): ?>
+                                    <option value="<?php echo admin_h($opt); ?>" <?php echo $comercialStatusFiltro === $opt ? 'selected' : ''; ?>><?php echo admin_h($opt); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </form>
+                    </div>
                     <div class="records-table-wrap">
                     <table class="records-table">
                         <thead>
@@ -1943,6 +2174,7 @@ if ($isLogged && $currentUser) {
         const dashboardPerfilData = <?php echo json_encode($operacional['perfil'], JSON_UNESCAPED_UNICODE); ?>;
         const dashboardServicoData = <?php echo json_encode($operacional['servico'], JSON_UNESCAPED_UNICODE); ?>;
         const dashboardMotivoPerdaData = <?php echo json_encode($operacional['motivo_perda'], JSON_UNESCAPED_UNICODE); ?>;
+        const dashboardMensalStatusData = <?php echo json_encode($operacional['mensal_status'], JSON_UNESCAPED_UNICODE); ?>;
 
         function renderDashboardDonut(canvasId, rawData) {
             if (!dashboardSectionActive || typeof Chart === 'undefined') {
@@ -1983,20 +2215,23 @@ if ($isLogged && $currentUser) {
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     cutout: '62%',
                     plugins: {
                         legend: {
                             position: 'bottom',
                             labels: {
                                 generateLabels(chart) {
-                                    const defaultLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                                    return defaultLabels.map((legendItem, index) => {
+                                    return labels.map((label, index) => {
                                         const value = values[index] || 0;
                                         const pct = total > 0 ? ((value / total) * 100) : 0;
                                         return {
-                                            ...legendItem,
-                                            text: labels[index] + ' (' + pct.toFixed(1).replace('.', ',') + '%)',
+                                            text: label + ' (' + pct.toFixed(1).replace('.', ',') + '%)',
+                                            fillStyle: palette[index % palette.length],
+                                            strokeStyle: '#ffffff',
+                                            lineWidth: 1,
+                                            hidden: false,
+                                            index,
                                         };
                                     });
                                 },
@@ -2009,6 +2244,174 @@ if ($isLogged && $currentUser) {
                                     const pct = total > 0 ? ((value / total) * 100) : 0;
                                     return context.label + ': ' + value + ' (' + pct.toFixed(1).replace('.', ',') + '%)';
                                 },
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        function buildMonthlyStatusSeries(rawRows) {
+            const rows = Array.isArray(rawRows) ? rawRows : [];
+            const orderedStatus = ['Em negociacao', 'Venda Realizada', 'Venda Perdida', 'Venda Cancelada'];
+            const monthSet = new Set();
+
+            rows.forEach((row) => {
+                const mes = String((row && row.mes) || '').trim();
+                if (mes !== '') {
+                    monthSet.add(mes);
+                }
+            });
+
+            const months = Array.from(monthSet).sort();
+            const statusMap = new Map();
+            orderedStatus.forEach((status) => {
+                statusMap.set(status, new Array(months.length).fill(0));
+            });
+
+            rows.forEach((row) => {
+                const mes = String((row && row.mes) || '').trim();
+                const status = String((row && row.status) || '').trim();
+                const total = Number((row && row.total) || 0);
+                const monthIndex = months.indexOf(mes);
+                if (monthIndex === -1) {
+                    return;
+                }
+                if (!statusMap.has(status)) {
+                    statusMap.set(status, new Array(months.length).fill(0));
+                }
+                statusMap.get(status)[monthIndex] = Number.isFinite(total) ? total : 0;
+            });
+
+            const labels = months.map((month) => {
+                const parts = month.split('-');
+                if (parts.length !== 2) {
+                    return month;
+                }
+                return parts[1] + '/' + parts[0];
+            });
+
+            return {
+                labels,
+                datasets: Array.from(statusMap.entries()).map(([status, data]) => ({ status, data })),
+            };
+        }
+
+        function renderDashboardStatusLine(canvasId, rawRows) {
+            if (!dashboardSectionActive || typeof Chart === 'undefined') {
+                return;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                return;
+            }
+
+            const series = buildMonthlyStatusSeries(rawRows);
+            const linePalette = {
+                'Em negociacao': '#0ea5e9',
+                'Venda Realizada': '#22c55e',
+                'Venda Perdida': '#ef4444',
+                'Venda Cancelada': '#f59e0b',
+            };
+
+            const datasets = (series.datasets.length ? series.datasets : [{ status: 'Sem dados', data: [0] }]).map((item) => ({
+                label: item.status,
+                data: item.data,
+                borderColor: linePalette[item.status] || '#64748b',
+                backgroundColor: linePalette[item.status] || '#64748b',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 4,
+                fill: false,
+                tension: 0.25,
+            }));
+
+            new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: series.labels.length ? series.labels : ['Sem dados'],
+                    datasets,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        function renderDashboardStatusArea(canvasId, rawRows) {
+            if (!dashboardSectionActive || typeof Chart === 'undefined') {
+                return;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                return;
+            }
+
+            const series = buildMonthlyStatusSeries(rawRows);
+            const areaPalette = {
+                'Em negociacao': 'rgba(14, 165, 233, 0.25)',
+                'Venda Realizada': 'rgba(34, 197, 94, 0.25)',
+                'Venda Perdida': 'rgba(239, 68, 68, 0.25)',
+                'Venda Cancelada': 'rgba(245, 158, 11, 0.25)',
+            };
+            const areaBorder = {
+                'Em negociacao': '#0ea5e9',
+                'Venda Realizada': '#22c55e',
+                'Venda Perdida': '#ef4444',
+                'Venda Cancelada': '#f59e0b',
+            };
+
+            const datasets = (series.datasets.length ? series.datasets : [{ status: 'Sem dados', data: [0] }]).map((item) => ({
+                label: item.status,
+                data: item.data,
+                borderColor: areaBorder[item.status] || '#64748b',
+                backgroundColor: areaPalette[item.status] || 'rgba(100, 116, 139, 0.25)',
+                borderWidth: 1.8,
+                fill: true,
+                stack: 'status-area',
+                tension: 0.2,
+                pointRadius: 2,
+            }));
+
+            new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: series.labels.length ? series.labels : ['Sem dados'],
+                    datasets,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
                             },
                         },
                     },
@@ -2628,6 +3031,26 @@ if ($isLogged && $currentUser) {
                 status.addEventListener('change', refreshStatusRules);
             }
 
+            const clearBtn = form.querySelector('[data-role="clear-form"]');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    form.reset();
+                    if (nomeHidden) nomeHidden.value = '';
+                    if (clienteIdHidden) clienteIdHidden.value = '';
+                    if (cepInput) cepInput.value = '';
+                    if (bairroInput) bairroInput.value = '';
+                    if (municipioInput) municipioInput.value = '';
+                    cepValidated = true;
+                    bairroValidated = true;
+                    municipioValidated = true;
+
+                    refreshNomeMode();
+                    refreshValorPorCacamba();
+                    refreshStatusRules();
+                    syncNome();
+                });
+            }
+
             form.addEventListener('submit', function (event) {
                 syncNome();
 
@@ -2702,6 +3125,8 @@ if ($isLogged && $currentUser) {
         renderDashboardDonut('chartPerfil', dashboardPerfilData);
         renderDashboardDonut('chartServico', dashboardServicoData);
         renderDashboardHorizontalBar('chartMotivoPerda', dashboardMotivoPerdaData);
+        renderDashboardStatusLine('chartMensalStatusLinha', dashboardMensalStatusData);
+        renderDashboardStatusArea('chartMensalStatusArea', dashboardMensalStatusData);
     </script>
 </body>
 </html>
