@@ -961,13 +961,28 @@ if ($isLogged && $currentUser) {
             $operacional['servico'][(string)$row['servico']] = (int)$row['total'];
         }
 
+        $mensalStatusWhere = [
+            'data_fim IS NOT NULL',
+            'data_fim >= :ms_inicio',
+            'data_fim <= :ms_fim',
+        ];
+        $mensalStatusParams = [
+            'ms_inicio' => $dashboardRange['inicio'],
+            'ms_fim' => $dashboardRange['fim'],
+        ];
+        if (!admin_is_admin($currentUser)) {
+            $mensalStatusWhere[] = 'vendedor_id = :ms_vendedor_id';
+            $mensalStatusParams['ms_vendedor_id'] = (int)$currentUser['id'];
+        }
+
         $stmtMensalStatus = admin_db()->prepare(
-            'SELECT DATE_FORMAT(data_inicio, "%Y-%m") AS ano_mes, status, COUNT(*) AS total
-             FROM negocios_comerciais' . $dashboardWhereClause . '
+            'SELECT DATE_FORMAT(data_fim, "%Y-%m") AS ano_mes, status, COUNT(*) AS total
+             FROM negocios_comerciais
+             WHERE ' . implode(' AND ', $mensalStatusWhere) . '
              GROUP BY ano_mes, status
              ORDER BY ano_mes ASC, status ASC'
         );
-        $stmtMensalStatus->execute($dashboardParams);
+        $stmtMensalStatus->execute($mensalStatusParams);
         foreach ($stmtMensalStatus->fetchAll() as $row) {
             $mes = (string)($row['ano_mes'] ?? '');
             $status = trim((string)($row['status'] ?? ''));
