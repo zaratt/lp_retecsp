@@ -997,6 +997,42 @@ if ($isLogged && $currentUser) {
             ];
         }
 
+        $mensalSemFechamentoWhere = [
+            'status = "Em negociacao"',
+            'data_fim IS NULL',
+            'data_inicio >= :mf_inicio',
+            'data_inicio <= :mf_fim',
+        ];
+        $mensalSemFechamentoParams = [
+            'mf_inicio' => $dashboardRange['inicio'],
+            'mf_fim' => $dashboardRange['fim'],
+        ];
+        if (!admin_is_admin($currentUser)) {
+            $mensalSemFechamentoWhere[] = 'vendedor_id = :mf_vendedor_id';
+            $mensalSemFechamentoParams['mf_vendedor_id'] = (int)$currentUser['id'];
+        }
+
+        $stmtMensalSemFechamento = admin_db()->prepare(
+            'SELECT DATE_FORMAT(data_inicio, "%Y-%m") AS ano_mes, COUNT(*) AS total
+             FROM negocios_comerciais
+             WHERE ' . implode(' AND ', $mensalSemFechamentoWhere) . '
+             GROUP BY ano_mes
+             ORDER BY ano_mes ASC'
+        );
+        $stmtMensalSemFechamento->execute($mensalSemFechamentoParams);
+        foreach ($stmtMensalSemFechamento->fetchAll() as $row) {
+            $mes = (string)($row['ano_mes'] ?? '');
+            $total = (int)($row['total'] ?? 0);
+            if ($mes === '') {
+                continue;
+            }
+            $operacional['mensal_status'][] = [
+                'mes' => $mes,
+                'status' => 'Sem fechamento',
+                'total' => $total,
+            ];
+        }
+
         $stmtBairroStatus = admin_db()->prepare(
             'SELECT bairro, status, COUNT(*) AS total
              FROM negocios_comerciais' . $dashboardWhereClause . ' AND TRIM(COALESCE(bairro, "")) <> ""
@@ -1609,7 +1645,7 @@ if ($isLogged && $currentUser) {
                             <div class="chart-wrap-wide"><canvas id="chartMensalStatusArea"></canvas></div>
                         </div>
                         <div class="chart-card chart-card-wide">
-                            <h4 class="chart-title">Motivo da Perda (quantidades)</h4>
+                            <h4 class="chart-title">Motivo da Perda</h4>
                             <div class="chart-wrap-wide"><canvas id="chartMotivoPerda"></canvas></div>
                         </div>
                     </div>
@@ -2268,7 +2304,7 @@ if ($isLogged && $currentUser) {
 
         function buildMonthlyStatusSeries(rawRows) {
             const rows = Array.isArray(rawRows) ? rawRows : [];
-            const orderedStatus = ['Em negociacao', 'Venda Realizada', 'Venda Perdida', 'Venda Cancelada'];
+            const orderedStatus = ['Em negociacao', 'Venda Realizada', 'Venda Perdida', 'Venda Cancelada', 'Sem fechamento'];
             const monthSet = new Set();
 
             rows.forEach((row) => {
@@ -2328,6 +2364,7 @@ if ($isLogged && $currentUser) {
                 'Venda Realizada': '#22c55e',
                 'Venda Perdida': '#ef4444',
                 'Venda Cancelada': '#f59e0b',
+                'Sem fechamento': '#8b5cf6',
             };
 
             const datasets = (series.datasets.length ? series.datasets : [{ status: 'Sem dados', data: [0] }]).map((item) => ({
@@ -2384,12 +2421,14 @@ if ($isLogged && $currentUser) {
                 'Venda Realizada': 'rgba(34, 197, 94, 0.25)',
                 'Venda Perdida': 'rgba(239, 68, 68, 0.25)',
                 'Venda Cancelada': 'rgba(245, 158, 11, 0.25)',
+                'Sem fechamento': 'rgba(139, 92, 246, 0.25)',
             };
             const areaBorder = {
                 'Em negociacao': '#0ea5e9',
                 'Venda Realizada': '#22c55e',
                 'Venda Perdida': '#ef4444',
                 'Venda Cancelada': '#f59e0b',
+                'Sem fechamento': '#8b5cf6',
             };
 
             const datasets = (series.datasets.length ? series.datasets : [{ status: 'Sem dados', data: [0] }]).map((item) => ({
@@ -2397,11 +2436,12 @@ if ($isLogged && $currentUser) {
                 data: item.data,
                 borderColor: areaBorder[item.status] || '#64748b',
                 backgroundColor: areaPalette[item.status] || 'rgba(100, 116, 139, 0.25)',
-                borderWidth: 1.8,
+                borderWidth: 2,
                 fill: true,
-                stack: 'status-area',
-                tension: 0.2,
-                pointRadius: 2,
+                tension: 0.45,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                pointHitRadius: 10,
             }));
 
             new Chart(canvas, {
@@ -2413,6 +2453,15 @@ if ($isLogged && $currentUser) {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    elements: {
+                        line: {
+                            cubicInterpolationMode: 'monotone',
+                        },
+                    },
                     plugins: {
                         legend: {
                             position: 'bottom',
@@ -2420,11 +2469,15 @@ if ($isLogged && $currentUser) {
                     },
                     scales: {
                         x: {
-                            stacked: true,
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.12)',
+                            },
                         },
                         y: {
-                            stacked: true,
                             beginAtZero: true,
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.18)',
+                            },
                             ticks: {
                                 precision: 0,
                             },
