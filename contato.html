@@ -187,32 +187,34 @@
 				</div>
 
 				<!-- Formulário -->
-				<h2>Envie sua mensagem</h2>
-				<p>Preencha os campos abaixo. Selecione o departamento correto para garantir uma resposta mais rápida.</p>
-				<form action="/enviar.php" method="POST" id="form-contato">
-					<input type="hidden" name="csrf_token" id="csrf_token" value="">
+				<div id="form-content">
+					<h2>Envie sua mensagem</h2>
+					<p>Preencha os campos abaixo. Selecione o departamento correto para garantir uma resposta mais rápida.</p>
+					<form action="/enviar.php" method="POST" id="form-contato">
+						<input type="hidden" name="csrf_token" id="csrf_token" value="">
 
-					<label for="departamento" class="sr-only">Departamento</label>
-					<select id="departamento" name="departamento" required>
-						<option value="">Selecione o departamento</option>
-						<option value="SAC">SAC — Atendimento ao Cliente</option>
-						<option value="Financeiro">Financeiro</option>
-						<option value="Comercial">Comercial — Orçamentos e Vendas</option>
-					</select>
+						<label for="departamento" class="sr-only">Departamento</label>
+						<select id="departamento" name="departamento" required>
+							<option value="">Selecione o departamento</option>
+							<option value="SAC">SAC — Atendimento ao Cliente</option>
+							<option value="Financeiro">Financeiro</option>
+							<option value="Comercial">Comercial — Orçamentos e Vendas</option>
+						</select>
 
-					<input type="text" name="nome" placeholder="Nome completo" required>
-					<input type="email" name="email" placeholder="E-mail" required>
-					<input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required>
-					<textarea name="mensagem" placeholder="Descreva como podemos ajudar" rows="5" required></textarea>
+						<input type="text" name="nome" placeholder="Nome completo" required>
+						<input type="email" name="email" placeholder="E-mail" required>
+						<input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required>
+						<textarea name="mensagem" placeholder="Descreva como podemos ajudar" rows="5" required></textarea>
 
-					<div class="lgpd-consent">
-						<input type="checkbox" id="consentimento-form" name="consentimento" required>
-						<label for="consentimento-form">
-							Estou de acordo em fornecer meus dados para que a RETEC entre em contato, conforme a <a href="/privacidade" target="_blank" style="text-decoration:underline; color:var(--primary-blue);">Política de Privacidade</a>.
-						</label>
-					</div>
-					<button type="submit" class="btn-enviar" id="btn_contato_enviar">Enviar mensagem</button>
-				</form>
+						<div class="lgpd-consent">
+							<input type="checkbox" id="consentimento-form" name="consentimento" required>
+							<label for="consentimento-form">
+								Estou de acordo em fornecer meus dados para que a RETEC entre em contato, conforme a <a href="/privacidade" target="_blank" style="text-decoration:underline; color:var(--primary-blue);">Política de Privacidade</a>.
+							</label>
+						</div>
+						<button type="submit" class="btn-enviar" id="btn_contato_enviar">Enviar mensagem</button>
+					</form>
+				</div>
 			</div>
 
 			<!-- SIDEBAR -->
@@ -411,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	/* --- FORMULÁRIO --- */
 	const formContato = document.getElementById('form-contato');
+	const formContent = document.getElementById('form-content');
 	const formSuccess = document.getElementById('form-success');
 
 	if (formContato) {
@@ -429,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			.then(function (res) { return res.json(); })
 			.then(function (data) {
 				if (data.success) {
-					formContato.style.display = 'none';
+					if (formContent) formContent.style.display = 'none';
 					if (formSuccess) formSuccess.style.display = 'block';
 					formContato.reset();
 					// Renova token para possível reuso da página
