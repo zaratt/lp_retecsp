@@ -295,7 +295,7 @@ $htmlEmail = <<<HTML
         <!-- Cabeçalho -->
         <tr><td style="background:#003352;padding:24px 32px;">
           <h2 style="margin:0;color:#ffffff;font-size:1rem;font-weight:700;letter-spacing:.5px;">
-            Novo contato via site &mdash; RETEC SP
+            Novo contato via site &mdash; RETEC
           </h2>
         </td></tr>
 
