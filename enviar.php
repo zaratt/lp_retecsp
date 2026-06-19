@@ -165,11 +165,10 @@ if (strlen($mensagem) > 4000 || strlen($nome) > 200 || strlen($telefone) > 30) {
 }
 
 // ── Allowlist de departamentos (previne injeção de e-mail) ────────────────
-$inboxContato = 'eliett.designer@gmail.com';
 $destinos = [
-  'SAC'        => $inboxContato,
-  'Financeiro' => $inboxContato,
-  'Comercial'  => $inboxContato,
+  'SAC'        => 'posvenda@retecsp.com.br',
+  'Financeiro' => 'financeiro1@retecsp.com.br',
+  'Comercial'  => 'atendimento4@retecsp.com.br',
 ];
 
 if (!array_key_exists($departamento, $destinos)) {
