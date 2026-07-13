@@ -41,8 +41,8 @@
 <IfModule mod_expires.c>
     ExpiresActive On
 
-    # HTML — sem cache longo (conteúdo muda)
-    ExpiresByType text/html                         "access plus 1 hour"
+    # HTML — sempre revalidar (conteúdo muda com frequência)
+    ExpiresByType text/html                         "access plus 0 seconds"
 
     # CSS e JS — sem cache longo (no-cache via mod_headers abaixo)
     ExpiresByType text/css                          "access plus 0 seconds"
@@ -74,9 +74,11 @@
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
 
-    # HTML: revalidar a cada visita
+    # HTML: não guardar cache local/proxy, para publicar alterações imediatamente
     <FilesMatch "\.html$">
-        Header set Cache-Control "public, max-age=3600, must-revalidate"
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
     </FilesMatch>
 
     # Segurança
